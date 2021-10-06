@@ -14,9 +14,9 @@ languages:
   ko:
     languageName: Korea
     weight: 1
-  en:
-    languageName: English
-    weight: 2
+  # en:
+  #   languageName: English
+  #   weight: 2
   
 
 # Control TOC depth
