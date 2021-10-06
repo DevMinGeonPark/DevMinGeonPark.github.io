@@ -37,4 +37,14 @@ params:
   # Provide newsletter configuration. This feature hasn't been implemented yet.
   # Currently, you can just hide it from the footer.
   newsletter:
-    enable: true
+    enable: false #가능해 질때 사용하기
+    provider: mailchimp
+    mailchimpURL: https://github.us1.list-manage.com/subscribe/post?u=19de52a4603135aae97163fd8&amp;id=094a24c76e
+
+markup:
+  goldmark:
+    renderer:
+      unsafe: true
+
+
+disqusShortname: DevMinGeonPark-github-io
