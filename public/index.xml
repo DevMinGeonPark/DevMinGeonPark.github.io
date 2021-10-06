@@ -285,6 +285,19 @@ Initial setup Search depends on additional output content type of JSON in config
     </item>
     
     <item>
+      <title>Search Results</title>
+      <link>https://hugo-toha.github.io/search/</link>
+      <pubDate>Tue, 08 Jun 2010 08:06:25 +0600</pubDate>
+      
+      <guid>https://hugo-toha.github.io/search/</guid>
+      <description>This file exists solely to respond to /search URL with the related search layout template.
+No content shown here is rendered, all content is based in the template layouts/page/search.html
+Setting a very low sitemap priority will tell search engines this is not important content.
+This implementation uses Fusejs, jquery and mark.js
+Initial setup Search depends on additional output content type of JSON in config.toml ``` [outputs] home = [&amp;ldquo;HTML&amp;rdquo;, &amp;ldquo;JSON&amp;rdquo;] ```</description>
+    </item>
+    
+    <item>
       <title>অনুসন্ধানের ফলাফল</title>
       <link>https://hugo-toha.github.io/search/</link>
       <pubDate>Tue, 08 Jun 2010 08:06:25 +0600</pubDate>
@@ -318,19 +331,6 @@ Initial setup Search depends on additional output content type of JSON in config
       <guid>https://hugo-toha.github.io/posts/introduction/</guid>
       <description>Greeting! This is an introduction post. This post tests the followings:
  Hero image is in the same directory as the post. This post should be at top of the sidebar. Post author should be the same as specified in author.yaml file.  </description>
-    </item>
-    
-    <item>
-      <title>Search Results</title>
-      <link>https://hugo-toha.github.io/search/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://hugo-toha.github.io/search/</guid>
-      <description>This file exists solely to respond to /search URL with the related search layout template.
-No content shown here is rendered, all content is based in the template layouts/page/search.html
-Setting a very low sitemap priority will tell search engines this is not important content.
-This implementation uses Fusejs, jquery and mark.js
-Initial setup Search depends on additional output content type of JSON in config.toml ``` [outputs] home = [&amp;ldquo;HTML&amp;rdquo;, &amp;ldquo;JSON&amp;rdquo;] ```</description>
     </item>
     
   </channel>
