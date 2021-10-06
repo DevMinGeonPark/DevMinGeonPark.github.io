@@ -1,11 +1,15 @@
 baseURL: https://hugo-toha.github.io
 
-languageCode: ko
+languageCode: en
 title: "Dev-Min Blog"
 theme: "toha"
 
 # Manage languages
 # For any more details, you can check the official documentation: https://gohugo.io/content-management/multilingual/
+
+# default Language
+defaultContentLanguage: ko
+
 languages:
   ko:
     languageName: Korea
