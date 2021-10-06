@@ -1,0 +1,18 @@
+# some information about you
+name: "박민건"
+nickname: "민건입니다."
+# greeting message before your name. it will default to "Hi! I am" if not provided
+greeting: "안녕하세요."
+image: "images/author/john.png"
+# give your some contact information. they will be used in the footer
+contactInfo:
+  email: "devmin7985@gmail.com"
+  phone: "+82 1092484503"
+
+# some summary about what you do
+summary:
+  - Stay hungry Stay foolish
+  # - I am a Devops
+  # - I love servers
+  # - I work on open-source projects
+  # - I love to work with some fun projects

@@ -13,7 +13,7 @@
 {{ define "sidebar" }}
   {{ $homePage:="#" }}
   {{ if site.IsMultiLingual }}
-    {{ $homePage = (path.Join (cond ( eq .Language.Lang "en") "" .Language.Lang) .Type) }}
+    {{ $homePage = (path.Join (cond ( eq .Language.Lang "ko") "" .Language.Lang) .Type) }}
   {{ end }}
 
   <section class="sidebar-section" id="sidebar-section">
