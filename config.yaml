@@ -31,8 +31,7 @@ enableEmoji: true
 
 # Site parameters
 params:
-
-  background: /images/see.jpg
+  background: /images/site/background.jpg
   # GitHub repo URL of your site
   # gitRepo: https://github.com/DevMinGeonPark/DevMinGeonPark.github.io
 

@@ -98,7 +98,7 @@
         </form>
         <div class="sidebar-tree">
           <ul class="tree" id="tree">
-            <li id="list-heading"><a href="/posts" data-filter="all">Posts</a></li>
+            <li id="list-heading"><a href="/posts" data-filter="all">게시글</a></li>
             <div class="subtree">
                 
   
@@ -199,11 +199,10 @@
       
           <div id="disqus_thread"></div>
 <script type="text/javascript">
-
   (function () {
     
     
-    
+    if (window.location.hostname == "localhost") return;
 
     var dsq = document.createElement("script");
     dsq.type = "text/javascript";
