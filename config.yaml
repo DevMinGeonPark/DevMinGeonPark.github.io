@@ -32,9 +32,9 @@ enableEmoji: true
 # Site parameters
 params:
 
-  background: /images/site/background.jpg
+  background: /images/sections/site/background.jpg
   # GitHub repo URL of your site
-  gitRepo: https://github.com/DevMinGeonPark/DevMinGeonPark.github.io
+  # gitRepo: https://github.com/DevMinGeonPark/DevMinGeonPark.github.io
 
   # specify whether you want to write some blog posts or not
   enableBlogPost: true
