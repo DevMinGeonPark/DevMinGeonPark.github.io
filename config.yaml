@@ -12,13 +12,14 @@ defaultContentLanguage: ko
 
 languages:
   ko:
+    params:
+      background: /images/site/background.jpg
     languageName: Korea
     weight: 1
   # en:
   #   languageName: English
   #   weight: 2
   
-
 # Control TOC depth
 markup:
   tableOfContents:
