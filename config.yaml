@@ -1,4 +1,5 @@
-baseURL: https://hugo-toha.github.io
+# baseURL: https://hugo-toha.github.io
+baseURL: https://devmingeonpark.github.io
 
 languageCode: en
 title: "Dev-Min Blog"
