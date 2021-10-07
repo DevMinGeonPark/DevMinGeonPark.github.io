@@ -1,7 +1,6 @@
-# baseURL: https://hugo-toha.github.io
 baseURL: https://devmingeonpark.github.io
 
-languageCode: en
+languageCode: ko
 title: "Dev-Min Blog"
 theme: "toha"
 
