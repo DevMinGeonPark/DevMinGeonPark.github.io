@@ -1,15 +1,23 @@
 baseURL: https://hugo-toha.github.io
 
-languageCode: en-us
-title: "John's Blog"
+languageCode: en
+title: "Dev-Min Blog"
 theme: "toha"
 
 # Manage languages
 # For any more details, you can check the official documentation: https://gohugo.io/content-management/multilingual/
+
+# default Language
+defaultContentLanguage: ko
+
 languages:
-  en:
-    languageName: English
+  ko:
+    languageName: Korea
     weight: 1
+  # en:
+  #   languageName: English
+  #   weight: 2
+  
 
 # Control TOC depth
 markup:
@@ -26,7 +34,7 @@ params:
 
   background: /images/site/background.jpg
   # GitHub repo URL of your site
-  gitRepo: https://github.com/hugo-toha/hugo-toha.github.io
+  gitRepo: https://github.com/DevMinGeonPark/DevMinGeonPark.github.io
 
   # specify whether you want to write some blog posts or not
   enableBlogPost: true
@@ -47,4 +55,4 @@ markup:
       unsafe: true
 
 
-disqusShortname: DevMinGeonPark-github-io
+disqusShortname: devmingeonpark
