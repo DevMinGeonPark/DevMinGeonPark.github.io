@@ -12,16 +12,17 @@ section:
 # Give a summary of you each skill in the summary section.
 # 스킬 섹션에 에러 사항.
 skills:
-- name: C++
-  logo: "/images/sections/skills/c++.png"
-  summary: "Capable of deploying, managing application on Kubernetes. Experienced in writing Kubernetes controllers for CRDs."
-  url: "https://kubernetes.io/"
+- name : C#
+  logo: "/images/sections/skills/csharp.png"
+  summary: "C#을 사용한 비동기 프로그램 개발을 진행한 적이 있고 아직까지는 주력언어로써 사용하고있습니다."
+  url: "https://docs.microsoft.com/ko-kr/dotnet/csharp/"
 
-- name: Go Development
-  logo: "/images/sections/skills/go.png"
-  summary: "Using as the main language for professional development. Capable of writing scalable, testable, and maintainable program."
-  url: "https://golang.org/"
+- name : C
+  logo : "/images/sections/skills/c.png"
+  summary: "C언어를 작성한 경험이 있고 C89 표준 기반 Clnag 컴파일러를 통한 간단한 CLI 개발이 가능합니다."
+  url: "https://clang.llvm.org/"
 
-- name: Cloud Computing2
-  logo: "/images/sections/skills/cloud.png"
-  summary: "Worked with most of the major clouds such as GCP, AWS, Azure etc."
+- name : git
+  logo : "/images/sections/skills/git.png"
+  summary: "git CLI를 주로 사용하고있습니다."
+  url : "https://git-scm.com/"

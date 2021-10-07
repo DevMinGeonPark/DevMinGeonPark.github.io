@@ -11,32 +11,44 @@ section:
 # Your experiences
 experiences:
 - company:
-    name: Example Co.
-    url: "https://www.example.com"
-    location: Dhaka Branch
+    name: 대한민국 공군 (전)군수전산소.
+    location: 대구 공군 기지 (전)군수전산소
     # company overview
-    overview: Example Co. is a widely recognized company for cloud-native development. It builds tools for Kubernetes.
+    overview: 대한민국 공군의 군수물자 시스템을 담당하는 공군 군수전산소. 조직개편으로 타 부대에 병합
   positions:
-  - designation: Senior Software Engineer
-    start: Nov 2019
+  - designation: 체계관리병(병장)
+    start: Jan 2019
+    end: Nov 2020 
     # don't provide end date if you are currently working there. It will be replaced by "Present"
     # end: Dec 2020
     # give some points about what was your responsibilities at the company.
     responsibilities:
-    - Design and develop XYZ tool for ABC task
-    - Design, develop and manage disaster recovery tool [Xtool](https://www.example.com) that backup Kubernetes volumes, databases, and cluster's resource definition.
-    - Lead backend team.
+    - 인트라넷 내부 웹사이트 유지보수
+    - 군전위키 개발 참여
+    - 리눅스 관리자 교육 이수
+    - C# 프로그래밍 수행
 
 - company:
-    name: PreExample Co.
-    url: "https://www.preexample.com"
-    location: Nowhere
-    overview: PreExample Co. is a gateway company to enter into Example co. So, nothing special here.
+    name: 데이템(소프트기획)
+    location: 부산 시 남구
+    overview: 뚜벅스 카페 멤버쉽 앱 풀스택 개발 참여 (인턴)
   positions:
   - designation: Software Engineer
-    start: March 2016
-    end: May 2017
+    start: Nov 2020
+    end: Feb 2021 
     responsibilities:
-    - Write lots of example codes.
-    - Read lots of examples.
-    - See lots of example videos.
+    - Xamarin.From 활용 크로스 플랫폼 앱 개발
+    - Xamarin.From 기반 소셜 로그인 구현
+    - ASP.NET API 서버, 관리자 프론트 페이지 개발
+    - React-Native.js 기반 프로토타입 앱 개발
+
+- company:
+    name: 동서대학교 ICAN 연구회
+    location: 부산 시 사상구
+    overview: 참여연구원 및 학생으로 활동
+  positions:
+  - designation: Researcher
+    start: Oct 2021
+    responsibilities:
+    - 연구회 홈페이지 관리
+    - BCI(Brain Computer-Interface) 연구 개발 보조
