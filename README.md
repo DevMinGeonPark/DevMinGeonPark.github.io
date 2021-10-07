@@ -15,5 +15,6 @@
 #### 12. Notion link 추가
 #### 13. en version 변경하고 추가
 #### 14. posts에서 introduction 누르면 이상하게 변경되는 css 바꾸기.
+#### 15. dark mode 만들기..
 #### 최종 목표 1 : toha github에 korea version pull req 하기
 #### 최종 목표 2 : 한국형 refer 만들기
