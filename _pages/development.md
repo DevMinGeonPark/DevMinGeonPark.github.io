@@ -20,21 +20,21 @@ Development Projects
     </ul>
   </li>
 
-  <li><strong>FineGst Shopping App</strong>  
+  <li><strong>FineGst Shopping App (outsourcing) </strong>  
     <ul>
       <li>Developed a cross-platform shopping app for KT phone sales using React Native and TypeScript.</li>
       <li>Handled both front-end and back-end development, as well as app store deployment.</li>
     </ul>
   </li>
 
-  <li><strong>Solwith Global Delivery App</strong>  
+  <li><strong>Solwith Global Delivery App (outsourcing) </strong>  
     <ul>
       <li>Built a cross-platform app for global delivery services using React Native and PHP (Cafe24).</li>
       <li>Delivered the completed app within three months, achieving a contract value of approximately ₩5 million.</li>
     </ul>
   </li>
 
-  <li><strong>MOMIT Admin Page Maintenance</strong>  
+  <li><strong>MOMIT Admin Page Maintenance (outsourcing & Intern) </strong>  
     <ul>
       <li>Worked as an intern at MOMIT, maintaining and refactoring the admin page developed with Next.js.</li>
       <li>Optimized code by replacing useEffect hooks with react-query, improving caching and performance.</li>
