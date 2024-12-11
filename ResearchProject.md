@@ -55,7 +55,7 @@ Research Projects
 
   <li><strong>LGT Test Script Maintenance</strong>  
     <ul>
-      <li><li>As part of the Pusan ​​National University team, I supported maintenance of LG test scripts.</li>
+      <li>As part of the Pusan ​​National University team, I supported maintenance of LG test scripts.</li>
     </ul>
   </li>
 </ul>
