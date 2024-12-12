@@ -1,0 +1,15 @@
+---
+layout: default
+---
+
+<h1>Publications</h1>
+
+<ul>
+    {% for publication in site.publications %}
+    <li>
+        <a href="{{ publication.permalink }}">{{ publication.title }}</a>
+        <span>{{ publication.date | date: "%Y-%m-%d" }}</span>
+        <p>{{ publication.excerpt }}</p>
+    </li>
+    {% endfor %}
+</ul>
