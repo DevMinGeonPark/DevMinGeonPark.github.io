@@ -1,26 +1,26 @@
 <svg viewBox="0 0 1000 620" xmlns="http://www.w3.org/2000/svg" font-family="Apple SD Gothic Neo, Pretendard, sans-serif">
-  <rect width="1000" height="620" rx="16" fill="#111a30"/>
-  <text x="500" y="52" text-anchor="middle" fill="#e8edfb" font-size="24" font-weight="700">LLM OS 계층 아키텍처</text>
+  <rect width="1000" height="620" rx="16" fill="#ffffff"/>
+  <text x="500" y="52" text-anchor="middle" fill="#111111" font-size="24" font-weight="700">LLM OS 계층 아키텍처</text>
 
   <g transform="translate(110,90)">
-    <rect width="780" height="100" rx="12" fill="#1b2748" stroke="#8a7cf0" stroke-width="2"/>
-    <text x="30" y="42" fill="#c9befc" font-size="20" font-weight="700">L3 방법론 디스패처 — "필요에 따라"</text>
-    <text x="30" y="74" fill="#8d9cc4" font-size="15">버그는 재현 우선, 신규 기능은 SPEC+TDD, 오타는 디스패치 생략 — 작업 단위 선택</text>
+    <rect width="780" height="100" rx="12" fill="#ffffff" stroke="#111111" stroke-width="2"/>
+    <text x="30" y="42" fill="#111111" font-size="20" font-weight="700">L3 방법론 디스패처 — "필요에 따라"</text>
+    <text x="30" y="74" fill="#555555" font-size="15">버그는 재현 우선, 신규 기능은 SPEC+TDD, 오타는 디스패치 생략 — 작업 단위 선택</text>
   </g>
   <g transform="translate(110,210)">
-    <rect width="780" height="100" rx="12" fill="#1b2748" stroke="#58c7d8" stroke-width="2"/>
-    <text x="30" y="42" fill="#9fdde8" font-size="20" font-weight="700">L2 방법론 프로파일 — 방법론 = 커널 설정값</text>
-    <text x="30" y="74" fill="#8d9cc4" font-size="15">Scrum · TDD · DDD · Lean · SRE가 코드가 아니라 YAML 선언으로 존재</text>
+    <rect width="780" height="100" rx="12" fill="#ffffff" stroke="#111111" stroke-width="2"/>
+    <text x="30" y="42" fill="#111111" font-size="20" font-weight="700">L2 방법론 프로파일 — 방법론 = 커널 설정값</text>
+    <text x="30" y="74" fill="#555555" font-size="15">Scrum · TDD · DDD · Lean · SRE가 코드가 아니라 YAML 선언으로 존재</text>
   </g>
   <g transform="translate(110,330)">
-    <rect width="780" height="100" rx="12" fill="#1b2748" stroke="#6b8cff" stroke-width="2"/>
-    <text x="30" y="42" fill="#a9bcff" font-size="20" font-weight="700">L1 독트린 — 헌법 6조</text>
-    <text x="30" y="74" fill="#8d9cc4" font-size="15">"발화는 계약이다" · "합의는 진실이 아니다" · "규칙은 공유지다" — 오버라이드 불가</text>
+    <rect width="780" height="100" rx="12" fill="#ffffff" stroke="#111111" stroke-width="2"/>
+    <text x="30" y="42" fill="#111111" font-size="20" font-weight="700">L1 독트린 — 헌법 6조</text>
+    <text x="30" y="74" fill="#555555" font-size="15">"발화는 계약이다" · "합의는 진실이 아니다" · "규칙은 공유지다" — 오버라이드 불가</text>
   </g>
   <g transform="translate(110,450)">
-    <rect width="780" height="130" rx="12" fill="#22305c" stroke="#f0b45c" stroke-width="2.5"/>
-    <text x="30" y="42" fill="#ffd9a0" font-size="20" font-weight="700">L0 커널 — 7가지 인식 기능</text>
-    <g font-size="14.5" fill="#c3cbe8">
+    <rect width="780" height="130" rx="12" fill="#eeeeee" stroke="#111111" stroke-width="2.5"/>
+    <text x="30" y="42" fill="#111111" font-size="20" font-weight="700">L0 커널 — 7가지 인식 기능</text>
+    <g font-size="14.5" fill="#111111">
       <text x="30" y="76">① 의도 형성 (소크라테스)   ② 설계 숙의 (변증법·툴민)   ③ 검증 (포퍼 반증주의)   ④ 조정 (언어행위론)</text>
       <text x="30" y="104">⑤ 기억 (교류 기억)   ⑥ 학습 (이중고리)   ⑦ 통치 (오스트롬)   ★ 커밋먼트 원장 = 프로세스 테이블</text>
     </g>

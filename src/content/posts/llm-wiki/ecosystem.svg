@@ -1,50 +1,50 @@
 <svg viewBox="0 0 1000 420" xmlns="http://www.w3.org/2000/svg" font-family="Apple SD Gothic Neo, Pretendard, sans-serif">
-  <rect width="1000" height="420" rx="16" fill="#111a30"/>
+  <rect width="1000" height="420" rx="16" fill="#ffffff"/>
 
-  <text x="500" y="52" text-anchor="middle" fill="#e8edfb" font-size="24" font-weight="700">두 방향에서 같은 결론</text>
+  <text x="500" y="52" text-anchor="middle" fill="#111111" font-size="24" font-weight="700">두 방향에서 같은 결론</text>
 
   <!-- DeepWiki row -->
   <g transform="translate(70,110)">
-    <rect width="220" height="90" rx="12" fill="#1b2748" stroke="#6b8cff" stroke-width="2"/>
-    <text x="110" y="40" text-anchor="middle" fill="#dfe6fa" font-size="19" font-weight="700">GitHub 저장소</text>
-    <text x="110" y="66" text-anchor="middle" fill="#8d9cc4" font-size="14">코드베이스</text>
+    <rect width="220" height="90" rx="12" fill="#ffffff" stroke="#111111" stroke-width="2"/>
+    <text x="110" y="40" text-anchor="middle" fill="#111111" font-size="19" font-weight="700">GitHub 저장소</text>
+    <text x="110" y="66" text-anchor="middle" fill="#555555" font-size="14">코드베이스</text>
   </g>
   <g transform="translate(390,110)">
-    <rect width="220" height="90" rx="12" fill="#1b2748" stroke="#58c7d8" stroke-width="2"/>
-    <text x="110" y="40" text-anchor="middle" fill="#dfe6fa" font-size="19" font-weight="700">DeepWiki</text>
-    <text x="110" y="66" text-anchor="middle" fill="#8d9cc4" font-size="14">자동 생성 위키</text>
+    <rect width="220" height="90" rx="12" fill="#ffffff" stroke="#111111" stroke-width="2"/>
+    <text x="110" y="40" text-anchor="middle" fill="#111111" font-size="19" font-weight="700">DeepWiki</text>
+    <text x="110" y="66" text-anchor="middle" fill="#555555" font-size="14">자동 생성 위키</text>
   </g>
   <g transform="translate(710,110)">
-    <rect width="220" height="90" rx="12" fill="#1b2748" stroke="#8a7cf0" stroke-width="2"/>
-    <text x="110" y="40" text-anchor="middle" fill="#dfe6fa" font-size="19" font-weight="700">에이전트</text>
-    <text x="110" y="66" text-anchor="middle" fill="#8d9cc4" font-size="14">MCP로 질의</text>
+    <rect width="220" height="90" rx="12" fill="#ffffff" stroke="#111111" stroke-width="2"/>
+    <text x="110" y="40" text-anchor="middle" fill="#111111" font-size="19" font-weight="700">에이전트</text>
+    <text x="110" y="66" text-anchor="middle" fill="#555555" font-size="14">MCP로 질의</text>
   </g>
 
   <!-- llms.txt row -->
   <g transform="translate(70,270)">
-    <rect width="220" height="90" rx="12" fill="#1b2748" stroke="#6b8cff" stroke-width="2"/>
-    <text x="110" y="40" text-anchor="middle" fill="#dfe6fa" font-size="19" font-weight="700">웹사이트</text>
-    <text x="110" y="66" text-anchor="middle" fill="#8d9cc4" font-size="14">사람용 콘텐츠</text>
+    <rect width="220" height="90" rx="12" fill="#ffffff" stroke="#111111" stroke-width="2"/>
+    <text x="110" y="40" text-anchor="middle" fill="#111111" font-size="19" font-weight="700">웹사이트</text>
+    <text x="110" y="66" text-anchor="middle" fill="#555555" font-size="14">사람용 콘텐츠</text>
   </g>
   <g transform="translate(390,270)">
-    <rect width="220" height="90" rx="12" fill="#1b2748" stroke="#58c7d8" stroke-width="2"/>
-    <text x="110" y="40" text-anchor="middle" fill="#dfe6fa" font-size="19" font-weight="700">llms.txt</text>
-    <text x="110" y="66" text-anchor="middle" fill="#8d9cc4" font-size="14">LLM용 요약본</text>
+    <rect width="220" height="90" rx="12" fill="#ffffff" stroke="#111111" stroke-width="2"/>
+    <text x="110" y="40" text-anchor="middle" fill="#111111" font-size="19" font-weight="700">llms.txt</text>
+    <text x="110" y="66" text-anchor="middle" fill="#555555" font-size="14">LLM용 요약본</text>
   </g>
   <g transform="translate(710,270)">
-    <rect width="220" height="90" rx="12" fill="#1b2748" stroke="#8a7cf0" stroke-width="2"/>
-    <text x="110" y="40" text-anchor="middle" fill="#dfe6fa" font-size="19" font-weight="700">LLM</text>
-    <text x="110" y="66" text-anchor="middle" fill="#8d9cc4" font-size="14">정해진 경로에서 로드</text>
+    <rect width="220" height="90" rx="12" fill="#ffffff" stroke="#111111" stroke-width="2"/>
+    <text x="110" y="40" text-anchor="middle" fill="#111111" font-size="19" font-weight="700">LLM</text>
+    <text x="110" y="66" text-anchor="middle" fill="#555555" font-size="14">정해진 경로에서 로드</text>
   </g>
 
   <!-- arrows -->
-  <g stroke="#5b79e8" stroke-width="2.5" fill="none">
+  <g stroke="#111111" stroke-width="2.5" fill="none">
     <path d="M295 155 H 382"/>
     <path d="M615 155 H 702"/>
     <path d="M295 315 H 382"/>
     <path d="M615 315 H 702"/>
   </g>
-  <g fill="#5b79e8">
+  <g fill="#111111">
     <path d="M386 155 l -13 -7 v 14 z"/>
     <path d="M706 155 l -13 -7 v 14 z"/>
     <path d="M386 315 l -13 -7 v 14 z"/>

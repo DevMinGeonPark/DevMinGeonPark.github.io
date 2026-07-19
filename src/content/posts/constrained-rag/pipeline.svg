@@ -1,32 +1,32 @@
 <svg viewBox="0 0 1000 560" xmlns="http://www.w3.org/2000/svg" font-family="Apple SD Gothic Neo, Pretendard, sans-serif">
-  <rect width="1000" height="560" rx="16" fill="#111a30"/>
-  <text x="500" y="52" text-anchor="middle" fill="#e8edfb" font-size="24" font-weight="700">4단 방어 파이프라인</text>
+  <rect width="1000" height="560" rx="16" fill="#ffffff"/>
+  <text x="500" y="52" text-anchor="middle" fill="#111111" font-size="24" font-weight="700">4단 방어 파이프라인</text>
 
   <g transform="translate(110,90)">
-    <rect width="780" height="86" rx="12" fill="#1b2748" stroke="#6b8cff" stroke-width="2"/>
-    <text x="30" y="38" fill="#a9bcff" font-size="19" font-weight="700">① 검색 — Retrieval</text>
-    <text x="30" y="66" fill="#8d9cc4" font-size="15">유사 케이스 + 안전조치 후보를 카탈로그에서 수집</text>
+    <rect width="780" height="86" rx="12" fill="#ffffff" stroke="#111111" stroke-width="2"/>
+    <text x="30" y="38" fill="#111111" font-size="19" font-weight="700">① 검색 — Retrieval</text>
+    <text x="30" y="66" fill="#555555" font-size="15">유사 케이스 + 안전조치 후보를 카탈로그에서 수집</text>
   </g>
   <g transform="translate(110,196)">
-    <rect width="780" height="86" rx="12" fill="#1b2748" stroke="#58c7d8" stroke-width="2"/>
-    <text x="30" y="38" fill="#9fdde8" font-size="19" font-weight="700">② 제약 생성 — LLM은 선택만</text>
-    <text x="30" y="66" fill="#8d9cc4" font-size="15">재해유형 = 19종 enum 분류 · 안전조치 = 카탈로그 id 선택 (없으면 빈 배열)</text>
+    <rect width="780" height="86" rx="12" fill="#ffffff" stroke="#111111" stroke-width="2"/>
+    <text x="30" y="38" fill="#111111" font-size="19" font-weight="700">② 제약 생성 — LLM은 선택만</text>
+    <text x="30" y="66" fill="#555555" font-size="15">재해유형 = 19종 enum 분류 · 안전조치 = 카탈로그 id 선택 (없으면 빈 배열)</text>
   </g>
   <g transform="translate(110,302)">
-    <rect width="780" height="86" rx="12" fill="#3a2434" stroke="#e8607a" stroke-width="2.5"/>
-    <text x="30" y="38" fill="#e8909f" font-size="19" font-weight="700">③ 결정론적 검증 — 환각 차단 핵심</text>
-    <text x="30" y="66" fill="#c98a97" font-size="15">위험도 ≠ 빈도×강도 → 코드가 재계산 · 카탈로그 밖 조치 → 제거</text>
+    <rect width="780" height="86" rx="12" fill="#dddddd" stroke="#111111" stroke-width="2.5"/>
+    <text x="30" y="38" fill="#111111" font-size="19" font-weight="700">③ 결정론적 검증 — 환각 차단 핵심</text>
+    <text x="30" y="66" fill="#555555" font-size="15">위험도 ≠ 빈도×강도 → 코드가 재계산 · 카탈로그 밖 조치 → 제거</text>
   </g>
   <g transform="translate(110,408)">
-    <rect width="780" height="86" rx="12" fill="#22305c" stroke="#f0b45c" stroke-width="2.5"/>
-    <text x="30" y="38" fill="#ffd9a0" font-size="19" font-weight="700">④ 사람 회부 — Human-in-the-Loop</text>
-    <text x="30" y="66" fill="#b3a67e" font-size="15">enum 분류 실패는 자동 판단하지 않고 "미분류(검증보류)"로 사람에게</text>
+    <rect width="780" height="86" rx="12" fill="#eeeeee" stroke="#111111" stroke-width="2.5"/>
+    <text x="30" y="38" fill="#111111" font-size="19" font-weight="700">④ 사람 회부 — Human-in-the-Loop</text>
+    <text x="30" y="66" fill="#555555" font-size="15">enum 분류 실패는 자동 판단하지 않고 "미분류(검증보류)"로 사람에게</text>
   </g>
-  <g stroke="#5b79e8" stroke-width="2.5" fill="none">
+  <g stroke="#111111" stroke-width="2.5" fill="none">
     <path d="M500 176 V 190"/><path d="M500 282 V 296"/><path d="M500 388 V 402"/>
   </g>
-  <g fill="#5b79e8">
+  <g fill="#111111">
     <path d="M500 194 l -7 -12 h 14 z"/><path d="M500 300 l -7 -12 h 14 z"/><path d="M500 406 l -7 -12 h 14 z"/>
   </g>
-  <text x="500" y="536" text-anchor="middle" fill="#5f6f9a" font-size="15">환각률: naive 60% → constrained 0% (CI 게이트 — 0% 초과 시 exit 1)</text>
+  <text x="500" y="536" text-anchor="middle" fill="#999999" font-size="15">환각률: naive 60% → constrained 0% (CI 게이트 — 0% 초과 시 exit 1)</text>
 </svg>

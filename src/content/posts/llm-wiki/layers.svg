@@ -1,25 +1,25 @@
 <svg viewBox="0 0 1000 560" xmlns="http://www.w3.org/2000/svg" font-family="Apple SD Gothic Neo, Pretendard, sans-serif">
-  <rect width="1000" height="560" rx="16" fill="#111a30"/>
+  <rect width="1000" height="560" rx="16" fill="#ffffff"/>
 
-  <text x="500" y="52" text-anchor="middle" fill="#e8edfb" font-size="24" font-weight="700">에이전트가 읽는 세 층의 문서</text>
+  <text x="500" y="52" text-anchor="middle" fill="#111111" font-size="24" font-weight="700">에이전트가 읽는 세 층의 문서</text>
 
   <!-- agent -->
   <g transform="translate(80,240)">
-    <circle cx="60" cy="60" r="46" fill="#1b2748" stroke="#6b8cff" stroke-width="2.5"/>
-    <rect x="38" y="42" width="44" height="30" rx="7" fill="none" stroke="#9db1e8" stroke-width="2.5"/>
-    <circle cx="51" cy="57" r="3.5" fill="#9db1e8"/>
-    <circle cx="69" cy="57" r="3.5" fill="#9db1e8"/>
-    <path d="M60 30 V20 M52 20 h16" stroke="#9db1e8" stroke-width="2.5" fill="none"/>
-    <text x="60" y="140" text-anchor="middle" fill="#9db1e8" font-size="17">에이전트</text>
+    <circle cx="60" cy="60" r="46" fill="#ffffff" stroke="#111111" stroke-width="2.5"/>
+    <rect x="38" y="42" width="44" height="30" rx="7" fill="none" stroke="#555555" stroke-width="2.5"/>
+    <circle cx="51" cy="57" r="3.5" fill="#555555"/>
+    <circle cx="69" cy="57" r="3.5" fill="#555555"/>
+    <path d="M60 30 V20 M52 20 h16" stroke="#555555" stroke-width="2.5" fill="none"/>
+    <text x="60" y="140" text-anchor="middle" fill="#555555" font-size="17">에이전트</text>
   </g>
 
   <!-- arrows -->
-  <g stroke="#5b79e8" stroke-width="2" fill="none" opacity="0.85">
+  <g stroke="#111111" stroke-width="2" fill="none" opacity="0.85">
     <path d="M198 282 C 260 200, 290 165, 330 148"/>
     <path d="M206 300 L 330 300"/>
     <path d="M198 318 C 260 400, 290 435, 330 452"/>
   </g>
-  <g fill="#5b79e8" opacity="0.85">
+  <g fill="#111111" opacity="0.85">
     <path d="M330 148 l -14 -1 l 8 12 z"/>
     <path d="M330 300 l -13 -7 v 14 z"/>
     <path d="M330 452 l -14 1 l 8 -12 z"/>
@@ -27,28 +27,28 @@
 
   <!-- layer 1 -->
   <g transform="translate(345,86)">
-    <rect width="570" height="120" rx="12" fill="#1b2748" stroke="#6b8cff" stroke-width="2"/>
-    <rect x="24" y="26" width="8" height="68" rx="4" fill="#6b8cff"/>
-    <text x="52" y="50" fill="#dfe6fa" font-size="20" font-weight="700">규칙 문서 — CLAUDE.md</text>
-    <text x="52" y="80" fill="#8d9cc4" font-size="16">모든 세션이 시작할 때 자동으로 읽는다. 머신·프로젝트의 불변 규칙.</text>
-    <text x="52" y="103" fill="#5f6f9a" font-size="14">"크롬은 헤드리스로만" · "대답은 한국어로"</text>
+    <rect width="570" height="120" rx="12" fill="#ffffff" stroke="#111111" stroke-width="2"/>
+    <rect x="24" y="26" width="8" height="68" rx="4" fill="#111111"/>
+    <text x="52" y="50" fill="#111111" font-size="20" font-weight="700">규칙 문서 — CLAUDE.md</text>
+    <text x="52" y="80" fill="#555555" font-size="16">모든 세션이 시작할 때 자동으로 읽는다. 머신·프로젝트의 불변 규칙.</text>
+    <text x="52" y="103" fill="#999999" font-size="14">"크롬은 헤드리스로만" · "대답은 한국어로"</text>
   </g>
 
   <!-- layer 2 -->
   <g transform="translate(345,240)">
-    <rect width="570" height="120" rx="12" fill="#1b2748" stroke="#58c7d8" stroke-width="2"/>
-    <rect x="24" y="26" width="8" height="68" rx="4" fill="#58c7d8"/>
-    <text x="52" y="50" fill="#dfe6fa" font-size="20" font-weight="700">사실 저장소 — memory/ + 인덱스</text>
-    <text x="52" y="80" fill="#8d9cc4" font-size="16">파일 하나에 사실 하나. 얇은 인덱스만 상시 로드, 본문은 필요할 때.</text>
-    <text x="52" y="103" fill="#5f6f9a" font-size="14">문서끼리 [[위키 링크]] · 빨간 링크 허용</text>
+    <rect width="570" height="120" rx="12" fill="#ffffff" stroke="#111111" stroke-width="2"/>
+    <rect x="24" y="26" width="8" height="68" rx="4" fill="#111111"/>
+    <text x="52" y="50" fill="#111111" font-size="20" font-weight="700">사실 저장소 — memory/ + 인덱스</text>
+    <text x="52" y="80" fill="#555555" font-size="16">파일 하나에 사실 하나. 얇은 인덱스만 상시 로드, 본문은 필요할 때.</text>
+    <text x="52" y="103" fill="#999999" font-size="14">문서끼리 [[위키 링크]] · 빨간 링크 허용</text>
   </g>
 
   <!-- layer 3 -->
   <g transform="translate(345,394)">
-    <rect width="570" height="120" rx="12" fill="#1b2748" stroke="#8a7cf0" stroke-width="2"/>
-    <rect x="24" y="26" width="8" height="68" rx="4" fill="#8a7cf0"/>
-    <text x="52" y="50" fill="#dfe6fa" font-size="20" font-weight="700">프로젝트 문서 — README · SPEC</text>
-    <text x="52" y="80" fill="#8d9cc4" font-size="16">저장소마다 하나. 원래 사람용이었지만 이제 첫 독자는 에이전트다.</text>
-    <text x="52" y="103" fill="#5f6f9a" font-size="14">새 세션이 git log보다 먼저 여는 문서</text>
+    <rect width="570" height="120" rx="12" fill="#ffffff" stroke="#111111" stroke-width="2"/>
+    <rect x="24" y="26" width="8" height="68" rx="4" fill="#111111"/>
+    <text x="52" y="50" fill="#111111" font-size="20" font-weight="700">프로젝트 문서 — README · SPEC</text>
+    <text x="52" y="80" fill="#555555" font-size="16">저장소마다 하나. 원래 사람용이었지만 이제 첫 독자는 에이전트다.</text>
+    <text x="52" y="103" fill="#999999" font-size="14">새 세션이 git log보다 먼저 여는 문서</text>
   </g>
 </svg>

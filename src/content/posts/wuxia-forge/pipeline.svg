@@ -1,56 +1,56 @@
 <svg viewBox="0 0 1000 480" xmlns="http://www.w3.org/2000/svg" font-family="Apple SD Gothic Neo, Pretendard, sans-serif">
-  <rect width="1000" height="480" rx="16" fill="#171009"/>
-  <text x="500" y="52" text-anchor="middle" fill="#f5ecd9" font-size="24" font-weight="700">forge.py 파이프라인 — 코드와 Claude의 역할 분담</text>
+  <rect width="1000" height="480" rx="16" fill="#ffffff"/>
+  <text x="500" y="52" text-anchor="middle" fill="#111111" font-size="24" font-weight="700">forge.py 파이프라인 — 코드와 Claude의 역할 분담</text>
 
   <!-- steps -->
   <g>
     <g transform="translate(60,100)">
-      <rect width="160" height="86" rx="12" fill="#241a0e" stroke="#d9a441" stroke-width="2"/>
-      <text x="80" y="36" text-anchor="middle" fill="#f0c66a" font-size="16" font-weight="700">① 스크래핑</text>
-      <text x="80" y="64" text-anchor="middle" fill="#a08c66" font-size="13">dak.gg 전적</text>
+      <rect width="160" height="86" rx="12" fill="#ffffff" stroke="#111111" stroke-width="2"/>
+      <text x="80" y="36" text-anchor="middle" fill="#111111" font-size="16" font-weight="700">① 스크래핑</text>
+      <text x="80" y="64" text-anchor="middle" fill="#555555" font-size="13">dak.gg 전적</text>
     </g>
     <g transform="translate(250,100)">
-      <rect width="160" height="86" rx="12" fill="#241a0e" stroke="#d9a441" stroke-width="2"/>
-      <text x="80" y="36" text-anchor="middle" fill="#f0c66a" font-size="16" font-weight="700">② 카탈로그</text>
-      <text x="80" y="64" text-anchor="middle" fill="#a08c66" font-size="13">88캐릭터 → 13문파</text>
+      <rect width="160" height="86" rx="12" fill="#ffffff" stroke="#111111" stroke-width="2"/>
+      <text x="80" y="36" text-anchor="middle" fill="#111111" font-size="16" font-weight="700">② 카탈로그</text>
+      <text x="80" y="64" text-anchor="middle" fill="#555555" font-size="13">88캐릭터 → 13문파</text>
     </g>
     <g transform="translate(440,100)">
-      <rect width="160" height="86" rx="12" fill="#1a1424" stroke="#8a7cf0" stroke-width="2.5"/>
-      <text x="80" y="36" text-anchor="middle" fill="#c9befc" font-size="16" font-weight="700">③ Claude</text>
-      <text x="80" y="64" text-anchor="middle" fill="#9d90c9" font-size="13">문파 선택 + 작문</text>
+      <rect width="160" height="86" rx="12" fill="#ffffff" stroke="#111111" stroke-width="2.5"/>
+      <text x="80" y="36" text-anchor="middle" fill="#111111" font-size="16" font-weight="700">③ Claude</text>
+      <text x="80" y="64" text-anchor="middle" fill="#555555" font-size="13">문파 선택 + 작문</text>
     </g>
     <g transform="translate(630,100)">
-      <rect width="160" height="86" rx="12" fill="#241a0e" stroke="#d9a441" stroke-width="2"/>
-      <text x="80" y="36" text-anchor="middle" fill="#f0c66a" font-size="16" font-weight="700">④ 렌더</text>
-      <text x="80" y="64" text-anchor="middle" fill="#a08c66" font-size="13">단일 HTML</text>
+      <rect width="160" height="86" rx="12" fill="#ffffff" stroke="#111111" stroke-width="2"/>
+      <text x="80" y="36" text-anchor="middle" fill="#111111" font-size="16" font-weight="700">④ 렌더</text>
+      <text x="80" y="64" text-anchor="middle" fill="#555555" font-size="13">단일 HTML</text>
     </g>
     <g transform="translate(820,100)">
-      <rect width="120" height="86" rx="12" fill="#241a0e" stroke="#d9a441" stroke-width="2"/>
-      <text x="60" y="36" text-anchor="middle" fill="#f0c66a" font-size="16" font-weight="700">⑤ 배포</text>
-      <text x="60" y="64" text-anchor="middle" fill="#a08c66" font-size="13">pm2 + CF 터널</text>
+      <rect width="120" height="86" rx="12" fill="#ffffff" stroke="#111111" stroke-width="2"/>
+      <text x="60" y="36" text-anchor="middle" fill="#111111" font-size="16" font-weight="700">⑤ 배포</text>
+      <text x="60" y="64" text-anchor="middle" fill="#555555" font-size="13">pm2 + CF 터널</text>
     </g>
   </g>
-  <g stroke="#8a7452" stroke-width="2.5" fill="none">
+  <g stroke="#111111" stroke-width="2.5" fill="none">
     <path d="M225 143 H 242"/><path d="M415 143 H 432"/><path d="M605 143 H 622"/><path d="M795 143 H 812"/>
   </g>
-  <g fill="#8a7452">
+  <g fill="#111111">
     <path d="M246 143 l -12 -6 v 12 z"/><path d="M436 143 l -12 -6 v 12 z"/><path d="M626 143 l -12 -6 v 12 z"/><path d="M816 143 l -12 -6 v 12 z"/>
   </g>
 
   <!-- role split -->
   <g transform="translate(110,250)">
-    <rect width="370" height="180" rx="12" fill="#241a0e" stroke="#d9a441" stroke-width="2"/>
-    <text x="185" y="40" text-anchor="middle" fill="#f0c66a" font-size="18" font-weight="700">코드가 통제 (일관성)</text>
-    <g font-size="15" fill="#cbb896">
+    <rect width="370" height="180" rx="12" fill="#ffffff" stroke="#111111" stroke-width="2"/>
+    <text x="185" y="40" text-anchor="middle" fill="#111111" font-size="18" font-weight="700">코드가 통제 (일관성)</text>
+    <g font-size="15" fill="#555555">
       <text x="34" y="78">· 문파별 색 팔레트 · 인장 · 폰트</text>
       <text x="34" y="110">· 88캐릭터 → 문파 매핑</text>
       <text x="34" y="142">· 렌더 · 배포 · DNS</text>
     </g>
   </g>
   <g transform="translate(520,250)">
-    <rect width="370" height="180" rx="12" fill="#1a1424" stroke="#8a7cf0" stroke-width="2.5"/>
-    <text x="185" y="40" text-anchor="middle" fill="#c9befc" font-size="18" font-weight="700">Claude가 담당 (창의성)</text>
-    <g font-size="15" fill="#b0a6d4">
+    <rect width="370" height="180" rx="12" fill="#ffffff" stroke="#111111" stroke-width="2.5"/>
+    <text x="185" y="40" text-anchor="middle" fill="#111111" font-size="18" font-weight="700">Claude가 담당 (창의성)</text>
+    <g font-size="15" fill="#555555">
       <text x="34" y="78">· 전적 보고 13문파 중 선택</text>
       <text x="34" y="110">· 도호 · 무공 별칭 · 소개 카피</text>
       <text x="34" y="142">· 단, 카탈로그·세계관 규칙 안에서만</text>

@@ -1,70 +1,70 @@
 <svg viewBox="0 0 1000 480" xmlns="http://www.w3.org/2000/svg" font-family="Apple SD Gothic Neo, Pretendard, sans-serif">
-  <rect width="1000" height="480" rx="16" fill="#111a30"/>
-  <text x="500" y="52" text-anchor="middle" fill="#e8edfb" font-size="24" font-weight="700">넥서스 — 정의 · 컴파일 · 팀 배포</text>
+  <rect width="1000" height="480" rx="16" fill="#ffffff"/>
+  <text x="500" y="52" text-anchor="middle" fill="#111111" font-size="24" font-weight="700">넥서스 — 정의 · 컴파일 · 팀 배포</text>
 
   <!-- nexus hub -->
   <g transform="translate(390,110)">
-    <rect width="220" height="110" rx="14" fill="#22305c" stroke="#f0b45c" stroke-width="2.5"/>
-    <text x="110" y="44" text-anchor="middle" fill="#ffd9a0" font-size="21" font-weight="700">넥서스</text>
-    <text x="110" y="72" text-anchor="middle" fill="#b3a67e" font-size="14">기존 규칙 추출 → 확인</text>
-    <text x="110" y="92" text-anchor="middle" fill="#b3a67e" font-size="14">→ 프로파일 컴파일</text>
+    <rect width="220" height="110" rx="14" fill="#eeeeee" stroke="#111111" stroke-width="2.5"/>
+    <text x="110" y="44" text-anchor="middle" fill="#111111" font-size="21" font-weight="700">넥서스</text>
+    <text x="110" y="72" text-anchor="middle" fill="#555555" font-size="14">기존 규칙 추출 → 확인</text>
+    <text x="110" y="92" text-anchor="middle" fill="#555555" font-size="14">→ 프로파일 컴파일</text>
   </g>
 
   <!-- inputs -->
   <g transform="translate(60,80)">
-    <rect width="200" height="54" rx="10" fill="#1b2748" stroke="#6b8cff" stroke-width="2"/>
-    <text x="100" y="33" text-anchor="middle" fill="#c3cbe8" font-size="15">린터 설정 · 컨벤션 문서</text>
+    <rect width="200" height="54" rx="10" fill="#ffffff" stroke="#111111" stroke-width="2"/>
+    <text x="100" y="33" text-anchor="middle" fill="#111111" font-size="15">린터 설정 · 컨벤션 문서</text>
   </g>
   <g transform="translate(60,160)">
-    <rect width="200" height="54" rx="10" fill="#1b2748" stroke="#6b8cff" stroke-width="2"/>
-    <text x="100" y="33" text-anchor="middle" fill="#c3cbe8" font-size="15">코드베이스 관례 스캔</text>
+    <rect width="200" height="54" rx="10" fill="#ffffff" stroke="#111111" stroke-width="2"/>
+    <text x="100" y="33" text-anchor="middle" fill="#111111" font-size="15">코드베이스 관례 스캔</text>
   </g>
-  <g stroke="#5b79e8" stroke-width="2" fill="none">
+  <g stroke="#111111" stroke-width="2" fill="none">
     <path d="M265 107 C 320 115, 340 130, 382 145"/>
     <path d="M265 187 C 320 182, 340 175, 382 170"/>
   </g>
-  <g fill="#5b79e8">
+  <g fill="#111111">
     <path d="M386 147 l -14 -3 l 6 13 z"/>
     <path d="M386 169 l -14 -4 l 7 13 z"/>
   </g>
 
   <!-- compiled artifacts -->
   <g transform="translate(740,105)">
-    <rect width="200" height="120" rx="10" fill="#1b2748" stroke="#58c7d8" stroke-width="2"/>
-    <text x="100" y="34" text-anchor="middle" fill="#9fdde8" font-size="16" font-weight="700">컴파일 산출물</text>
-    <text x="100" y="62" text-anchor="middle" fill="#8d9cc4" font-size="14">스킬 + 훅(강제)</text>
-    <text x="100" y="84" text-anchor="middle" fill="#8d9cc4" font-size="14">규칙 파일(CLAUDE.md)</text>
-    <text x="100" y="106" text-anchor="middle" fill="#8d9cc4" font-size="14">팀 레지스트리 배포</text>
+    <rect width="200" height="120" rx="10" fill="#ffffff" stroke="#111111" stroke-width="2"/>
+    <text x="100" y="34" text-anchor="middle" fill="#111111" font-size="16" font-weight="700">컴파일 산출물</text>
+    <text x="100" y="62" text-anchor="middle" fill="#555555" font-size="14">스킬 + 훅(강제)</text>
+    <text x="100" y="84" text-anchor="middle" fill="#555555" font-size="14">규칙 파일(CLAUDE.md)</text>
+    <text x="100" y="106" text-anchor="middle" fill="#555555" font-size="14">팀 레지스트리 배포</text>
   </g>
-  <path d="M615 165 H 732" stroke="#5b79e8" stroke-width="2.5" fill="none"/>
-  <path d="M736 165 l -13 -7 v 14 z" fill="#5b79e8"/>
+  <path d="M615 165 H 732" stroke="#111111" stroke-width="2.5" fill="none"/>
+  <path d="M736 165 l -13 -7 v 14 z" fill="#111111"/>
 
   <!-- team agents -->
-  <g stroke="#5b79e8" stroke-width="2" fill="none">
+  <g stroke="#111111" stroke-width="2" fill="none">
     <path d="M460 225 C 400 280, 350 310, 300 340"/>
     <path d="M500 225 V 340"/>
     <path d="M540 225 C 600 280, 650 310, 700 340"/>
   </g>
-  <g fill="#5b79e8">
+  <g fill="#111111">
     <path d="M297 342 l 14 -2 l -8 -11 z"/>
     <path d="M500 344 l -7 -13 h 14 z"/>
     <path d="M703 342 l -14 -2 l 8 -11 z"/>
   </g>
   <g>
     <g transform="translate(210,350)">
-      <rect width="180" height="80" rx="12" fill="#1b2748" stroke="#8a7cf0" stroke-width="2"/>
-      <text x="90" y="35" text-anchor="middle" fill="#dfe6fa" font-size="15" font-weight="700">팀원 A의 에이전트</text>
-      <text x="90" y="60" text-anchor="middle" fill="#7d88b5" font-size="13">클론 → 자동 장착</text>
+      <rect width="180" height="80" rx="12" fill="#ffffff" stroke="#111111" stroke-width="2"/>
+      <text x="90" y="35" text-anchor="middle" fill="#111111" font-size="15" font-weight="700">팀원 A의 에이전트</text>
+      <text x="90" y="60" text-anchor="middle" fill="#555555" font-size="13">클론 → 자동 장착</text>
     </g>
     <g transform="translate(410,350)">
-      <rect width="180" height="80" rx="12" fill="#1b2748" stroke="#8a7cf0" stroke-width="2"/>
-      <text x="90" y="35" text-anchor="middle" fill="#dfe6fa" font-size="15" font-weight="700">팀원 B의 에이전트</text>
-      <text x="90" y="60" text-anchor="middle" fill="#7d88b5" font-size="13">같은 프로파일</text>
+      <rect width="180" height="80" rx="12" fill="#ffffff" stroke="#111111" stroke-width="2"/>
+      <text x="90" y="35" text-anchor="middle" fill="#111111" font-size="15" font-weight="700">팀원 B의 에이전트</text>
+      <text x="90" y="60" text-anchor="middle" fill="#555555" font-size="13">같은 프로파일</text>
     </g>
     <g transform="translate(610,350)">
-      <rect width="180" height="80" rx="12" fill="#1b2748" stroke="#8a7cf0" stroke-width="2"/>
-      <text x="90" y="35" text-anchor="middle" fill="#dfe6fa" font-size="15" font-weight="700">신규 팀원 온보딩</text>
-      <text x="90" y="60" text-anchor="middle" fill="#7d88b5" font-size="13">저장소 클론 한 번</text>
+      <rect width="180" height="80" rx="12" fill="#ffffff" stroke="#111111" stroke-width="2"/>
+      <text x="90" y="35" text-anchor="middle" fill="#111111" font-size="15" font-weight="700">신규 팀원 온보딩</text>
+      <text x="90" y="60" text-anchor="middle" fill="#555555" font-size="13">저장소 클론 한 번</text>
     </g>
   </g>
 </svg>
