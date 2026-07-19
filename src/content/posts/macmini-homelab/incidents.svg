@@ -1,0 +1,41 @@
+<svg viewBox="0 0 1000 400" xmlns="http://www.w3.org/2000/svg" font-family="Apple SD Gothic Neo, Pretendard, sans-serif">
+  <rect width="1000" height="400" rx="16" fill="#111a30"/>
+  <text x="500" y="52" text-anchor="middle" fill="#e8edfb" font-size="24" font-weight="700">사건 일지 — 홈서버의 적은 "쌓이는 것들"</text>
+
+  <g transform="translate(52,100)">
+    <rect width="280" height="250" rx="12" fill="#1b2748" stroke="#e8607a" stroke-width="2"/>
+    <text x="140" y="42" text-anchor="middle" fill="#e8909f" font-size="18" font-weight="700">☁️ iCloud hang</text>
+    <g font-size="14" fill="#c3cbe8">
+      <text x="28" y="84">node_modules가 동기화 대상</text>
+      <text x="28" y="112">→ fileproviderd 무한 루프</text>
+      <text x="28" y="140">→ 시스템 정지, 물리 전원</text>
+    </g>
+    <line x1="28" y1="170" x2="252" y2="170" stroke="#3a4a76" stroke-width="1"/>
+    <text x="28" y="202" fill="#8d9cc4" font-size="13.5">교훈: dev 프로젝트는 iCloud 밖,</text>
+    <text x="28" y="224" fill="#8d9cc4" font-size="13.5">대역 외 복구 수단(스마트 플러그)</text>
+  </g>
+  <g transform="translate(360,100)">
+    <rect width="280" height="250" rx="12" fill="#1b2748" stroke="#f0b45c" stroke-width="2"/>
+    <text x="140" y="42" text-anchor="middle" fill="#ffd9a0" font-size="18" font-weight="700">🌪️ 크롬 26개 · 2.7GB</text>
+    <g font-size="14" fill="#c3cbe8">
+      <text x="28" y="84">헤드리스 크롬이 안 죽고 누적</text>
+      <text x="28" y="112">→ 규칙 문서화 (CLAUDE.md)</text>
+      <text x="28" y="140">→ 리퍼 launchd 30분 주기</text>
+    </g>
+    <line x1="28" y1="170" x2="252" y2="170" stroke="#3a4a76" stroke-width="1"/>
+    <text x="28" y="202" fill="#8d9cc4" font-size="13.5">교훈: 해결책은 코드가 아니라</text>
+    <text x="28" y="224" fill="#8d9cc4" font-size="13.5">문서 — 에이전트가 규칙을 지킴</text>
+  </g>
+  <g transform="translate(668,100)">
+    <rect width="280" height="250" rx="12" fill="#1b2748" stroke="#58c7d8" stroke-width="2"/>
+    <text x="140" y="42" text-anchor="middle" fill="#9fdde8" font-size="18" font-weight="700">🔑 OAuth 토큰 전쟁</text>
+    <g font-size="14" fill="#c3cbe8">
+      <text x="28" y="84">1회용 refresh token을</text>
+      <text x="28" y="112">두 도구가 공유 → 상호 로그아웃</text>
+      <text x="28" y="140">→ "logged in" 표시는 거짓말</text>
+    </g>
+    <line x1="28" y1="170" x2="252" y2="170" stroke="#3a4a76" stroke-width="1"/>
+    <text x="28" y="202" fill="#8d9cc4" font-size="13.5">교훈: 헬스체크는 상태 플래그가</text>
+    <text x="28" y="224" fill="#8d9cc4" font-size="13.5">아니라 실동작 호출로</text>
+  </g>
+</svg>
