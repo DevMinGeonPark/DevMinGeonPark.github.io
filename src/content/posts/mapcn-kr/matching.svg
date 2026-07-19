@@ -1,0 +1,32 @@
+<svg viewBox="0 0 1000 400" xmlns="http://www.w3.org/2000/svg" font-family="Apple SD Gothic Neo, Pretendard, sans-serif">
+  <rect width="1000" height="400" rx="16" fill="#111a30"/>
+  <text x="500" y="52" text-anchor="middle" fill="#e8edfb" font-size="24" font-weight="700">리 15,088개 연결 — 코드 매칭에서 공간 매칭으로</text>
+
+  <!-- code matching -->
+  <g transform="translate(70,100)">
+    <rect width="400" height="240" rx="12" fill="#1b2748" stroke="#e8607a" stroke-width="2"/>
+    <text x="200" y="40" text-anchor="middle" fill="#e8909f" font-size="18" font-weight="700">1차 시도 — 코드 prefix 매칭</text>
+    <text x="200" y="76" text-anchor="middle" fill="#c3cbe8" font-size="15">리 코드 앞자리 → 상위 행정동</text>
+    <rect x="50" y="105" width="300" height="26" rx="13" fill="#22305c"/>
+    <rect x="50" y="105" width="213" height="26" rx="13" fill="#3f68c9"/>
+    <text x="200" y="160" text-anchor="middle" fill="#dfe6fa" font-size="16" font-weight="700">71%만 매칭</text>
+    <text x="200" y="192" text-anchor="middle" fill="#8d9cc4" font-size="13.5">행정구역 개편(화성 분구 등)으로</text>
+    <text x="200" y="212" text-anchor="middle" fill="#8d9cc4" font-size="13.5">데이터 기준 시점이 달라 코드 드리프트</text>
+  </g>
+
+  <path d="M485 220 H 545" stroke="#5b79e8" stroke-width="2.5" fill="none"/>
+  <path d="M549 220 l -13 -7 v 14 z" fill="#5b79e8"/>
+
+  <!-- spatial matching -->
+  <g transform="translate(560,100)">
+    <rect width="380" height="240" rx="12" fill="#1b2748" stroke="#4ecf9d" stroke-width="2.5"/>
+    <text x="190" y="40" text-anchor="middle" fill="#7fe0b8" font-size="18" font-weight="700">2차 — 공간 매칭 (STRtree)</text>
+    <text x="190" y="76" text-anchor="middle" fill="#c3cbe8" font-size="15">리 폴리곤 중심점 ∈ 읍면동 폴리곤</text>
+    <g transform="translate(105,100)">
+      <path d="M20 20 L120 8 L168 60 L140 116 L48 122 L4 76 Z" fill="none" stroke="#4ecf9d" stroke-width="2"/>
+      <circle cx="86" cy="66" r="6" fill="#f0b45c"/>
+      <text x="86" y="46" text-anchor="middle" fill="#ffd9a0" font-size="13">중심점</text>
+    </g>
+    <text x="190" y="228" text-anchor="middle" fill="#8d9cc4" font-size="14">"코드는 어긋나도 땅은 거짓말을 안 한다"</text>
+  </g>
+</svg>

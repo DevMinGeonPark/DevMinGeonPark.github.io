@@ -1,0 +1,37 @@
+<svg viewBox="0 0 1000 340" xmlns="http://www.w3.org/2000/svg" font-family="Apple SD Gothic Neo, Pretendard, sans-serif">
+  <rect width="1000" height="340" rx="16" fill="#111a30"/>
+  <text x="500" y="52" text-anchor="middle" fill="#e8edfb" font-size="24" font-weight="700">자기절제 서킷 브레이커</text>
+
+  <g transform="translate(60,120)">
+    <rect width="240" height="100" rx="12" fill="#1b2748" stroke="#6b8cff" stroke-width="2"/>
+    <text x="120" y="42" text-anchor="middle" fill="#dfe6fa" font-size="18" font-weight="700">Grafana 관측</text>
+    <text x="120" y="72" text-anchor="middle" fill="#8d9cc4" font-size="14">403 비율 추이 로깅</text>
+  </g>
+  <g transform="translate(380,120)">
+    <rect width="240" height="100" rx="12" fill="#1b2748" stroke="#f0b45c" stroke-width="2.5"/>
+    <text x="120" y="42" text-anchor="middle" fill="#ffd9a0" font-size="18" font-weight="700">임계 초과?</text>
+    <text x="120" y="72" text-anchor="middle" fill="#b3a67e" font-size="14">상대 서버 과부하 전조</text>
+  </g>
+  <g transform="translate(700,70)">
+    <rect width="240" height="90" rx="12" fill="#3a2434" stroke="#e8607a" stroke-width="2"/>
+    <text x="120" y="38" text-anchor="middle" fill="#e8909f" font-size="17" font-weight="700">크롤링 유휴 전환</text>
+    <text x="120" y="66" text-anchor="middle" fill="#c98a97" font-size="13.5">상대가 회복할 시간을 준다</text>
+  </g>
+  <g transform="translate(700,190)">
+    <rect width="240" height="90" rx="12" fill="#1d3a35" stroke="#4ecf9d" stroke-width="2"/>
+    <text x="120" y="38" text-anchor="middle" fill="#7fe0b8" font-size="17" font-weight="700">정상 크롤 지속</text>
+    <text x="120" y="66" text-anchor="middle" fill="#79b8a0" font-size="13.5">10분 주기 + 가우시안 지터</text>
+  </g>
+  <g stroke="#5b79e8" stroke-width="2.5" fill="none">
+    <path d="M305 170 H 372"/>
+    <path d="M625 150 C 660 130, 665 125, 692 115"/>
+    <path d="M625 190 C 660 210, 665 215, 692 225"/>
+  </g>
+  <g fill="#5b79e8">
+    <path d="M376 170 l -13 -7 v 14 z"/>
+    <path d="M696 113 l -14 0 l 7 12 z"/>
+    <path d="M696 227 l -14 0 l 7 -12 z"/>
+  </g>
+  <text x="655" y="105" fill="#e8909f" font-size="14" font-weight="700">YES</text>
+  <text x="655" y="255" fill="#7fe0b8" font-size="14" font-weight="700">NO</text>
+</svg>
