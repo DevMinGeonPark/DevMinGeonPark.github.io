@@ -1,0 +1,28 @@
+<svg viewBox="0 0 1000 420" xmlns="http://www.w3.org/2000/svg" font-family="Apple SD Gothic Neo, Pretendard, sans-serif">
+  <rect width="1000" height="420" rx="12" fill="#ffffff" stroke="#111111" stroke-width="2"/>
+  <text x="500" y="56" text-anchor="middle" fill="#111111" font-size="24" font-weight="700">같은 패턴, 두 도구</text>
+
+  <g transform="translate(60,100)">
+    <rect width="420" height="270" rx="10" fill="#ffffff" stroke="#111111" stroke-width="2"/>
+    <text x="30" y="44" fill="#111111" font-size="19" font-weight="700">Dots — 커리어 하네스</text>
+    <g font-size="15" fill="#111111">
+      <text x="30" y="88">에이전트: 점 기록 · JD별 이력서 조립</text>
+      <text x="30" y="124">규칙: 불변식 (진실은 한 곳, 증거 없는</text>
+      <text x="30" y="148">        수치 금지)</text>
+      <text x="30" y="184">스키마: fragment frontmatter</text>
+      <text x="30" y="220">게이트: lint.mjs — 8건 보류 중</text>
+    </g>
+    <text x="30" y="254" fill="#555555" font-size="13.5">skill: dot-archive · dot-connect</text>
+  </g>
+  <g transform="translate(520,100)">
+    <rect width="420" height="270" rx="10" fill="#ffffff" stroke="#111111" stroke-width="2"/>
+    <text x="30" y="44" fill="#111111" font-size="19" font-weight="700">gaejo — 개조식 변환기</text>
+    <g font-size="15" fill="#111111">
+      <text x="30" y="88">에이전트: 슬라이드 문구 변환</text>
+      <text x="30" y="124">규칙: 코퍼스 도출 개조식 6원칙</text>
+      <text x="30" y="160">스키마: 명사 종결 ~75% · -기 종결 0%</text>
+      <text x="30" y="196">게이트: Kiwi 형태소 결정론 검증</text>
+      <text x="30" y="232">API 키 불필요 — 검증은 LLM 없이</text>
+    </g>
+  </g>
+</svg>
