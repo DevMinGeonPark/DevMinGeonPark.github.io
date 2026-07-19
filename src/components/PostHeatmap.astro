@@ -6,8 +6,15 @@ interface Props {
 const { dates } = Astro.props;
 
 const DAY = 24 * 60 * 60 * 1000;
-const today = new Date();
+// Cover through the latest post date even if the build machine's clock (UTC CI)
+// is still on the previous day locally.
+let today = new Date();
 today.setHours(0, 0, 0, 0);
+for (const raw of dates) {
+	const d = new Date(raw);
+	d.setHours(0, 0, 0, 0);
+	if (d > today) today = d;
+}
 // End on the Saturday of the current week, start 53 weeks earlier (Sunday).
 const end = new Date(today.getTime() + (6 - today.getDay()) * DAY);
 const start = new Date(end.getTime() - (53 * 7 - 1) * DAY);
