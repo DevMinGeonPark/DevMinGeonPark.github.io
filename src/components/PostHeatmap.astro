@@ -1,0 +1,74 @@
+---
+// GitHub-style contribution heatmap of post publish dates (monochrome).
+interface Props {
+	dates: Date[];
+}
+const { dates } = Astro.props;
+
+const DAY = 24 * 60 * 60 * 1000;
+const today = new Date();
+today.setHours(0, 0, 0, 0);
+// End on the Saturday of the current week, start 53 weeks earlier (Sunday).
+const end = new Date(today.getTime() + (6 - today.getDay()) * DAY);
+const start = new Date(end.getTime() - (53 * 7 - 1) * DAY);
+
+const counts = new Map<string, number>();
+const key = (d: Date) =>
+	`${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
+let total = 0;
+for (const raw of dates) {
+	const d = new Date(raw);
+	d.setHours(0, 0, 0, 0);
+	if (d < start || d > today) continue;
+	counts.set(key(d), (counts.get(key(d)) || 0) + 1);
+	total++;
+}
+
+const weeks: { date: Date; count: number; future: boolean }[][] = [];
+for (let w = 0; w < 53; w++) {
+	const col = [];
+	for (let d = 0; d < 7; d++) {
+		const date = new Date(start.getTime() + (w * 7 + d) * DAY);
+		col.push({ date, count: counts.get(key(date)) || 0, future: date > today });
+	}
+	weeks.push(col);
+}
+
+const level = (c: number) => (c === 0 ? 0 : c === 1 ? 1 : c === 2 ? 2 : 3);
+const cellClass = [
+	"bg-black/[0.06] dark:bg-white/[0.09]",
+	"bg-black/30 dark:bg-white/35",
+	"bg-black/55 dark:bg-white/60",
+	"bg-black/85 dark:bg-white/90",
+];
+---
+
+<div class="card-base px-8 py-6 mb-4">
+    <div class="flex items-center justify-between mb-4">
+        <div class="font-bold text-lg text-black/90 dark:text-white/90">포스트 잔디</div>
+        <div class="text-sm text-black/40 dark:text-white/40">최근 1년 · {total}편</div>
+    </div>
+    <div class="overflow-x-auto pb-1">
+        <div class="flex gap-[3px] w-fit">
+            {weeks.map((col) => (
+                <div class="flex flex-col gap-[3px]">
+                    {col.map((cell) =>
+                        cell.future ? (
+                            <div class="w-[11px] h-[11px] rounded-[3px]"></div>
+                        ) : (
+                            <div
+                                class={`w-[11px] h-[11px] rounded-[3px] ${cellClass[level(cell.count)]}`}
+                                title={`${key(cell.date)} · ${cell.count}편`}
+                            ></div>
+                        ),
+                    )}
+                </div>
+            ))}
+        </div>
+    </div>
+    <div class="flex items-center gap-[3px] mt-3 text-xs text-black/40 dark:text-white/40">
+        <span class="mr-1">적게</span>
+        {cellClass.map((c) => <div class={`w-[11px] h-[11px] rounded-[3px] ${c}`}></div>)}
+        <span class="ml-1">많이</span>
+    </div>
+</div>

@@ -1,0 +1,23 @@
+<svg width="495" height="270" viewBox="0 0 495 270" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="DevMinGeonPark AI Stat Sheet">
+  <rect x="0.5" y="0.5" width="494" height="269" rx="12" fill="#161b22" stroke="#30363d"/>
+  <!-- header -->
+  <circle cx="34" cy="36" r="18" fill="#0d1117" stroke="#58a6ff" stroke-width="1.5"/>
+  <text x="34" y="40" fill="#58a6ff" font-size="13" font-weight="700" text-anchor="middle" font-family="Segoe UI, Apple SD Gothic Neo, sans-serif">MI</text>
+  <text x="62" y="30" fill="#e6edf3" font-size="15" font-weight="700" font-family="Segoe UI, sans-serif">MinGeonPark</text>
+  <text x="62" y="46" fill="#8b949e" font-size="10" font-family="Segoe UI, sans-serif">@DevMinGeonPark · 17 repos · 13 followers</text>
+
+  <!-- level + class -->
+  <rect x="22" y="62" width="64" height="44" rx="8" fill="#0d1117" stroke="#30363d"/>
+  <text x="54" y="80" fill="#8b949e" font-size="8" text-anchor="middle">LEVEL</text>
+  <text x="54" y="99" fill="#58a6ff" font-size="22" font-weight="800" text-anchor="middle">38</text>
+  <text x="98" y="74" fill="#e6edf3" font-size="13" font-weight="700">Prolific AI Hacker</text>
+  <text x="98" y="92" fill="#8b949e" font-size="10">상위 역량: AI/ML · Activity</text>
+
+  <!-- top axis bars -->
+  <text x="24" y="135" fill="#8b949e" font-size="9">AI/ML</text><rect x="24" y="138" width="150" height="6" rx="3" fill="#30363d"/><rect x="24" y="138" width="150" height="6" rx="3" fill="#1f6feb"/><text x="180" y="144" fill="#e6edf3" font-size="9">100</text><text x="24" y="157" fill="#8b949e" font-size="9">Activity</text><rect x="24" y="160" width="150" height="6" rx="3" fill="#30363d"/><rect x="24" y="160" width="128" height="6" rx="3" fill="#1f6feb"/><text x="180" y="166" fill="#e6edf3" font-size="9">85</text><text x="24" y="179" fill="#8b949e" font-size="9">Backend</text><rect x="24" y="182" width="150" height="6" rx="3" fill="#30363d"/><rect x="24" y="182" width="95" height="6" rx="3" fill="#1f6feb"/><text x="180" y="188" fill="#e6edf3" font-size="9">63</text>
+  <text x="24" y="232" fill="#8b949e" font-size="8">결정론 채점 · 증거기반</text>
+  <text x="24" y="246" fill="#8b949e" font-size="8">ai-stat-sheet</text>
+
+  <!-- radar -->
+  <polygon points="370.0,120.5 386.9,130.3 386.9,149.8 370.0,159.5 353.1,149.8 353.1,130.3" fill="none" stroke="#30363d" stroke-width="1"/><polygon points="370.0,101.0 403.8,120.5 403.8,159.5 370.0,179.0 336.2,159.5 336.2,120.5" fill="none" stroke="#30363d" stroke-width="1"/><polygon points="370.0,81.5 420.7,110.8 420.7,169.3 370.0,198.5 319.3,169.3 319.3,110.8" fill="none" stroke="#30363d" stroke-width="1"/><polygon points="370.0,62.0 437.5,101.0 437.5,179.0 370.0,218.0 302.5,179.0 302.5,101.0" fill="none" stroke="#30363d" stroke-width="1"/><line x1="370" y1="140" x2="370.0" y2="62.0" stroke="#30363d" stroke-width="1"/><line x1="370" y1="140" x2="437.5" y2="101.0" stroke="#30363d" stroke-width="1"/><line x1="370" y1="140" x2="437.5" y2="179.0" stroke="#30363d" stroke-width="1"/><line x1="370" y1="140" x2="370.0" y2="218.0" stroke="#30363d" stroke-width="1"/><line x1="370" y1="140" x2="302.5" y2="179.0" stroke="#30363d" stroke-width="1"/><line x1="370" y1="140" x2="302.5" y2="101.0" stroke="#30363d" stroke-width="1"/><polygon points="370.0,62.0 412.6,115.4 406.5,161.1 370.0,140.0 343.7,155.2 312.6,106.8" fill="rgba(88,166,255,0.30)" stroke="#58a6ff" stroke-width="2"/><circle cx="370.0" cy="62.0" r="2.5" fill="#58a6ff"/><circle cx="412.6" cy="115.4" r="2.5" fill="#58a6ff"/><circle cx="406.5" cy="161.1" r="2.5" fill="#58a6ff"/><circle cx="370.0" cy="140.0" r="2.5" fill="#58a6ff"/><circle cx="343.7" cy="155.2" r="2.5" fill="#58a6ff"/><circle cx="312.6" cy="106.8" r="2.5" fill="#58a6ff"/><text x="370.0" y="49.0" fill="#8b949e" font-size="9" text-anchor="middle">AI/ML 100</text><text x="451.4" y="96.0" fill="#8b949e" font-size="9" text-anchor="start">Backend 63</text><text x="451.4" y="190.0" fill="#8b949e" font-size="9" text-anchor="start">Frontend 54</text><text x="370.0" y="237.0" fill="#8b949e" font-size="9" text-anchor="middle">Infra/DevOps 0</text><text x="288.6" y="190.0" fill="#8b949e" font-size="9" text-anchor="end">Systems 39</text><text x="288.6" y="96.0" fill="#8b949e" font-size="9" text-anchor="end">Activity 85</text>
+</svg>

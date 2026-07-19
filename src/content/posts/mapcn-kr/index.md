@@ -10,6 +10,12 @@ draft: false
 
 React에서 한국 지도를 그려야 할 일이 있었는데요. 찾아보니 쓸 만한 게 없었습니다. southkorea-maps는 2018년에 업데이트가 멈췄고 react-simple-south-korea-map-chart는 SVG로 시도 단위까지만 그려줘요. 실제 지도 타일 위에 행정 경계를 얹고 시도에서 시군구, 행정동, 리(里)까지 파고 내려가는 물건은 없더라구요. 그래서 만들었습니다. **mapcn-kr**이에요.
 
+<video src="/videos/mapcn-demo-light.mp4" autoplay loop muted playsinline style="width:100%;border-radius:0.75rem"></video>
+
+경상북도 → 안동시 → 와룡면 → 리까지 실제로 내려가는 모습입니다. 다크 모드도 지원해요.
+
+<video src="/videos/mapcn-demo-dark.mp4" autoplay loop muted playsinline style="width:100%;border-radius:0.75rem"></video>
+
 mapcn이라는 프로젝트가 있습니다. shadcn/ui 스타일로 지도 컴포넌트를 제공하는 건데요. 그 위에 대한민국 행정구역 레이어를 얹는 컴포넌트를 만들어서 shadcn 레지스트리로 배포했습니다. 설치는 한 줄이에요.
 
 ```bash
