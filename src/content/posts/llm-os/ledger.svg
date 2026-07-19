@@ -1,0 +1,47 @@
+<svg viewBox="0 0 1000 380" xmlns="http://www.w3.org/2000/svg" font-family="Apple SD Gothic Neo, Pretendard, sans-serif">
+  <rect width="1000" height="380" rx="16" fill="#111a30"/>
+  <text x="500" y="52" text-anchor="middle" fill="#e8edfb" font-size="24" font-weight="700">커밋먼트 원장 — 약속의 상태 기계</text>
+
+  <!-- main flow -->
+  <g>
+    <g transform="translate(60,120)">
+      <rect width="170" height="70" rx="35" fill="#1b2748" stroke="#6b8cff" stroke-width="2"/>
+      <text x="85" y="43" text-anchor="middle" fill="#dfe6fa" font-size="19" font-weight="700">요청</text>
+    </g>
+    <g transform="translate(300,120)">
+      <rect width="170" height="70" rx="35" fill="#1b2748" stroke="#58c7d8" stroke-width="2"/>
+      <text x="85" y="43" text-anchor="middle" fill="#dfe6fa" font-size="19" font-weight="700">약속</text>
+    </g>
+    <g transform="translate(540,120)">
+      <rect width="170" height="70" rx="35" fill="#1b2748" stroke="#8a7cf0" stroke-width="2"/>
+      <text x="85" y="43" text-anchor="middle" fill="#dfe6fa" font-size="19" font-weight="700">이행</text>
+    </g>
+    <g transform="translate(780,120)">
+      <rect width="170" height="70" rx="35" fill="#22305c" stroke="#f0b45c" stroke-width="2.5"/>
+      <text x="85" y="36" text-anchor="middle" fill="#ffd9a0" font-size="19" font-weight="700">인수</text>
+      <text x="85" y="57" text-anchor="middle" fill="#b3a67e" font-size="12.5">증거 제출로 청산</text>
+    </g>
+  </g>
+  <g stroke="#5b79e8" stroke-width="2.5" fill="none">
+    <path d="M235 155 H 292"/><path d="M475 155 H 532"/><path d="M715 155 H 772"/>
+  </g>
+  <g fill="#5b79e8">
+    <path d="M296 155 l -13 -7 v 14 z"/><path d="M536 155 l -13 -7 v 14 z"/><path d="M776 155 l -13 -7 v 14 z"/>
+  </g>
+
+  <!-- renegotiation branch -->
+  <g transform="translate(370,270)">
+    <rect width="260" height="62" rx="31" fill="none" stroke="#e8607a" stroke-width="2" stroke-dasharray="7 6"/>
+    <text x="130" y="38" text-anchor="middle" fill="#e8909f" font-size="17" font-weight="700">파기 → 재협상</text>
+  </g>
+  <g stroke="#e8607a" stroke-width="2" stroke-dasharray="6 5" fill="none">
+    <path d="M600 195 C 590 235, 560 260, 520 272"/>
+    <path d="M400 272 C 370 250, 380 215, 386 198"/>
+  </g>
+  <g fill="#e8607a">
+    <path d="M516 274 l -14 3 l 10 9 z"/>
+    <path d="M387 194 l -8 12 l 13 1 z"/>
+  </g>
+  <text x="120" y="300" fill="#5f6f9a" font-size="14">"완료했습니다"는 발화가 아니라</text>
+  <text x="120" y="322" fill="#5f6f9a" font-size="14">원장에서 청산해야 하는 계약</text>
+</svg>
