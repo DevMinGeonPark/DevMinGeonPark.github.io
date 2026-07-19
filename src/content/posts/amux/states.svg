@@ -1,0 +1,40 @@
+<svg viewBox="0 0 1000 440" xmlns="http://www.w3.org/2000/svg" font-family="Apple SD Gothic Neo, Pretendard, sans-serif">
+  <rect width="1000" height="440" rx="12" fill="#ffffff" stroke="#111111" stroke-width="2"/>
+  <text x="500" y="56" text-anchor="middle" fill="#111111" font-size="24" font-weight="700">여섯 가지 세션 상태 — 화면을 읽어 판정한다</text>
+
+  <g font-family="Menlo, monospace">
+    <g transform="translate(70,100)">
+      <rect width="270" height="86" rx="8" fill="#ffffff" stroke="#111111" stroke-width="2"/>
+      <text x="24" y="36" fill="#111111" font-size="18" font-weight="700">▸ working</text>
+      <text x="24" y="64" fill="#555555" font-size="13.5" font-family="Apple SD Gothic Neo">생성·실행 중 — 두면 된다</text>
+    </g>
+    <g transform="translate(365,100)">
+      <rect width="270" height="86" rx="8" fill="#111111"/>
+      <text x="24" y="36" fill="#ffffff" font-size="18" font-weight="700">◆ needs you</text>
+      <text x="24" y="64" fill="#cccccc" font-size="13.5" font-family="Apple SD Gothic Neo">권한·선택 대기 — 최우선 처리</text>
+    </g>
+    <g transform="translate(660,100)">
+      <rect width="270" height="86" rx="8" fill="#ffffff" stroke="#111111" stroke-width="2"/>
+      <text x="24" y="36" fill="#111111" font-size="18" font-weight="700">◇ asking</text>
+      <text x="24" y="64" fill="#555555" font-size="13.5" font-family="Apple SD Gothic Neo">마지막 메시지가 질문</text>
+    </g>
+    <g transform="translate(70,216)">
+      <rect width="270" height="86" rx="8" fill="#ffffff" stroke="#111111" stroke-width="2"/>
+      <text x="24" y="36" fill="#111111" font-size="18" font-weight="700">✎ typing</text>
+      <text x="24" y="64" fill="#555555" font-size="13.5" font-family="Apple SD Gothic Neo">입력창에 쓰다 만 초안</text>
+    </g>
+    <g transform="translate(365,216)">
+      <rect width="270" height="86" rx="8" fill="#ffffff" stroke="#111111" stroke-width="2"/>
+      <text x="24" y="36" fill="#111111" font-size="18" font-weight="700">● idle</text>
+      <text x="24" y="64" fill="#555555" font-size="13.5" font-family="Apple SD Gothic Neo">조용히 입력 대기</text>
+    </g>
+    <g transform="translate(660,216)">
+      <rect width="270" height="86" rx="8" fill="#ffffff" stroke="#999999" stroke-width="2" stroke-dasharray="6 5"/>
+      <text x="24" y="36" fill="#777777" font-size="18" font-weight="700">○ dormant</text>
+      <text x="24" y="64" fill="#999999" font-size="13.5" font-family="Apple SD Gothic Neo">N일째 무활동 — 잊힌 세션</text>
+    </g>
+  </g>
+
+  <line x1="70" y1="342" x2="930" y2="342" stroke="#dddddd" stroke-width="1.5"/>
+  <text x="500" y="386" text-anchor="middle" fill="#555555" font-size="15">tmux 라이브 화면 캡처 → 선택 박스 · 스피너 · 프롬프트 신호를 우선순위대로 판정</text>
+</svg>
