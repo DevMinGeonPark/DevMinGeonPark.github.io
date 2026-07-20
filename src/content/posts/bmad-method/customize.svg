@@ -1,0 +1,29 @@
+<svg viewBox="0 0 1000 400" xmlns="http://www.w3.org/2000/svg" font-family="Apple SD Gothic Neo, Pretendard, sans-serif">
+  <rect width="1000" height="400" rx="12" fill="#ffffff" stroke="#111111" stroke-width="2"/>
+  <text x="500" y="54" text-anchor="middle" fill="#111111" font-size="24" font-weight="700">3층 오버라이드 — 업데이트가 우리 규칙을 지우지 않는 구조</text>
+
+  <g font-family="Menlo, monospace">
+    <g transform="translate(120,96)">
+      <rect width="760" height="76" rx="8" fill="#eeeeee" stroke="#999999" stroke-width="2" stroke-dasharray="7 6"/>
+      <text x="24" y="32" fill="#555555" font-size="15" font-weight="700">skills/&lt;skill&gt;/customize.toml</text>
+      <text x="24" y="58" fill="#999999" font-size="13.5" font-family="Apple SD Gothic Neo">배포본 — "편집하지 마라, 업데이트마다 덮어쓴다"</text>
+    </g>
+    <g transform="translate(120,196)">
+      <rect width="760" height="76" rx="8" fill="#ffffff" stroke="#111111" stroke-width="2"/>
+      <text x="24" y="32" fill="#111111" font-size="15" font-weight="700">_bmad/custom/&lt;skill&gt;.toml</text>
+      <text x="24" y="58" fill="#555555" font-size="13.5" font-family="Apple SD Gothic Neo">팀 규칙 — 컴플라이언스 · 코딩 표준 · 활성화 절차</text>
+    </g>
+    <g transform="translate(120,296)">
+      <rect width="760" height="76" rx="8" fill="#ffffff" stroke="#111111" stroke-width="2.5"/>
+      <text x="24" y="32" fill="#111111" font-size="15" font-weight="700">_bmad/custom/&lt;skill&gt;.user.toml</text>
+      <text x="24" y="58" fill="#555555" font-size="13.5" font-family="Apple SD Gothic Neo">개인 취향 — 가장 높은 우선순위</text>
+    </g>
+  </g>
+
+  <g stroke="#111111" stroke-width="2" fill="none">
+    <path d="M60 134 V 334"/>
+  </g>
+  <path d="M60 334 l -6 -12 h 12 z" fill="#111111"/>
+  <text x="46" y="240" fill="#555555" font-size="13" text-anchor="end" font-family="Apple SD Gothic Neo">우선순위</text>
+  <text x="500" y="392" text-anchor="middle" fill="#555555" font-size="14">병합 규칙: 스칼라는 덮어쓰기 · 배열은 이어붙이기</text>
+</svg>

@@ -1,0 +1,33 @@
+<svg viewBox="0 0 1000 420" xmlns="http://www.w3.org/2000/svg" font-family="Apple SD Gothic Neo, Pretendard, sans-serif">
+  <rect width="1000" height="420" rx="12" fill="#ffffff" stroke="#111111" stroke-width="2"/>
+  <text x="500" y="54" text-anchor="middle" fill="#111111" font-size="24" font-weight="700">내 메모가 틀린 세 지점</text>
+
+  <g transform="translate(60,90)">
+    <rect width="380" height="290" rx="10" fill="#ffffff" stroke="#999999" stroke-width="2" stroke-dasharray="7 6"/>
+    <text x="28" y="44" fill="#999999" font-size="18" font-weight="700">내 메모 (v4/v5 기준)</text>
+    <g font-size="15" fill="#999999">
+      <text x="28" y="92">· 고정 애자일 페르소나 프레임워크</text>
+      <text x="28" y="130">· 순수 자문형 — 조언만</text>
+      <text x="28" y="168">· 모든 작업에 같은 무게</text>
+      <text x="28" y="206">· 토큰 비용 부담</text>
+    </g>
+    <line x1="28" y1="236" x2="352" y2="236" stroke="#dddddd" stroke-width="1.5"/>
+    <text x="28" y="266" fill="#999999" font-size="13.5">몇 달 전 조사에서 그대로 굳음</text>
+  </g>
+
+  <g transform="translate(560,90)">
+    <rect width="380" height="290" rx="10" fill="#ffffff" stroke="#111111" stroke-width="2.5"/>
+    <text x="28" y="44" fill="#111111" font-size="18" font-weight="700">실제 v6</text>
+    <g font-size="15" fill="#111111">
+      <text x="28" y="92">· 스킬 아키텍처 + 모듈 생태계</text>
+      <text x="28" y="130">· 스크립트 실행 · memlog 감사 강제</text>
+      <text x="28" y="168">· 규모 적응 — 이해관계 3단 보정</text>
+      <text x="28" y="206">· 비용은 여전한 쟁점 (웹 번들 우회)</text>
+    </g>
+    <line x1="28" y1="236" x2="352" y2="236" stroke="#dddddd" stroke-width="1.5"/>
+    <text x="28" y="266" fill="#555555" font-size="13.5">저장소를 직접 열어보고 갱신</text>
+  </g>
+
+  <g stroke="#111111" stroke-width="2.5" fill="none"><path d="M455 235 H 545"/></g>
+  <path d="M549 235 l -13 -7 v 14 z" fill="#111111"/>
+</svg>
