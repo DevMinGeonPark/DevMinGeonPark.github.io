@@ -1,0 +1,60 @@
+<svg viewBox="0 0 1000 520" xmlns="http://www.w3.org/2000/svg" font-family="Apple SD Gothic Neo, Pretendard, sans-serif">
+  <rect width="1000" height="520" rx="12" fill="#ffffff" stroke="#111111" stroke-width="2"/>
+  <text x="500" y="54" text-anchor="middle" fill="#111111" font-size="24" font-weight="700">설치부터 첫 스토리까지 — 트랙별 경로</text>
+
+  <!-- install -->
+  <g transform="translate(330,84)">
+    <rect width="340" height="60" rx="8" fill="#111111"/>
+    <text x="170" y="27" text-anchor="middle" fill="#ffffff" font-size="15" font-weight="700" font-family="Menlo, monospace">npx bmad-method install</text>
+    <text x="170" y="48" text-anchor="middle" fill="#cccccc" font-size="13">→ bmad-help 로 시작점 확인</text>
+  </g>
+  <path d="M500 144 V 172" stroke="#111111" stroke-width="2" fill="none"/>
+  <path d="M500 176 l -6 -11 h 12 z" fill="#111111"/>
+
+  <!-- fork -->
+  <text x="500" y="196" text-anchor="middle" fill="#555555" font-size="14">규모에 따라 트랙 선택</text>
+
+  <!-- quick flow -->
+  <g transform="translate(50,218)">
+    <rect width="270" height="250" rx="10" fill="#eeeeee" stroke="#111111" stroke-width="2"/>
+    <text x="135" y="36" text-anchor="middle" fill="#111111" font-size="17" font-weight="700">Quick Flow</text>
+    <text x="135" y="58" text-anchor="middle" fill="#555555" font-size="13">버그·소규모 (1~15 스토리)</text>
+    <line x1="24" y1="76" x2="246" y2="76" stroke="#cccccc" stroke-width="1.5"/>
+    <g font-size="14" font-family="Menlo, monospace" fill="#111111">
+      <text x="24" y="112">bmad-quick-dev</text>
+    </g>
+    <g font-size="13" fill="#555555">
+      <text x="24" y="146">기획 + 구현을 한 워크플로에서</text>
+      <text x="24" y="172">개입 지점 3개:</text>
+      <text x="24" y="196">· 의도 명확화</text>
+      <text x="24" y="218">· 스펙 승인</text>
+      <text x="24" y="240">· 최종 결과 리뷰</text>
+    </g>
+  </g>
+
+  <!-- full method -->
+  <g transform="translate(350,218)">
+    <rect width="600" height="250" rx="10" fill="#ffffff" stroke="#111111" stroke-width="2.5"/>
+    <text x="300" y="36" text-anchor="middle" fill="#111111" font-size="17" font-weight="700">BMad Method / Enterprise</text>
+    <text x="300" y="58" text-anchor="middle" fill="#555555" font-size="13">제품·플랫폼 (10~50+ 스토리) — 워크플로마다 새 채팅</text>
+    <line x1="24" y1="76" x2="576" y2="76" stroke="#cccccc" stroke-width="1.5"/>
+    <g font-family="Menlo, monospace" font-size="13.5" fill="#111111">
+      <text x="30" y="108">bmad-prd</text>
+      <text x="30" y="136">bmad-ux</text>
+      <text x="30" y="164">bmad-architecture</text>
+      <text x="30" y="192">bmad-create-epics-and-stories</text>
+      <text x="30" y="220">bmad-check-implementation-readiness</text>
+    </g>
+    <g font-size="12.5" fill="#555555">
+      <text x="330" y="108">PRD 생성·수정·검증</text>
+      <text x="330" y="136">UI 있을 때만</text>
+      <text x="330" y="164">기술 결정 명시</text>
+      <text x="330" y="192">아키텍처 다음에 분해 (v6 변경)</text>
+      <text x="330" y="220">PASS / CONCERNS / FAIL 게이트</text>
+    </g>
+  </g>
+
+  <!-- build cycle -->
+  <path d="M650 468 V 490" stroke="#111111" stroke-width="2" fill="none"/>
+  <text x="500" y="504" text-anchor="middle" fill="#111111" font-size="14" font-weight="700">구현 사이클 (스토리마다 반복): sprint-planning → create-story → dev-story → code-review → retrospective</text>
+</svg>
