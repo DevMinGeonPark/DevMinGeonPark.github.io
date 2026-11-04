@@ -6,6 +6,7 @@ image: ./cover.png
 tags: [BMAD, 방법론, Claude, 에이전트, 튜토리얼]
 category: AI
 draft: false
+pinned: 4
 ---
 
 방법론 하네스를 조사하다가 **BMAD-METHOD**를 다시 열어봤습니다. 별 5만 개, 포크 5.8천 개. AI 개발 방법론 프레임워크 중에선 사실상 최대 규모예요.

@@ -13,10 +13,6 @@
 - [gaejo](https://github.com/DevMinGeonPark/gaejo) — 한국 연구 발표 개조식(箇條式) 변환·검증 도구
 - [ai-stat-sheet](https://github.com/DevMinGeonPark/ai-stat-sheet) — GitHub 활동을 RPG 스탯 카드로
 
-::github{repo="DevMinGeonPark/mapcn-kr"}
-
-::github{repo="DevMinGeonPark/amux"}
-
 ## 연락
 
 - GitHub: [@DevMinGeonPark](https://github.com/DevMinGeonPark)

@@ -6,6 +6,7 @@ image: ./cover.png
 tags: [LLM, Agent, 지식관리]
 category: AI
 draft: false
+pinned: 1
 ---
 
 집에 헤드리스 Mac mini 한 대를 두고 AI 에이전트를 돌린다. 코드 리뷰도 시키고 크롤러도 돌리고 배포 상태도 감시하게 한다. 몇 달 이렇게 살다 보니 이상한 데서 스트레스가 쌓였다. 에이전트가 일을 못해서가 아니라 매번 같은 설명을 반복해야 해서였다.
