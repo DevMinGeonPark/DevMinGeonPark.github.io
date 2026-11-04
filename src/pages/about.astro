@@ -1,21 +1,281 @@
 ---
+import { getImage } from "astro:assets";
 import { getEntry } from "astro:content";
+import profile from "@/assets/images/profile.jpg";
+import AboutHero from "@/components/AboutHero.astro";
+import RowList from "@/components/RowList.astro";
+import { AX, CAREER, PROJECTS, RESEARCH, TALKS } from "@/data/about";
 import Base from "@/layouts/Base.astro";
-import "@/styles/prose.css";
+import { SITE } from "@/site";
 
 const about = await getEntry("spec", "about");
 if (!about) throw new Error("src/content/spec/about.md is missing");
 const { Content } = await about.render();
+
+const og = await getImage({ src: profile, width: 600 });
+const jsonLd = {
+	"@context": "https://schema.org",
+	"@type": "ProfilePage",
+	mainEntity: {
+		"@type": "Person",
+		name: SITE.author,
+		alternateName: SITE.authorEn,
+		jobTitle: "AI Engineer",
+		image: new URL(og.src, Astro.site),
+		url: new URL("/about/", Astro.site),
+		sameAs: [SITE.github],
+		knowsAbout: ["AI Transformation", "LLM agents", "RAG", "LLM evaluation"],
+	},
+};
 ---
 
-<Base title="소개">
-	<article class="card about prose"><Content /></article>
+<Base title="소개" description={`${SITE.author}(${SITE.authorEn}) — AI 엔지니어. ${SITE.description}`} image={og.src}>
+	<script slot="head" type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+
+	<AboutHero />
+
+	<section class="sec" aria-labelledby="now-h">
+		<div class="sec-h"><h2 id="now-h">지금 관심사</h2></div>
+		<div class="card now" data-reveal><Content /></div>
+	</section>
+
+	<section class="sec" aria-labelledby="ax-h">
+		<div class="sec-h">
+			<h2 id="ax-h">하는 일</h2>
+			<span class="label">AX · 발굴 → 구축 → 교육 → 이관</span>
+		</div>
+		<p class="context" data-reveal>{AX.context}</p>
+		<div class="ax">
+			{AX.cards.map((c, i) => (
+				<article class:list={["card", "ax-card", { dark: i === 0 }]} data-reveal style={`transition-delay:${i * 90}ms`}>
+					<span class="big">{c.big}</span>
+					<h3>{c.title}</h3>
+					<p>{c.body}</p>
+					<footer class="mono">
+						<span class="stage">{c.stage}</span>
+						{c.note && <span>* {c.note}</span>}
+					</footer>
+				</article>
+			))}
+		</div>
+	</section>
+
+	<section class="sec" aria-labelledby="career-h">
+		<div class="sec-h">
+			<h2 id="career-h">경력</h2>
+			<span class="label">최근순</span>
+		</div>
+		<div class="card pad"><RowList rows={CAREER} timeline /></div>
+	</section>
+
+	<section class="sec" aria-labelledby="research-h">
+		<div class="sec-h">
+			<h2 id="research-h">연구 · 강의</h2>
+			<span class="label">발표 2 · 특허 출원 3 · 강의 2</span>
+		</div>
+		<div class="card pad"><RowList rows={[...RESEARCH, ...TALKS]} /></div>
+	</section>
+
+	<section class="sec" aria-labelledby="made-h">
+		<div class="sec-h">
+			<h2 id="made-h">만든 것</h2>
+			<a class="label" href={SITE.github}>GitHub에서 전체 보기 ↗</a>
+		</div>
+		<div class="projects">
+			{PROJECTS.map((p, i) => (
+				<a class="card project" href={`${SITE.github}/${p.name}`} data-reveal style={`transition-delay:${(i % 3) * 70}ms`}>
+					<span class="mono name">{p.name}</span>
+					<span class="desc">{p.desc}</span>
+					<span class="mono lang">{p.lang}</span>
+					<span class="arrow" aria-hidden="true">↗</span>
+				</a>
+			))}
+		</div>
+	</section>
+
+	<section class="card outro" data-reveal>
+		<div>
+			<span class="label">더 보기</span>
+			<p>작업 과정은 글로 남기고, 코드는 GitHub에 공개합니다.</p>
+		</div>
+		<div class="outro-actions">
+			<a class="pill" href={SITE.github}>GitHub @{SITE.handle}</a>
+			<a class="pill dark-pill" href="/">글 보러 가기 →</a>
+		</div>
+	</section>
 </Base>
 
+<script>
+	import { reveal } from "@/scripts/reveal";
+	reveal();
+</script>
+
 <style>
-	.about {
-		max-width: var(--measure);
-		margin: 20px auto 0;
-		padding: 36px clamp(20px, 5vw, 48px);
+	.now {
+		padding: 28px clamp(22px, 4vw, 40px);
+	}
+	.now :global(p) {
+		margin: 0 0 12px;
+		max-width: 52em;
+		font-size: 1.12rem;
+		line-height: 1.85;
+	}
+	.now :global(p:last-child) {
+		margin: 0;
+	}
+	.context {
+		max-width: 46em;
+		margin: 0 0 18px;
+		font-size: 1.05rem;
+	}
+	.ax {
+		display: grid;
+		grid-template-columns: 1.3fr 1fr 1fr;
+		gap: 18px;
+	}
+	.ax-card {
+		display: flex;
+		flex-direction: column;
+		gap: 8px;
+		padding: 28px 26px;
+		transition:
+			opacity 0.6s ease,
+			transform 0.6s cubic-bezier(0.2, 0.7, 0.2, 1),
+			box-shadow 0.2s;
+	}
+	.ax-card:hover {
+		box-shadow: 0 10px 30px rgb(0 0 0 / 0.12);
+	}
+	.big {
+		font-size: clamp(2rem, 3.6vw, 2.8rem);
+		font-weight: 800;
+		letter-spacing: -0.05em;
+		line-height: 1.1;
+	}
+	.ax-card h3 {
+		margin: 6px 0 0;
+		font-size: 1.05rem;
+	}
+	.ax-card p {
+		margin: 0;
+		font-size: 0.92rem;
+		color: var(--mute);
+	}
+	.ax-card footer {
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: space-between;
+		gap: 6px 12px;
+		margin-top: auto;
+		padding-top: 16px;
+	}
+	.stage {
+		color: var(--brand);
+	}
+	.dark .stage {
+		color: var(--term-green);
+	}
+	.dark {
+		background: var(--term-bg);
+		color: var(--term-fg);
+	}
+	.dark .big {
+		background: linear-gradient(90deg, var(--term-green), var(--term-key));
+		-webkit-background-clip: text;
+		background-clip: text;
+		color: transparent;
+	}
+	.dark p,
+	.dark footer {
+		color: var(--term-mute);
+	}
+	.pad {
+		padding: 8px 28px;
+	}
+	.projects {
+		display: grid;
+		grid-template-columns: repeat(3, minmax(0, 1fr));
+		gap: 18px;
+	}
+	.project {
+		position: relative;
+		display: grid;
+		gap: 6px;
+		padding: 22px 24px;
+		transition:
+			opacity 0.6s ease,
+			transform 0.6s cubic-bezier(0.2, 0.7, 0.2, 1),
+			box-shadow 0.2s;
+	}
+	.project:hover {
+		box-shadow: 0 10px 30px rgb(0 0 0 / 0.12);
+	}
+	.project:hover .arrow {
+		transform: translate(3px, -3px);
+		color: var(--ink);
+	}
+	.name {
+		font-size: 0.92rem;
+		font-weight: 500;
+		color: var(--ink);
+	}
+	.desc {
+		font-size: 0.9rem;
+		color: var(--mute);
+	}
+	.lang {
+		margin-top: 8px;
+	}
+	.lang::before {
+		content: "● ";
+		color: var(--brand);
+	}
+	.outro {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		justify-content: space-between;
+		gap: 16px;
+		margin-top: 48px;
+		padding: 28px clamp(22px, 4vw, 40px);
+	}
+	.outro p {
+		margin: 4px 0 0;
+		font-size: 1.05rem;
+	}
+	.outro-actions {
+		display: flex;
+		gap: 8px;
+	}
+	.outro .pill {
+		height: 38px;
+		padding: 0 16px;
+		font-size: 0.86rem;
+	}
+	.dark-pill {
+		background: var(--ink);
+		color: var(--card);
+	}
+	.arrow {
+		position: absolute;
+		top: 18px;
+		right: 20px;
+		color: var(--mute);
+		transition: transform 0.2s;
+	}
+	@media (max-width: 900px) {
+		.ax,
+		.projects {
+			grid-template-columns: 1fr 1fr;
+		}
+		.ax-card.dark {
+			grid-column: 1 / -1;
+		}
+	}
+	@media (max-width: 560px) {
+		.ax,
+		.projects {
+			grid-template-columns: 1fr;
+		}
 	}
 </style>

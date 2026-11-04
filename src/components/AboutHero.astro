@@ -1,0 +1,184 @@
+---
+import { Image } from "astro:assets";
+import profile from "@/assets/images/profile.jpg";
+import { PROJECTS, STACK, STATS } from "@/data/about";
+import { getPosts } from "@/lib/posts";
+import { SITE } from "@/site";
+
+const stats = [
+	...STATS,
+	{ value: PROJECTS.length, unit: "개", label: "공개 프로젝트" },
+	{ value: (await getPosts()).length, unit: "편", label: "블로그 글" },
+];
+---
+
+<section class="card hero">
+	<div class="photo-wrap">
+		<Image class="photo" src={profile} alt={`${SITE.author} 프로필 사진`} width={720} loading="eager" />
+	</div>
+	<div class="body">
+		<span class="label">AI 엔지니어 · AX · {SITE.authorEn}</span>
+		<h1>{SITE.author}</h1>
+		<p class="lead">{SITE.description}</p>
+		<dl class="stats">
+			{stats.map((s) => (
+				<div>
+					<dt class="label">{s.label}</dt>
+					<dd><b data-count={s.value}>{s.value}</b>{s.unit}</dd>
+				</div>
+			))}
+		</dl>
+		<div class="links">
+			<a class="pill" href={SITE.github}>GitHub @{SITE.handle}</a>
+			<a class="pill" href="/rss.xml">RSS</a>
+			<a class="pill" href="/">글 목록</a>
+		</div>
+	</div>
+	<div class="marquee" aria-hidden="true">
+		<div class="track">
+			{[0, 1].map(() => STACK.map((s) => <span>{s}</span>))}
+		</div>
+	</div>
+</section>
+
+<script>
+	// Count stats up from 0 once on load.
+	if (!matchMedia("(prefers-reduced-motion: reduce)").matches) {
+		for (const el of document.querySelectorAll<HTMLElement>("[data-count]")) {
+			const target = Number(el.dataset.count);
+			const start = performance.now();
+			const tick = (now: number) => {
+				const t = Math.min(1, (now - start) / 1100);
+				el.textContent = String(Math.round(target * (1 - (1 - t) ** 3)));
+				if (t < 1) requestAnimationFrame(tick);
+			};
+			requestAnimationFrame(tick);
+		}
+	}
+</script>
+
+<style>
+	.hero {
+		display: grid;
+		grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+		overflow: hidden;
+		margin-top: 20px;
+	}
+	/* Studio photo has a white backdrop: frame it so it reads as a photo, dim it in dark mode. */
+	.photo-wrap {
+		position: relative;
+		min-height: 440px;
+		padding: 20px 0 20px 20px;
+	}
+	.photo-wrap :global(.photo) {
+		position: absolute;
+		inset: 20px 0 20px 20px;
+		width: calc(100% - 20px);
+		height: calc(100% - 40px);
+		object-fit: cover;
+		object-position: 50% 12%;
+		border-radius: 8px;
+		box-shadow: inset 0 0 0 1px var(--rule);
+		filter: var(--photo, none);
+	}
+	.body {
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		gap: 16px;
+		padding: 44px clamp(22px, 4vw, 56px) 36px;
+	}
+	h1 {
+		margin: -6px 0 0;
+		font-size: clamp(2.8rem, 6vw, 4.2rem);
+		font-weight: 800;
+		letter-spacing: -0.05em;
+		line-height: 1.05;
+	}
+	.lead {
+		margin: 0;
+		max-width: 34em;
+		font-size: 1.15rem;
+		line-height: 1.65;
+	}
+	.stats {
+		display: grid;
+		grid-template-columns: repeat(4, minmax(0, 1fr));
+		gap: 10px;
+		margin: 8px 0 0;
+	}
+	.stats div {
+		padding: 14px 14px 12px;
+		border-radius: 8px;
+		background: var(--fill);
+	}
+	dd {
+		margin: 4px 0 0;
+		font-size: 0.9rem;
+		color: var(--mute);
+	}
+	dd b {
+		margin-right: 2px;
+		font-size: 2rem;
+		font-weight: 800;
+		letter-spacing: -0.04em;
+		color: var(--ink);
+		font-variant-numeric: tabular-nums;
+	}
+	.links {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 8px;
+		margin-top: 4px;
+	}
+	.marquee {
+		grid-column: 1 / -1;
+		overflow: hidden;
+		padding: 14px 0;
+		background: var(--term-bg);
+		mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
+	}
+	.track {
+		display: flex;
+		gap: 28px;
+		width: max-content;
+		animation: slide 40s linear infinite;
+	}
+	.track span {
+		font-family: var(--mono);
+		font-size: 0.8rem;
+		color: var(--term-fg);
+		white-space: nowrap;
+	}
+	.track span::before {
+		content: "▸ ";
+		color: var(--term-green);
+	}
+	@keyframes slide {
+		to {
+			transform: translateX(-50%);
+		}
+	}
+	@media (prefers-reduced-motion: reduce) {
+		.track {
+			animation: none;
+		}
+	}
+	@media (max-width: 860px) {
+		.hero {
+			grid-template-columns: 1fr;
+		}
+		.photo-wrap {
+			min-height: 380px;
+			padding: 16px 16px 0;
+		}
+		.photo-wrap :global(.photo) {
+			inset: 16px 16px 0;
+			width: calc(100% - 32px);
+			height: calc(100% - 16px);
+		}
+		.stats {
+			grid-template-columns: repeat(2, minmax(0, 1fr));
+		}
+	}
+</style>

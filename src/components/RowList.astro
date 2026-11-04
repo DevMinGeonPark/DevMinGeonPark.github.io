@@ -1,0 +1,98 @@
+---
+// Dated rows. `timeline` draws a connecting line with dots (career).
+import type { Row } from "@/data/about";
+
+interface Props {
+	rows: Row[];
+	timeline?: boolean;
+}
+const { rows, timeline = false } = Astro.props;
+---
+
+<ol class:list={["rows", { timeline }]}>
+	{rows.map((r) => (
+		<li data-reveal>
+			<span class="when mono">{r.when}</span>
+			<div>
+				{r.href ? <a class="title" href={r.href}>{r.title} ↗</a> : <b class="title">{r.title}</b>}
+				<p>{r.detail}</p>
+			</div>
+		</li>
+	))}
+</ol>
+
+<style>
+	.rows {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+	}
+	li {
+		position: relative;
+		display: grid;
+		grid-template-columns: 9.5rem minmax(0, 1fr);
+		gap: 16px;
+		padding: 16px 0;
+		border-top: 1px solid var(--rule);
+	}
+	li:first-child {
+		border-top: 0;
+	}
+	.when {
+		padding-top: 3px;
+	}
+	.title {
+		font-weight: 700;
+		letter-spacing: -0.02em;
+	}
+	a.title:hover {
+		text-decoration: underline;
+		text-underline-offset: 3px;
+	}
+	p {
+		margin: 2px 0 0;
+		font-size: 0.9rem;
+		color: var(--mute);
+	}
+	.timeline li {
+		border-top: 0;
+		padding-left: 26px;
+	}
+	.timeline li::before {
+		content: "";
+		position: absolute;
+		left: 4px;
+		top: 0;
+		bottom: 0;
+		width: 2px;
+		background: var(--rule);
+	}
+	.timeline li::after {
+		content: "";
+		position: absolute;
+		left: 0;
+		top: 22px;
+		width: 10px;
+		height: 10px;
+		border-radius: 50%;
+		background: var(--card);
+		border: 2px solid var(--mute);
+	}
+	.timeline li:first-child::after {
+		background: var(--brand);
+		border-color: var(--brand);
+		box-shadow: 0 0 0 5px color-mix(in srgb, var(--brand) 22%, transparent);
+	}
+	.timeline li:first-child::before {
+		top: 22px;
+	}
+	.timeline li:last-child::before {
+		bottom: calc(100% - 22px);
+	}
+	@media (max-width: 560px) {
+		li {
+			grid-template-columns: 1fr;
+			gap: 2px;
+		}
+	}
+</style>
