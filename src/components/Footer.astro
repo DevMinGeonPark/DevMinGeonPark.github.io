@@ -1,21 +1,21 @@
 ---
-
-import { profileConfig } from "../config";
-import { url } from "../utils/url-utils";
-
-const currentYear = new Date().getFullYear();
+import { SITE } from "@/site";
 ---
 
-<!--<div class="border-t border-[var(&#45;&#45;primary)] mx-16 border-dashed py-8 max-w-[var(&#45;&#45;page-width)] flex flex-col items-center justify-center px-6">-->
-<div class="transition border-t border-black/10 dark:border-white/15 my-10 border-dashed mx-32"></div>
-<!--<div class="transition bg-[oklch(92%_0.01_var(&#45;&#45;hue))] dark:bg-black rounded-2xl py-8 mt-4 mb-8 flex flex-col items-center justify-center px-6">-->
-<div class="transition border-dashed border-[oklch(85%_0.01_var(--hue))] dark:border-white/15 rounded-2xl mb-12 flex flex-col items-center justify-center px-6">
-    <div class="transition text-50 text-sm text-center">
-        &copy; <span id="copyright-year">{currentYear}</span> {profileConfig.name}. All Rights Reserved. /
-        <a class="transition link text-[var(--primary)] font-medium" target="_blank" href={url('rss.xml')}>RSS</a> /
-        <a class="transition link text-[var(--primary)] font-medium" target="_blank" href={url('sitemap-index.xml')}>Sitemap</a><br>
-        Powered by
-        <a class="transition link text-[var(--primary)] font-medium" target="_blank" href="https://astro.build">Astro</a> &
-        <a class="transition link text-[var(--primary)] font-medium" target="_blank" href="https://github.com/saicaca/fuwari">Fuwari</a>
-    </div>
-</div>
+<footer class="container">
+	<span class="label">© {new Date().getFullYear()} {SITE.author} · <a href={SITE.license.url}>{SITE.license.name}</a></span>
+	<span class="label"><a href="/rss.xml">RSS</a> · <a href="/sitemap-index.xml">sitemap</a> · <a href="/llms.txt">llms.txt</a></span>
+</footer>
+
+<style>
+	footer {
+		display: flex;
+		justify-content: space-between;
+		gap: 12px;
+		flex-wrap: wrap;
+		padding-block: 56px 40px;
+	}
+	a:hover {
+		color: var(--ink);
+	}
+</style>

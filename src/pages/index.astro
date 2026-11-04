@@ -1,0 +1,112 @@
+---
+import Hero from "@/components/Hero.astro";
+import PostCard from "@/components/PostCard.astro";
+import Base from "@/layouts/Base.astro";
+import { categoriesOf, getPosts, pinnedOf } from "@/lib/posts";
+import { SITE } from "@/site";
+
+const posts = await getPosts();
+const pinned = pinnedOf(posts);
+const categories = ["전체", ...categoriesOf(posts)];
+
+const jsonLd = {
+	"@context": "https://schema.org",
+	"@type": "Person",
+	name: SITE.author,
+	alternateName: SITE.authorEn,
+	url: Astro.site,
+	sameAs: [SITE.github],
+	knowsAbout: ["AI Transformation", "LLM agents", "Agent workflows", "LLM evaluation"],
+};
+---
+
+<Base>
+	<script slot="head" type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+
+	<Hero />
+
+	{pinned.length > 0 && (
+		<section class="sec" aria-labelledby="pinned-h">
+			<div class="sec-h">
+				<h2 id="pinned-h">Pinned</h2>
+				<span class="label">AI 전환 실무에 관한 글 {pinned.length}편</span>
+			</div>
+			<div class="rail">{pinned.map((post) => <PostCard post={post} />)}</div>
+		</section>
+	)}
+
+	<section class="sec" id="all" aria-labelledby="all-h">
+		<div class="sec-h">
+			<h2 id="all-h">전체 글</h2>
+			<div class="seg" role="group" aria-label="카테고리">
+				{categories.map((c, i) => <button type="button" data-filter={c} aria-pressed={i === 0 ? "true" : "false"}>{c}</button>)}
+			</div>
+		</div>
+		<div class="grid" data-grid>{posts.map((post) => <PostCard post={post} />)}</div>
+	</section>
+</Base>
+
+<script>
+	const buttons = document.querySelectorAll<HTMLButtonElement>("[data-filter]");
+	const cards = document.querySelectorAll<HTMLElement>("[data-grid] [data-category]");
+	for (const b of buttons) {
+		b.addEventListener("click", () => {
+			const c = b.dataset.filter;
+			for (const x of buttons) x.setAttribute("aria-pressed", String(x === b));
+			for (const card of cards) card.hidden = c !== "전체" && card.dataset.category !== c;
+		});
+	}
+</script>
+
+<style>
+	.rail {
+		display: grid;
+		grid-auto-flow: column;
+		grid-auto-columns: min(340px, 78vw);
+		gap: 18px;
+		overflow-x: auto;
+		scroll-snap-type: x mandatory;
+		scrollbar-width: none;
+		padding: 4px 4px 14px;
+		margin: 0 -4px;
+	}
+	.grid {
+		display: grid;
+		grid-template-columns: repeat(3, minmax(0, 1fr));
+		gap: 18px;
+	}
+	.seg {
+		display: inline-flex;
+		flex-wrap: wrap;
+		gap: 2px;
+		padding: 3px;
+		border-radius: 8px;
+		background: var(--fill);
+	}
+	.seg button {
+		padding: 5px 12px;
+		border: 0;
+		border-radius: 6px;
+		background: none;
+		color: var(--mute);
+		font: inherit;
+		font-size: 0.8rem;
+		font-weight: 500;
+		cursor: pointer;
+	}
+	.seg button[aria-pressed="true"] {
+		background: var(--card);
+		color: var(--ink);
+		box-shadow: 0 1px 3px rgb(0 0 0 / 0.1);
+	}
+	@media (max-width: 900px) {
+		.grid {
+			grid-template-columns: repeat(2, minmax(0, 1fr));
+		}
+	}
+	@media (max-width: 560px) {
+		.grid {
+			grid-template-columns: 1fr;
+		}
+	}
+</style>

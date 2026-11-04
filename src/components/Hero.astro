@@ -1,0 +1,149 @@
+---
+import Terminal from "@/components/Terminal.astro";
+import { QUOTE, SITE } from "@/site";
+
+// Bold the key phrase of each quote line.
+const strong = (s: string, phrase: string) => s.replace(phrase, `<b>${phrase}</b>`);
+---
+
+<section class="card hero" aria-label="소개">
+	<Terminal />
+	<div class="body">
+		<span class="label">AI 엔지니어 · AX</span>
+		<div class="name-row">
+			<h1 class="name" data-type-word>MinGeon</h1>
+			<a class="pill" href={SITE.github}>@{SITE.handle}</a>
+		</div>
+		<p class="meaning">{SITE.author}. {SITE.description}</p>
+		<hr />
+		<figure class="quote">
+			<blockquote>
+				<p class="en" set:html={strong(QUOTE.en, "evenly distributed")} />
+				<p class="ko" set:html={strong(QUOTE.ko, "고르게 퍼지지 않았을")} />
+			</blockquote>
+			<figcaption class="label">— {QUOTE.by}</figcaption>
+		</figure>
+		<div class="actions">
+			<a class="btn" href="/rss.xml" aria-label="RSS">
+				<svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><circle cx="3" cy="13" r="2"></circle><path d="M1 6.5v2a6.5 6.5 0 0 1 6.5 6.5h2A8.5 8.5 0 0 0 1 6.5zm0-5v2A11.5 11.5 0 0 1 12.5 15h2A13.5 13.5 0 0 0 1 1.5z"></path></svg>
+			</a>
+			<span class="spacer"></span>
+			<span class="label">전체 글</span>
+			<a class="btn primary" href="#all" aria-label="전체 글로 이동">
+				<svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M7 4l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+			</a>
+		</div>
+	</div>
+</section>
+
+<script>
+	import { mountTerminal } from "@/scripts/terminal";
+
+	const word = document.querySelector<HTMLElement>("[data-type-word]");
+	const term = document.querySelector<HTMLElement>("[data-terminal]");
+	const animate = !matchMedia("(prefers-reduced-motion: reduce)").matches;
+	const full = word?.textContent ?? "";
+
+	if (word && animate) word.textContent = "";
+	if (term) mountTerminal(term, () => word && animate && typeWord(word, full));
+
+	async function typeWord(el: HTMLElement, text: string) {
+		el.classList.add("caret");
+		for (const ch of text) {
+			el.textContent += ch;
+			await new Promise((r) => setTimeout(r, 90));
+		}
+		setTimeout(() => el.classList.remove("caret"), 1400);
+	}
+</script>
+
+<style>
+	.hero {
+		display: grid;
+		grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+		overflow: hidden;
+		margin-top: 20px;
+	}
+	.body {
+		display: flex;
+		flex-direction: column;
+		gap: 14px;
+		padding: 36px 40px 30px;
+	}
+	.name-row {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		gap: 12px;
+	}
+	.name {
+		margin: 0;
+		min-height: 1.05em;
+		font-size: clamp(2.6rem, 6vw, 3.6rem);
+		font-weight: 800;
+		letter-spacing: -0.045em;
+		line-height: 1.05;
+	}
+	.caret::after {
+		content: "";
+		display: inline-block;
+		width: 0.08em;
+		height: 0.9em;
+		margin-left: 3px;
+		vertical-align: -0.08em;
+		background: currentColor;
+		animation: blink 1s steps(1) infinite;
+	}
+	@keyframes blink {
+		50% {
+			opacity: 0;
+		}
+	}
+	.meaning {
+		margin: 0;
+		font-size: 1.18rem;
+	}
+	hr {
+		width: 100%;
+		margin: 0;
+		border: 0;
+		height: 1px;
+		background: var(--rule);
+	}
+	.quote,
+	blockquote {
+		margin: 0;
+	}
+	.quote {
+		display: grid;
+		gap: 6px;
+	}
+	.quote p {
+		margin: 0;
+	}
+	.en {
+		font-size: 1.06rem;
+		line-height: 1.55;
+	}
+	.quote :global(b) {
+		font-weight: 800;
+	}
+	.actions {
+		margin-top: auto;
+		padding-top: 10px;
+		display: flex;
+		align-items: center;
+		gap: 10px;
+	}
+	.spacer {
+		flex: 1;
+	}
+	@media (max-width: 780px) {
+		.hero {
+			grid-template-columns: 1fr;
+		}
+		.body {
+			padding: 28px 22px 22px;
+		}
+	}
+</style>

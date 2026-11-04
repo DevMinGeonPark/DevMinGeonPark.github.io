@@ -1,0 +1,131 @@
+---
+import { getPosts, toSummary } from "@/lib/posts";
+
+const summaries = (await getPosts()).map(toSummary);
+---
+
+<script type="application/json" id="posts-json" set:html={JSON.stringify(summaries).replaceAll("<", "\\u003c")} />
+
+<div id="palette" class="overlay" hidden>
+	<div class="card box" role="dialog" aria-modal="true" aria-label="글 검색">
+		<label for="palette-q">
+			<svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><circle cx="7" cy="7" r="5" fill="none" stroke="currentColor" stroke-width="1.5"></circle><path d="m11 11 3.5 3.5" stroke="currentColor" stroke-width="1.5"></path></svg>
+			<input id="palette-q" type="text" placeholder="제목, 태그, 카테고리로 검색" autocomplete="off" />
+		</label>
+		<ul id="palette-list"></ul>
+	</div>
+</div>
+
+<script>
+	import { escapeHtml, readPosts } from "@/scripts/posts-data";
+
+	const overlay = document.getElementById("palette") as HTMLElement;
+	const input = document.getElementById("palette-q") as HTMLInputElement;
+	const list = document.getElementById("palette-list") as HTMLUListElement;
+	let selected = 0;
+	let shown = readPosts();
+
+	function render() {
+		const q = input.value.trim().toLowerCase();
+		shown = readPosts().filter((p) =>
+			`${p.title} ${p.category} ${p.tags.join(" ")} ${p.description}`.toLowerCase().includes(q),
+		);
+		selected = Math.min(selected, Math.max(0, shown.length - 1));
+		list.innerHTML = shown.length
+			? shown
+					.map((p, i) => `<li><a href="${p.url}" class="${i === selected ? "sel" : ""}">${escapeHtml(p.title)}</a></li>`)
+					.join("")
+			: `<li class="label empty">결과 없음</li>`;
+	}
+	const open = () => {
+		overlay.hidden = false;
+		input.value = "";
+		selected = 0;
+		render();
+		input.focus();
+	};
+	const close = () => {
+		overlay.hidden = true;
+	};
+
+	for (const b of document.querySelectorAll("[data-open-palette]")) b.addEventListener("click", open);
+	input.addEventListener("input", () => {
+		selected = 0;
+		render();
+	});
+	overlay.addEventListener("click", (e) => {
+		if (e.target === overlay) close();
+	});
+	addEventListener("keydown", (e) => {
+		if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "k") {
+			e.preventDefault();
+			overlay.hidden ? open() : close();
+			return;
+		}
+		if (overlay.hidden) return;
+		if (e.key === "Escape") close();
+		else if (e.key === "ArrowDown" || e.key === "ArrowUp") {
+			e.preventDefault();
+			selected = Math.max(0, Math.min(shown.length - 1, selected + (e.key === "ArrowDown" ? 1 : -1)));
+			render();
+		} else if (e.key === "Enter" && shown[selected]) location.href = shown[selected].url;
+	});
+</script>
+
+<style>
+	.overlay {
+		position: fixed;
+		inset: 0;
+		z-index: 40;
+		display: grid;
+		place-items: start center;
+		padding: max(14vh, env(safe-area-inset-top, 0px)) 16px 16px;
+		background: rgb(0 0 0 / 0.3);
+		backdrop-filter: blur(6px);
+		-webkit-backdrop-filter: blur(6px);
+	}
+	.box {
+		width: min(540px, 100%);
+		overflow: hidden;
+	}
+	label {
+		display: flex;
+		align-items: center;
+		gap: 10px;
+		height: 52px;
+		padding: 0 18px;
+		border-bottom: 1px solid var(--rule);
+	}
+	input {
+		flex: 1;
+		min-width: 0;
+		border: 0;
+		outline: 0;
+		background: none;
+		color: var(--ink);
+		font: inherit;
+	}
+	ul {
+		list-style: none;
+		margin: 0;
+		padding: 6px;
+		max-height: 50vh;
+		overflow: auto;
+	}
+	ul :global(a) {
+		display: block;
+		padding: 9px 12px;
+		border-radius: 6px;
+		font-size: 0.92rem;
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+	}
+	ul :global(a.sel),
+	ul :global(a:hover) {
+		background: var(--fill);
+	}
+	ul :global(.empty) {
+		padding: 12px;
+	}
+</style>

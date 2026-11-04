@@ -1,0 +1,63 @@
+/* Design tokens. Light on :root, dark via OS preference or [data-theme]. */
+:root {
+	--bg: #f2f2f4;
+	--card: #ffffff;
+	--ink: #0b0b0c;
+	--mute: #8a8a8f;
+	--rule: #e6e6ea;
+	--fill: #f4f4f6;
+	--brand: #2747d6;
+	--strong-rule: #c8c8cd;
+	--shadow: 0 1px 2px rgb(0 0 0 / 0.04), 0 10px 30px -12px rgb(0 0 0 / 0.12);
+	/* Thumbnails are monochrome line art; dark mode inverts them. */
+	--thumb: none;
+
+	/* Terminal is dark in both themes. */
+	--term-bg: #0d0d0f;
+	--term-fg: #d9dbd6;
+	--term-mute: #7b807a;
+	--term-green: #7ee08f;
+	--term-key: #8ea3ff;
+	--heat-0: #1e2024;
+	--heat-1: #1f2b5c;
+	--heat-2: #2c42a0;
+	--heat-3: #4f6ae0;
+	--heat-4: #9db0ff;
+
+	--sans: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Apple SD Gothic Neo", "IBM Plex Sans KR", "Malgun Gothic", system-ui, sans-serif;
+	--mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+	--r: 10px;
+	--max: 1200px;
+	--measure: 760px;
+	color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark) {
+	:root:not([data-theme="light"]) {
+		--bg: #000000;
+		--card: #1c1c1e;
+		--ink: #f5f5f7;
+		--mute: #8e8e93;
+		--rule: #2c2c2e;
+		--fill: #2c2c2e;
+		--brand: #8ea3ff;
+		--strong-rule: #48484c;
+		--shadow: 0 0 0 1px #232325;
+		--thumb: invert(0.88) hue-rotate(180deg);
+		color-scheme: dark;
+	}
+}
+
+:root[data-theme="dark"] {
+	--bg: #000000;
+	--card: #1c1c1e;
+	--ink: #f5f5f7;
+	--mute: #8e8e93;
+	--rule: #2c2c2e;
+	--fill: #2c2c2e;
+	--brand: #8ea3ff;
+	--strong-rule: #48484c;
+	--shadow: 0 0 0 1px #232325;
+	--thumb: invert(0.88) hue-rotate(180deg);
+	color-scheme: dark;
+}

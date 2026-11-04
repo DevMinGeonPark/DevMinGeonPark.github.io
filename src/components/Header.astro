@@ -1,0 +1,137 @@
+---
+import Logo from "@/components/Logo.astro";
+import { SITE } from "@/site";
+
+const NAV = [
+	{ href: "/", label: "글" },
+	{ href: "/about/", label: "소개" },
+];
+const path = Astro.url.pathname;
+const isCurrent = (href: string) =>
+	href === "/" ? path === "/" || path.startsWith("/posts/") : path.startsWith(href);
+---
+
+<header class="site" id="site-header">
+	<div class="container bar">
+		<a class="logo" href="/" aria-label={`${SITE.title} 홈`}><Logo />{SITE.title}</a>
+		<nav aria-label="주요 메뉴">
+			{NAV.map((n) => <a href={n.href} aria-current={isCurrent(n.href) ? "page" : undefined}>{n.label}</a>)}
+		</nav>
+		<div class="actions">
+			<button class="hbtn" type="button" data-open-palette aria-label="검색 (⌘K)">
+				<svg width="14" height="14" viewBox="0 0 16 16" aria-hidden="true"><circle cx="7" cy="7" r="5" fill="none" stroke="currentColor" stroke-width="1.6"></circle><path d="m11 11 3.5 3.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"></path></svg>
+				<kbd>⌘K</kbd>
+			</button>
+			<a class="hbtn" href={SITE.github} aria-label="GitHub">
+				<svg width="15" height="15" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38v-1.34c-2.23.48-2.7-1.07-2.7-1.07-.36-.92-.89-1.17-.89-1.17-.73-.5.06-.49.06-.49.8.06 1.23.83 1.23.83.72 1.23 1.88.87 2.34.67.07-.52.28-.87.51-1.07-1.78-.2-3.65-.89-3.65-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.6 7.6 0 0 1 4 0c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48v2.2c0 .21.15.46.55.38A8 8 0 0 0 16 8c0-4.42-3.58-8-8-8"></path></svg>
+			</a>
+			<button class="hbtn" type="button" data-toggle-theme aria-label="테마 전환">
+				<svg width="14" height="14" viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6.5" fill="none" stroke="currentColor" stroke-width="1.5"></circle><path d="M8 1.5a6.5 6.5 0 0 1 0 13z" fill="currentColor"></path></svg>
+			</button>
+		</div>
+	</div>
+</header>
+
+<script>
+	import { toggleTheme } from "@/scripts/theme";
+
+	const header = document.getElementById("site-header");
+	const onScroll = () => header?.classList.toggle("scrolled", scrollY > 4);
+	addEventListener("scroll", onScroll, { passive: true });
+	onScroll();
+	for (const b of document.querySelectorAll("[data-toggle-theme]")) {
+		b.addEventListener("click", toggleTheme);
+	}
+</script>
+
+<style>
+	.site {
+		position: sticky;
+		top: env(safe-area-inset-top, 0px);
+		z-index: 15;
+		background: color-mix(in srgb, var(--bg) 82%, transparent);
+		backdrop-filter: saturate(1.4) blur(12px);
+		-webkit-backdrop-filter: saturate(1.4) blur(12px);
+		border-bottom: 1px solid transparent;
+		transition: border-color 0.2s;
+	}
+	.site.scrolled {
+		border-bottom-color: var(--rule);
+	}
+	.bar {
+		display: flex;
+		align-items: center;
+		gap: 32px;
+		height: 60px;
+	}
+	.logo {
+		display: flex;
+		align-items: center;
+		gap: 9px;
+		font-weight: 700;
+		font-size: 1.02rem;
+		letter-spacing: -0.02em;
+	}
+	nav {
+		display: flex;
+		gap: 24px;
+	}
+	nav a {
+		position: relative;
+		padding-block: 4px;
+		font-size: 0.9rem;
+		font-weight: 500;
+		color: var(--mute);
+	}
+	nav a:hover {
+		color: var(--ink);
+	}
+	nav a[aria-current] {
+		color: var(--ink);
+		font-weight: 600;
+	}
+	nav a[aria-current]::after {
+		content: "";
+		position: absolute;
+		inset: auto 0 -2px;
+		height: 2px;
+		border-radius: 1px;
+		background: var(--ink);
+	}
+	.actions {
+		margin-left: auto;
+		display: flex;
+		gap: 6px;
+	}
+	.hbtn {
+		height: 34px;
+		min-width: 34px;
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		gap: 10px;
+		padding: 0 9px;
+		border: 1px solid var(--rule);
+		border-radius: 8px;
+		background: transparent;
+		color: var(--mute);
+		font: inherit;
+		cursor: pointer;
+	}
+	.hbtn:hover {
+		color: var(--ink);
+		border-color: var(--strong-rule);
+	}
+	kbd {
+		font-family: var(--mono);
+		font-size: 0.68rem;
+	}
+	@media (max-width: 640px) {
+		.bar {
+			gap: 16px;
+		}
+		kbd {
+			display: none;
+		}
+	}
+</style>

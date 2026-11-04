@@ -1,0 +1,89 @@
+---
+// Floating bottom bar on post pages: prev / position / copy link / next.
+interface Link {
+	url: string;
+	title: string;
+}
+interface Props {
+	prev?: Link; // older
+	next?: Link; // newer
+	position: string;
+}
+const { prev, next, position } = Astro.props;
+const chevron = (d: string) =>
+	`<svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="${d}" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+---
+
+<div class="dock">
+	<div class="in">
+		<a class="btn primary" href={prev?.url} aria-disabled={prev ? undefined : "true"} aria-label={prev ? `이전 글: ${prev.title}` : "이전 글 없음"} data-prev set:html={chevron("M13 4l-6 6 6 6")} />
+		<span class="pos mono">{position}</span>
+		<button class="btn" type="button" data-copy aria-label="링크 복사">
+			<svg width="17" height="17" viewBox="0 0 20 20" aria-hidden="true"><path d="M8 12l4-4M7 9l-2 2a3 3 0 0 0 4 4l2-2M13 11l2-2a3 3 0 0 0-4-4L9 7" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"></path></svg>
+		</button>
+		<a class="btn primary" href={next?.url} aria-disabled={next ? undefined : "true"} aria-label={next ? `다음 글: ${next.title}` : "다음 글 없음"} data-next set:html={chevron("M7 4l6 6-6 6")} />
+	</div>
+	<div class="toast" role="status" hidden></div>
+</div>
+
+<script>
+	const toast = document.querySelector<HTMLElement>(".dock .toast");
+	let timer: ReturnType<typeof setTimeout>;
+	const show = (msg: string) => {
+		if (!toast) return;
+		toast.textContent = msg;
+		toast.hidden = false;
+		clearTimeout(timer);
+		timer = setTimeout(() => (toast.hidden = true), 1600);
+	};
+
+	document.querySelector("[data-copy]")?.addEventListener("click", async () => {
+		try {
+			await navigator.clipboard.writeText(location.href);
+			show("링크를 복사했어요");
+		} catch {
+			show("복사할 수 없어요. 주소창에서 복사해주세요");
+		}
+	});
+
+	addEventListener("keydown", (e) => {
+		if (e.target instanceof HTMLInputElement || e.metaKey || e.ctrlKey || e.altKey) return;
+		const sel = e.key === "ArrowLeft" ? "[data-prev]" : e.key === "ArrowRight" ? "[data-next]" : null;
+		const href = sel && document.querySelector<HTMLAnchorElement>(sel)?.getAttribute("href");
+		if (href) location.href = href;
+	});
+</script>
+
+<style>
+	.dock {
+		position: fixed;
+		inset: auto 0 0;
+		z-index: 20;
+		padding: 12px max(16px, env(safe-area-inset-right, 0px)) calc(16px + env(safe-area-inset-bottom, 0px)) max(16px, env(safe-area-inset-left, 0px));
+		pointer-events: none;
+	}
+	.in {
+		max-width: var(--measure);
+		margin: 0 auto;
+		display: flex;
+		align-items: center;
+		gap: 10px;
+		pointer-events: auto;
+	}
+	.pos {
+		flex: 1;
+		text-align: center;
+	}
+	.toast {
+		position: absolute;
+		left: 50%;
+		bottom: calc(84px + env(safe-area-inset-bottom, 0px));
+		transform: translateX(-50%);
+		padding: 8px 16px;
+		border-radius: 8px;
+		background: var(--ink);
+		color: var(--card);
+		font-size: 0.84rem;
+		white-space: nowrap;
+	}
+</style>

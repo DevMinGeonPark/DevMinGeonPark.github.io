@@ -1,0 +1,167 @@
+---
+import { Image } from "astro:assets";
+import PostDock from "@/components/PostDock.astro";
+import Toc from "@/components/Toc.astro";
+import Base from "@/layouts/Base.astro";
+import {
+	dotDate,
+	getPosts,
+	isoDate,
+	type Post,
+	postUrl,
+	readingMinutes,
+} from "@/lib/posts";
+import { SITE } from "@/site";
+import "@/styles/prose.css";
+
+export async function getStaticPaths() {
+	const posts = await getPosts();
+	return posts.map((post, i) => ({
+		params: { slug: post.slug },
+		props: { post, older: posts[i + 1], newer: posts[i - 1], index: i, total: posts.length },
+	}));
+}
+
+interface Props {
+	post: Post;
+	older?: Post;
+	newer?: Post;
+	index: number;
+	total: number;
+}
+const { post, older, newer, index, total } = Astro.props;
+const { title, description, category, tags, published, updated, image } = post.data;
+const { Content, headings } = await post.render();
+const link = (p?: Post) => p && { url: postUrl(p.slug), title: p.data.title };
+
+const jsonLd = {
+	"@context": "https://schema.org",
+	"@type": "BlogPosting",
+	headline: title,
+	description,
+	keywords: tags,
+	datePublished: isoDate(published),
+	dateModified: isoDate(updated ?? published),
+	inLanguage: SITE.lang,
+	url: new URL(postUrl(post.slug), Astro.site),
+	author: { "@type": "Person", name: SITE.author, url: Astro.site, sameAs: [SITE.github] },
+	...(image && { image: new URL(image.src, Astro.site) }),
+};
+---
+
+<Base title={title} description={description} image={image?.src} type="article">
+	<script slot="head" type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+	<link slot="head" rel="alternate" type="text/markdown" href={`/posts/${post.slug}.md`} />
+
+	<div class="layout">
+	<article class="card post">
+		{image && <Image class="cover" src={image} alt="" width={1520} loading="eager" />}
+		<div class="body">
+			<span class="label">
+				{category} · <time datetime={isoDate(published)}>{dotDate(published)}</time> · {readingMinutes(post.body)}분
+			</span>
+			<h1>{title}</h1>
+			{tags.length > 0 && <div class="tags">{tags.map((t) => <span class="pill">{t}</span>)}</div>}
+			{description && (
+				<aside class="summary" aria-label="요약">
+					<div class="summary-h">
+						<b>요약</b>
+						<span class="label"><a href={`/posts/${post.slug}.md`}>원문 .md</a> · <a href="/llms.txt">llms.txt</a></span>
+					</div>
+					<p>{description}</p>
+				</aside>
+			)}
+			<div class="prose"><Content /></div>
+			<p class="license label">
+				{SITE.author} · <a href={SITE.license.url}>{SITE.license.name}</a>
+			</p>
+		</div>
+	</article>
+	<Toc headings={headings} />
+	</div>
+
+	<PostDock prev={link(older)} next={link(newer)} position={`${index + 1} / ${total}`} />
+</Base>
+
+<style>
+	/* Article stays centered; the TOC sits in the right gutter on wide screens. */
+	.layout {
+		display: grid;
+		grid-template-columns: 1fr minmax(0, var(--measure)) 1fr;
+		margin: 20px 0 110px;
+	}
+	.post {
+		grid-column: 2;
+		overflow: hidden;
+	}
+	.layout :global(.toc) {
+		grid-column: 3;
+		margin-left: 28px;
+	}
+	@media (max-width: 1180px) {
+		.layout {
+			grid-template-columns: minmax(0, 1fr);
+			max-width: var(--measure);
+			margin-inline: auto;
+		}
+		.post {
+			grid-column: 1;
+		}
+		.layout :global(.toc) {
+			display: none;
+		}
+	}
+	.post :global(.cover) {
+		display: block;
+		width: 100%;
+		height: auto;
+		aspect-ratio: 1.9;
+		object-fit: cover;
+		filter: var(--thumb);
+	}
+	.body {
+		padding: 30px clamp(20px, 5vw, 48px) 36px;
+	}
+	h1 {
+		margin: 8px 0 14px;
+		font-size: clamp(1.8rem, 4.4vw, 2.5rem);
+		font-weight: 800;
+		letter-spacing: -0.04em;
+		line-height: 1.22;
+		text-wrap: balance;
+	}
+	.tags {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 8px;
+	}
+	.summary {
+		display: grid;
+		gap: 6px;
+		margin: 22px 0 28px;
+		padding: 16px 20px;
+		border-radius: 8px;
+		background: var(--fill);
+	}
+	.summary-h {
+		display: flex;
+		justify-content: space-between;
+		flex-wrap: wrap;
+		gap: 10px;
+		font-size: 0.84rem;
+	}
+	.summary p {
+		margin: 0;
+		font-size: 0.95rem;
+	}
+	.summary a,
+	.license a {
+		text-decoration: underline;
+		text-underline-offset: 3px;
+	}
+	.license {
+		margin: 32px 0 0;
+		padding-top: 16px;
+		border-top: 1px solid var(--rule);
+	}
+</style>

@@ -1,0 +1,101 @@
+---
+// Static output is the no-JS / crawler view; terminal.ts replays it interactively.
+import { profileHtml } from "@/scripts/terminal-commands";
+
+const prompt = '<span class="p"><b>mingeon@ax-lab</b> ~ % </span>';
+---
+
+<div class="term" data-terminal data-prompt={prompt}>
+	<div data-out aria-live="polite">
+		<div class="ln" set:html={`${prompt}whoami --verbose`} />
+		<div class="ln" set:html={profileHtml()} />
+	</div>
+	<label class="input-line">
+		<Fragment set:html={prompt} />
+		<input type="text" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="help" aria-label="터미널 명령어 입력" />
+	</label>
+</div>
+
+<style>
+	.term {
+		contain: size;
+		min-height: 380px;
+		overflow-y: auto;
+		overscroll-behavior: contain;
+		padding: 32px 32px 26px;
+		background: var(--term-bg);
+		color: var(--term-fg);
+		font-family: var(--mono);
+		font-size: 0.8rem;
+		line-height: 1.75;
+		cursor: text;
+	}
+	.term :global(.ln) {
+		white-space: pre-wrap;
+		margin-bottom: 6px;
+	}
+	.term :global(.p) {
+		color: var(--term-mute);
+		white-space: pre;
+	}
+	.term :global(.p b) {
+		color: var(--term-green);
+		font-weight: 500;
+	}
+	.term :global(.k) {
+		color: var(--term-key);
+	}
+	.term :global(.m) {
+		color: var(--term-mute);
+	}
+	.term :global(b) {
+		color: #fff;
+		font-weight: 500;
+	}
+	.term :global(a) {
+		color: var(--term-key);
+		text-decoration: underline;
+		text-underline-offset: 3px;
+	}
+	.term :global(.heat) {
+		display: grid;
+		grid-auto-flow: column;
+		grid-template-rows: repeat(7, 9px);
+		grid-auto-columns: 9px;
+		gap: 2px;
+		width: max-content;
+		margin: 4px 0 6px;
+	}
+	.term :global(.heat i) {
+		border-radius: 2px;
+		background: var(--heat-0);
+	}
+	.term :global(.heat .l1) { background: var(--heat-1); }
+	.term :global(.heat .l2) { background: var(--heat-2); }
+	.term :global(.heat .l3) { background: var(--heat-3); }
+	.term :global(.heat .l4) { background: var(--heat-4); }
+	.input-line {
+		display: flex;
+		align-items: baseline;
+	}
+	input {
+		flex: 1;
+		min-width: 0;
+		padding: 0;
+		border: 0;
+		outline: 0;
+		background: none;
+		color: var(--term-fg);
+		font: inherit;
+		caret-color: var(--term-green);
+	}
+	input::placeholder {
+		color: #3f4440;
+	}
+	@media (max-width: 780px) {
+		.term {
+			min-height: 300px;
+			padding: 24px 20px 20px;
+		}
+	}
+</style>

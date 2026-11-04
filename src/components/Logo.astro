@@ -1,0 +1,10 @@
+---
+// Prompt mark ">_" — chevron in card colour, cursor in brand blue.
+const { size = 22 } = Astro.props;
+---
+
+<svg width={size} height={size} viewBox="0 0 24 24" aria-hidden="true">
+	<rect width="24" height="24" rx="6" fill="var(--ink)"></rect>
+	<path d="M6.5 8l4 4-4 4" fill="none" stroke="var(--card)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"></path>
+	<rect x="12.5" y="15" width="6" height="2.2" rx="1.1" fill="var(--brand)"></rect>
+</svg>

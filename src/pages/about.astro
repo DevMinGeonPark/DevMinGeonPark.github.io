@@ -1,25 +1,21 @@
 ---
+import { getEntry } from "astro:content";
+import Base from "@/layouts/Base.astro";
+import "@/styles/prose.css";
 
-import { getEntry, render } from "astro:content";
-import Markdown from "@components/misc/Markdown.astro";
-import I18nKey from "../i18n/i18nKey";
-import { i18n } from "../i18n/translation";
-import MainGridLayout from "../layouts/MainGridLayout.astro";
-
-const aboutPost = await getEntry("spec", "about");
-
-if (!aboutPost) {
-	throw new Error("About page content not found");
-}
-
-const { Content } = await render(aboutPost);
+const about = await getEntry("spec", "about");
+if (!about) throw new Error("src/content/spec/about.md is missing");
+const { Content } = await about.render();
 ---
-<MainGridLayout title={i18n(I18nKey.about)} description={i18n(I18nKey.about)}>
-    <div class="flex w-full rounded-[var(--radius-large)] overflow-hidden relative min-h-32">
-        <div class="card-base z-10 px-9 py-6 relative w-full ">
-            <Markdown class="mt-2">
-                <Content />
-            </Markdown>
-        </div>
-    </div>
-</MainGridLayout>
+
+<Base title="소개">
+	<article class="card about prose"><Content /></article>
+</Base>
+
+<style>
+	.about {
+		max-width: var(--measure);
+		margin: 20px auto 0;
+		padding: 36px clamp(20px, 5vw, 48px);
+	}
+</style>

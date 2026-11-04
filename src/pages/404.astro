@@ -1,0 +1,25 @@
+---
+import Base from "@/layouts/Base.astro";
+---
+
+<Base title="404">
+	<section class="card nf">
+		<p class="mono">zsh: no such file or directory</p>
+		<h1>404</h1>
+		<a class="label" href="/">← 홈으로</a>
+	</section>
+</Base>
+
+<style>
+	.nf {
+		max-width: var(--measure);
+		margin: 20px auto 0;
+		padding: 48px 40px;
+	}
+	h1 {
+		margin: 8px 0 16px;
+		font-size: 3.4rem;
+		font-weight: 800;
+		letter-spacing: -0.04em;
+	}
+</style>
