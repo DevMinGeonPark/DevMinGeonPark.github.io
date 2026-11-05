@@ -45,9 +45,13 @@ const jsonLd = {
 		<section class="sec" aria-labelledby="pinned-h">
 			<div class="sec-h">
 				<h2 id="pinned-h">Pinned</h2>
-				<span class="label">AI 전환 실무에 관한 글 {pinned.length}편</span>
+				<span class="rail-nav">
+					<span class="label">AI 전환 실무에 관한 글 {pinned.length}편</span>
+					<button type="button" data-rail="-1" aria-label="이전 글" disabled>‹</button>
+					<button type="button" data-rail="1" aria-label="다음 글">›</button>
+				</span>
 			</div>
-			<div class="rail">{pinned.map((post) => <PostCard post={post} />)}</div>
+			<div class="rail" data-rail-track>{pinned.map((post) => <PostCard post={post} />)}</div>
 		</section>
 	)}
 
@@ -72,6 +76,53 @@ const jsonLd = {
 			for (const card of cards) card.hidden = c !== "전체" && card.dataset.category !== c;
 		});
 	}
+
+	// Pinned rail: ‹ › buttons step one card; mouse drag scrolls (touch swipe is native).
+	const rail = document.querySelector<HTMLElement>("[data-rail-track]");
+	if (rail) {
+		const [prev, next] = document.querySelectorAll<HTMLButtonElement>("[data-rail]");
+		const stepW = () => (rail.firstElementChild as HTMLElement).offsetWidth + 18;
+		const sync = () => {
+			prev.disabled = rail.scrollLeft < 4;
+			next.disabled = rail.scrollLeft + rail.clientWidth > rail.scrollWidth - 4;
+		};
+		for (const b of [prev, next]) b.addEventListener("click", () => rail.scrollBy({ left: Number(b.dataset.rail) * stepW(), behavior: "smooth" }));
+		rail.addEventListener("scroll", sync, { passive: true });
+		addEventListener("resize", sync);
+		sync();
+
+		let x0 = 0, s0 = 0, moved = false;
+		rail.addEventListener("pointerdown", (e) => {
+			if (e.pointerType !== "mouse" || e.button !== 0) return;
+			x0 = e.clientX;
+			s0 = rail.scrollLeft;
+			moved = false;
+			const move = (ev: PointerEvent) => {
+				const dx = ev.clientX - x0;
+				if (!moved && Math.abs(dx) < 6) return;
+				if (!moved) {
+					moved = true;
+					rail.classList.add("dragging");
+				}
+				rail.scrollLeft = s0 - dx;
+			};
+			const up = () => {
+				removeEventListener("pointermove", move);
+				removeEventListener("pointerup", up);
+				if (!moved) return;
+				// Let snap settle on the nearest card from where the drag ended.
+				const at = rail.scrollLeft;
+				rail.classList.remove("dragging");
+				rail.scrollLeft = at;
+				rail.scrollTo({ left: Math.round(at / stepW()) * stepW(), behavior: "smooth" });
+			};
+			addEventListener("pointermove", move);
+			addEventListener("pointerup", up);
+		});
+		// A drag is not a click on the card under the pointer.
+		rail.addEventListener("click", (e) => moved && (e.preventDefault(), e.stopPropagation(), (moved = false)), true);
+		rail.addEventListener("dragstart", (e) => e.preventDefault());
+	}
 </script>
 
 <style>
@@ -85,6 +136,42 @@ const jsonLd = {
 		scrollbar-width: none;
 		padding: 4px 4px 14px;
 		margin: 0 -4px;
+	}
+	.rail.dragging {
+		scroll-snap-type: none;
+		cursor: grabbing;
+		user-select: none;
+	}
+	.rail-nav {
+		display: inline-flex;
+		align-items: center;
+		gap: 6px;
+	}
+	.rail-nav .label {
+		margin-right: 6px;
+	}
+	.rail-nav button {
+		display: grid;
+		place-items: center;
+		width: 30px;
+		height: 30px;
+		border: 1px solid var(--rule);
+		border-radius: 50%;
+		background: var(--card);
+		color: var(--ink);
+		font-size: 18px;
+		line-height: 1;
+		cursor: pointer;
+		transition:
+			opacity 0.2s,
+			border-color 0.2s;
+	}
+	.rail-nav button:hover:not(:disabled) {
+		border-color: var(--ink);
+	}
+	.rail-nav button:disabled {
+		opacity: 0.3;
+		cursor: default;
 	}
 	.grid {
 		display: grid;
