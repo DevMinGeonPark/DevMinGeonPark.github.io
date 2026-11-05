@@ -1,0 +1,51 @@
+---
+// Card with an editor-style title bar: traffic lights + file name.
+interface Props {
+	file: string;
+	meta?: string;
+	class?: string;
+}
+const { file, meta, class: cls } = Astro.props;
+---
+
+<div class:list={["card", "win", cls]} data-reveal>
+	<div class="bar mono" aria-hidden="true">
+		<i></i><i></i><i></i>
+		<span class="file">{file}</span>
+		{meta && <span class="meta">{meta}</span>}
+	</div>
+	<slot />
+</div>
+
+<style>
+	.win {
+		overflow: hidden;
+	}
+	.bar {
+		display: flex;
+		align-items: center;
+		gap: 6px;
+		padding: 10px 16px;
+		border-bottom: 1px solid var(--rule);
+		background: var(--fill);
+	}
+	i {
+		width: 10px;
+		height: 10px;
+		border-radius: 50%;
+		background: #ff5f57;
+	}
+	i:nth-child(2) {
+		background: #febc2e;
+	}
+	i:nth-child(3) {
+		background: #28c840;
+	}
+	.file {
+		margin-left: 10px;
+		color: var(--ink);
+	}
+	.meta {
+		margin-left: auto;
+	}
+</style>

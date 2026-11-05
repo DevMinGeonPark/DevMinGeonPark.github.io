@@ -1,0 +1,24 @@
+---
+// Shell prompt line used as a section kicker on the about page.
+interface Props {
+	cmd: string;
+}
+---
+
+<p class="mono cmd" aria-hidden="true"><span class="u">mingeon@ax-lab</span>:<span class="p">~</span>$ <span data-type>{Astro.props.cmd}</span></p>
+
+<style>
+	.cmd {
+		margin: 0 0 4px;
+		font-size: 0.8rem;
+		color: var(--ink);
+	}
+	.u {
+		color: var(--brand);
+		font-weight: 600;
+	}
+	.p {
+		color: var(--mute);
+		font-weight: 600;
+	}
+</style>

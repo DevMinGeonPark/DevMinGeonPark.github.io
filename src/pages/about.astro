@@ -1,9 +1,12 @@
 ---
 import { getImage } from "astro:assets";
 import { getEntry } from "astro:content";
+import { getPosts } from "@/lib/posts";
 import profile from "@/assets/images/profile.jpg";
 import AboutHero from "@/components/AboutHero.astro";
 import RowList from "@/components/RowList.astro";
+import Window from "@/components/Window.astro";
+import Cmd from "@/components/Cmd.astro";
 import { AX, CAREER, PROJECTS, RESEARCH, TALKS } from "@/data/about";
 import Base from "@/layouts/Base.astro";
 import { SITE } from "@/site";
@@ -12,6 +15,7 @@ const about = await getEntry("spec", "about");
 if (!about) throw new Error("src/content/spec/about.md is missing");
 const { Content } = await about.render();
 
+const postCount = (await getPosts()).length;
 const og = await getImage({ src: profile, width: 600 });
 const jsonLd = {
 	"@context": "https://schema.org",
@@ -35,24 +39,26 @@ const jsonLd = {
 	<AboutHero />
 
 	<section class="sec" aria-labelledby="now-h">
-		<div class="sec-h"><h2 id="now-h">지금 관심사</h2></div>
-		<div class="card now" data-reveal><Content /></div>
+		<div class="sec-h"><div><Cmd cmd="cat /etc/motd" /><h2 id="now-h" data-scramble>지금 관심사</h2></div></div>
+		<Window file="/etc/motd"><div class="now"><Content /></div></Window>
 	</section>
 
 	<section class="sec" aria-labelledby="ax-h">
-		<div class="sec-h">
-			<h2 id="ax-h">하는 일</h2>
-			<span class="label">AX · 발굴 → 구축 → 교육 → 이관</span>
+		<div class="sec-h"><div><Cmd cmd="systemctl status ax.service" /><h2 id="ax-h" data-scramble>하는 일</h2></div></div>
+		<div class="status" data-reveal>
+			<p class="mono"><span class="dot">●</span> ax.service - AI 전환 (개발자 1명 · 약 30명 규모)</p>
+			<p class="mono"><span class="k">Active:</span> <span class="on">active (exited)</span> 2025-09 – 2026-09</p>
+			<p class="mono"><span class="k">Stages:</span> 발굴 → 구축 → 교육 → 이관</p>
+			<p class="context">{AX.context}</p>
 		</div>
-		<p class="context" data-reveal>{AX.context}</p>
 		<div class="ax">
 			{AX.cards.map((c, i) => (
 				<article class:list={["card", "ax-card", { dark: i === 0 }]} data-reveal style={`transition-delay:${i * 90}ms`}>
-					<span class="big">{c.big}</span>
+					<span class="big" data-scramble>{c.big}</span>
 					<h3>{c.title}</h3>
 					<p>{c.body}</p>
 					<footer class="mono">
-						<span class="stage">{c.stage}</span>
+						<span class="stage">[{c.stage}]</span>
 						{c.note && <span>* {c.note}</span>}
 					</footer>
 				</article>
@@ -61,32 +67,26 @@ const jsonLd = {
 	</section>
 
 	<section class="sec" aria-labelledby="career-h">
-		<div class="sec-h">
-			<h2 id="career-h">경력</h2>
-			<span class="label">최근순</span>
-		</div>
-		<div class="card pad"><RowList rows={CAREER} timeline /></div>
+		<div class="sec-h"><div><Cmd cmd="journalctl -u career --reverse" /><h2 id="career-h" data-scramble>경력</h2></div></div>
+		<Window file="journal" meta="newest first"><div class="pad"><RowList rows={CAREER} timeline /></div></Window>
 	</section>
 
 	<section class="sec" aria-labelledby="research-h">
-		<div class="sec-h">
-			<h2 id="research-h">연구 · 강의</h2>
-			<span class="label">발표 2 · 특허 출원 3 · 강의 2</span>
-		</div>
-		<div class="card pad"><RowList rows={[...RESEARCH, ...TALKS]} /></div>
+		<div class="sec-h"><div><Cmd cmd="ls ~/research ~/talks" /><h2 id="research-h" data-scramble>연구 · 강의</h2></div></div>
+		<Window file="~/research" meta={`${RESEARCH.length + TALKS.length} entries`}><div class="pad"><RowList rows={[...RESEARCH, ...TALKS]} /></div></Window>
 	</section>
 
 	<section class="sec" aria-labelledby="made-h">
 		<div class="sec-h">
-			<h2 id="made-h">만든 것</h2>
-			<a class="label" href={SITE.github}>GitHub에서 전체 보기 ↗</a>
+			<div><Cmd cmd="apt list --installed" /><h2 id="made-h" data-scramble>만든 것</h2></div>
+			<a class="mono" href={SITE.github}>GitHub에서 전체 보기 ↗</a>
 		</div>
 		<div class="projects">
 			{PROJECTS.map((p, i) => (
 				<a class="card project" href={`${SITE.github}/${p.name}`} data-reveal style={`transition-delay:${(i % 3) * 70}ms`}>
-					<span class="mono name">{p.name}</span>
+					<span class="mono name">{p.name}<span class="dim">/github</span></span>
 					<span class="desc">{p.desc}</span>
-					<span class="mono lang">{p.lang}</span>
+					<span class="mono lang">{p.lang} <span class="dim">[installed]</span></span>
 					<span class="arrow" aria-hidden="true">↗</span>
 				</a>
 			))}
@@ -94,25 +94,51 @@ const jsonLd = {
 	</section>
 
 	<section class="card outro" data-reveal>
-		<div>
-			<span class="label">더 보기</span>
-			<p>작업 과정은 글로 남기고, 코드는 GitHub에 공개합니다.</p>
-		</div>
+		<p class="mono cmd"><span class="ps">mingeon@ax-lab</span>:<span class="pa">~</span>$ ls ~/posts | wc -l<br /><span class="out">{postCount}</span></p>
+		<p>작업 과정은 글로 남기고, 코드는 GitHub에 공개합니다.</p>
 		<div class="outro-actions">
 			<a class="pill" href={SITE.github}>GitHub @{SITE.handle}</a>
-			<a class="pill dark-pill" href="/">글 보러 가기 →</a>
+			<a class="pill go" href="/">cd ~/posts<span class="caret" aria-hidden="true"></span></a>
 		</div>
 	</section>
 </Base>
 
 <script>
-	import { reveal } from "@/scripts/reveal";
+	import { motionOk, onVisible, reveal } from "@/scripts/reveal";
+	import { scramble, typeOut } from "@/scripts/scramble";
 	reveal();
+	if (motionOk()) {
+		onVisible(".sec [data-scramble]", (el) => scramble(el));
+		onVisible(".sec [data-type]", (el) => typeOut(el));
+	}
 </script>
 
 <style>
+	.sec-h h2 {
+		font-size: 1.6rem;
+	}
+	.status {
+		margin: 0 4px 18px;
+	}
+	.status .mono {
+		margin: 0;
+		font-size: 0.8rem;
+		line-height: 1.8;
+		color: var(--ink);
+	}
+	.dot,
+	.on {
+		color: #3fae2a;
+		font-weight: 600;
+	}
+	.status .k {
+		display: inline-block;
+		width: 8ch;
+		text-align: right;
+		color: var(--mute);
+	}
 	.now {
-		padding: 28px clamp(22px, 4vw, 40px);
+		padding: 24px clamp(22px, 4vw, 40px) 28px;
 	}
 	.now :global(p) {
 		margin: 0 0 12px;
@@ -125,7 +151,7 @@ const jsonLd = {
 	}
 	.context {
 		max-width: 46em;
-		margin: 0 0 18px;
+		margin: 12px 0 0;
 		font-size: 1.05rem;
 	}
 	.ax {
@@ -231,17 +257,36 @@ const jsonLd = {
 		color: var(--brand);
 	}
 	.outro {
-		display: flex;
-		flex-wrap: wrap;
+		display: grid;
+		grid-template-columns: auto 1fr auto;
 		align-items: center;
-		justify-content: space-between;
-		gap: 16px;
+		gap: 16px 32px;
 		margin-top: 48px;
-		padding: 28px clamp(22px, 4vw, 40px);
+		padding: 26px clamp(22px, 4vw, 40px);
+		background: var(--term-bg);
+		color: var(--term-fg);
 	}
 	.outro p {
-		margin: 4px 0 0;
-		font-size: 1.05rem;
+		margin: 0;
+		font-size: 1.02rem;
+	}
+	.cmd {
+		font-size: 0.8rem;
+		line-height: 1.7;
+		color: var(--term-fg);
+	}
+	.ps {
+		color: var(--term-green);
+		font-weight: 600;
+	}
+	.pa {
+		color: var(--term-key);
+		font-weight: 600;
+	}
+	.out {
+		font-size: 1.6rem;
+		font-weight: 600;
+		color: #fff;
 	}
 	.outro-actions {
 		display: flex;
@@ -250,11 +295,31 @@ const jsonLd = {
 	.outro .pill {
 		height: 38px;
 		padding: 0 16px;
-		font-size: 0.86rem;
+		font-family: var(--mono);
+		font-size: 0.82rem;
+		background: #1e2024;
+		color: var(--term-fg);
 	}
-	.dark-pill {
-		background: var(--ink);
-		color: var(--card);
+	.outro .go {
+		display: inline-flex;
+		align-items: center;
+		background: var(--term-green);
+		color: var(--term-bg);
+	}
+	.caret {
+		width: 7px;
+		height: 1em;
+		margin-left: 4px;
+		background: currentColor;
+		animation: blink 1s steps(1) infinite;
+	}
+	@keyframes blink {
+		50% {
+			opacity: 0;
+		}
+	}
+	.dim {
+		color: var(--mute);
 	}
 	.arrow {
 		position: absolute;
@@ -270,6 +335,11 @@ const jsonLd = {
 		}
 		.ax-card.dark {
 			grid-column: 1 / -1;
+		}
+	}
+	@media (max-width: 860px) {
+		.outro {
+			grid-template-columns: 1fr;
 		}
 	}
 	@media (max-width: 560px) {

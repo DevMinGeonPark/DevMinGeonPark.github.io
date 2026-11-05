@@ -1,10 +1,18 @@
 ---
+// Boot log + neofetch: the about page opens like an SSH session into a server.
 import { Image } from "astro:assets";
 import profile from "@/assets/images/profile.jpg";
 import { PROJECTS, STACK, STATS } from "@/data/about";
 import { getPosts } from "@/lib/posts";
-import { SITE } from "@/site";
+import { PROFILE, SITE } from "@/site";
 
+const BOOT = [
+	"Mounted /home/mingeon.",
+	"Started claude-code.service.",
+	"Started codex.service.",
+	"Started amux.service - agent-aware tmux sessions.",
+	"Reached target 기록.",
+];
 const stats = [
 	...STATS,
 	{ value: PROJECTS.length, unit: "개", label: "공개 프로젝트" },
@@ -12,28 +20,39 @@ const stats = [
 ];
 ---
 
-<section class="card hero">
-	<div class="photo-wrap">
-		<Image class="photo" src={profile} alt={`${SITE.author} 프로필 사진`} width={720} loading="eager" />
+<section class="hero">
+	<div class="boot mono" aria-hidden="true">
+		{BOOT.map((l) => <p data-boot><span class="ok">[  OK  ]</span> {l}</p>)}
 	</div>
-	<div class="body">
-		<span class="label">AI 엔지니어 · AX · {SITE.authorEn}</span>
-		<h1>{SITE.author}</h1>
-		<p class="lead">{SITE.description}</p>
-		<dl class="stats">
-			{stats.map((s) => (
-				<div>
-					<dt class="label">{s.label}</dt>
-					<dd><b data-count={s.value}>{s.value}</b>{s.unit}</dd>
-				</div>
-			))}
-		</dl>
-		<div class="links">
-			<a class="pill" href={SITE.github}>GitHub @{SITE.handle}</a>
-			<a class="pill" href="/rss.xml">RSS</a>
-			<a class="pill" href="/">글 목록</a>
+	<p class="mono cmd" data-boot><span class="ps">mingeon@ax-lab</span>:<span class="path">~</span>$ <span data-type>neofetch</span></p>
+
+	<div class="fetch" data-fetch>
+		<Image class="pixel" src={profile} alt={`${SITE.author} 프로필 사진`} width={72} loading="eager" />
+		<div class="info">
+			<p class="mono host"><span class="ps">mingeon</span>@<span class="ps">ax-lab</span></p>
+			<h1><span data-scramble>{SITE.author}</span> <small class="mono">{SITE.authorEn}</small></h1>
+			<p class="lead">{SITE.description}</p>
+			<dl class="rows mono">
+				<div><dt>role</dt><dd>AI 엔지니어 · AX</dd></div>
+				{PROFILE.map(([k, v]) => <div><dt>{k}</dt><dd>{v}</dd></div>)}
+			</dl>
+			<dl class="stats">
+				{stats.map((s) => (
+					<div>
+						<dt>{s.label}</dt>
+						<dd><b data-count={s.value}>{s.value}</b>{s.unit}</dd>
+					</div>
+				))}
+			</dl>
+			<div class="swatches" aria-hidden="true">{Array.from({ length: 8 }, () => <i />)}</div>
+			<div class="links">
+				<a class="pill" href={SITE.github}>GitHub @{SITE.handle}</a>
+				<a class="pill" href="/rss.xml">RSS</a>
+				<a class="pill" href="/">글 목록</a>
+			</div>
 		</div>
 	</div>
+
 	<div class="marquee" aria-hidden="true">
 		<div class="track">
 			{[0, 1].map(() => STACK.map((s) => <span>{s}</span>))}
@@ -42,100 +61,240 @@ const stats = [
 </section>
 
 <script>
-	// Count stats up from 0 once on load.
-	if (!matchMedia("(prefers-reduced-motion: reduce)").matches) {
-		for (const el of document.querySelectorAll<HTMLElement>("[data-count]")) {
+	import { motionOk } from "@/scripts/reveal";
+	import { scramble, typeOut, wait } from "@/scripts/scramble";
+
+	function countUp() {
+		for (const el of document.querySelectorAll<HTMLElement>(".hero [data-count]")) {
 			const target = Number(el.dataset.count);
 			const start = performance.now();
 			const tick = (now: number) => {
-				const t = Math.min(1, (now - start) / 1100);
+				const t = Math.min(1, Math.max(0, now - start) / 1100);
 				el.textContent = String(Math.round(target * (1 - (1 - t) ** 3)));
 				if (t < 1) requestAnimationFrame(tick);
 			};
 			requestAnimationFrame(tick);
 		}
 	}
+
+	// Boot lines appear one by one, `neofetch` is typed, then the info block fades in.
+	// Everything is visible without JS or with reduced motion.
+	async function boot() {
+		const hero = document.querySelector<HTMLElement>(".hero")!;
+		const lines = hero.querySelectorAll<HTMLElement>("[data-boot]");
+		const cmd = hero.querySelector<HTMLElement>("[data-type]")!;
+		const fetch = hero.querySelector<HTMLElement>("[data-fetch]")!;
+		hero.classList.add("booting");
+		for (const l of lines) {
+			l.classList.add("on");
+			await wait(110);
+		}
+		await typeOut(cmd, 55);
+		await wait(160);
+		fetch.classList.add("on");
+		scramble(hero.querySelector<HTMLElement>("[data-scramble]")!);
+		countUp();
+	}
+
+	if (motionOk()) boot();
 </script>
 
 <style>
 	.hero {
-		display: grid;
-		grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
 		overflow: hidden;
 		margin-top: 20px;
+		border-radius: var(--r);
+		background:
+			radial-gradient(90% 70% at 100% 0%, rgb(142 163 255 / 0.14), transparent 60%),
+			var(--term-bg);
+		color: var(--term-fg);
+		box-shadow: var(--shadow);
 	}
-	/* Studio photo has a white backdrop: frame it so it reads as a photo, dim it in dark mode. */
-	.photo-wrap {
-		position: relative;
-		min-height: 440px;
-		padding: 20px 0 20px 20px;
+	.boot,
+	.cmd {
+		margin: 0;
+		padding: 0 clamp(20px, 4vw, 44px);
+		font-size: 0.8rem;
+		line-height: 1.8;
+		color: var(--term-fg);
 	}
-	.photo-wrap :global(.photo) {
-		position: absolute;
-		inset: 20px 0 20px 20px;
-		width: calc(100% - 20px);
-		height: calc(100% - 40px);
+	.boot {
+		padding-top: 26px;
+	}
+	.boot p {
+		margin: 0;
+		white-space: pre;
+		overflow: hidden;
+		text-overflow: ellipsis;
+	}
+	.ok {
+		color: var(--term-green);
+	}
+	.cmd {
+		margin-top: 10px;
+	}
+	.ps {
+		color: var(--term-green);
+		font-weight: 600;
+	}
+	.path {
+		color: var(--term-key);
+		font-weight: 600;
+	}
+	/* Hidden states only exist while the boot script runs. */
+	.booting [data-boot] {
+		visibility: hidden;
+	}
+	.booting [data-boot].on {
+		visibility: visible;
+	}
+	.booting [data-fetch] {
+		opacity: 0;
+		transform: translateY(12px);
+		transition:
+			opacity 0.6s ease,
+			transform 0.6s cubic-bezier(0.2, 0.7, 0.2, 1);
+	}
+	.booting [data-fetch].on {
+		opacity: 1;
+		transform: none;
+	}
+
+	.fetch {
+		display: grid;
+		grid-template-columns: minmax(0, 300px) minmax(0, 1fr);
+		gap: clamp(24px, 4vw, 52px);
+		align-items: start;
+		padding: 26px clamp(20px, 4vw, 44px) 36px;
+	}
+	/* Low-res source scaled up with nearest-neighbour: reads as pixel art, not a portrait. */
+	.fetch :global(.pixel) {
+		width: 100%;
+		height: auto;
+		aspect-ratio: 4 / 5;
 		object-fit: cover;
-		object-position: 50% 12%;
-		border-radius: 8px;
-		box-shadow: inset 0 0 0 1px var(--rule);
-		filter: var(--photo, none);
+		object-position: 50% 15%;
+		image-rendering: pixelated;
+		border-radius: 6px;
+		filter: grayscale(1) contrast(1.1) brightness(0.9);
 	}
-	.body {
+	.info {
 		display: flex;
 		flex-direction: column;
-		justify-content: center;
-		gap: 16px;
-		padding: 44px clamp(22px, 4vw, 56px) 36px;
+		gap: 14px;
+		min-width: 0;
+	}
+	.host {
+		margin: 0;
+		padding-bottom: 10px;
+		border-bottom: 1px dashed rgb(255 255 255 / 0.18);
+		font-size: 0.86rem;
+		color: var(--term-fg);
 	}
 	h1 {
-		margin: -6px 0 0;
-		font-size: clamp(2.8rem, 6vw, 4.2rem);
+		margin: 0;
+		font-size: clamp(2.6rem, 5.4vw, 4rem);
 		font-weight: 800;
 		letter-spacing: -0.05em;
 		line-height: 1.05;
+		color: #fff;
+	}
+	h1 small {
+		margin-left: 6px;
+		font-size: 0.9rem;
+		font-weight: 400;
+		letter-spacing: 0;
+		color: var(--term-mute);
 	}
 	.lead {
 		margin: 0;
-		max-width: 34em;
 		font-size: 1.15rem;
 		line-height: 1.65;
+	}
+	.rows {
+		display: grid;
+		gap: 2px;
+		margin: 0;
+		font-size: 0.84rem;
+		line-height: 1.7;
+	}
+	.rows div {
+		display: grid;
+		grid-template-columns: 7ch minmax(0, 1fr);
+		gap: 10px;
+	}
+	.rows dt {
+		color: var(--term-key);
+		font-weight: 600;
+	}
+	.rows dd {
+		margin: 0;
+		color: var(--term-fg);
 	}
 	.stats {
 		display: grid;
 		grid-template-columns: repeat(4, minmax(0, 1fr));
-		gap: 10px;
-		margin: 8px 0 0;
+		gap: 8px;
+		margin: 6px 0 0;
 	}
 	.stats div {
-		padding: 14px 14px 12px;
+		padding: 12px 14px 10px;
+		border: 1px solid rgb(255 255 255 / 0.1);
 		border-radius: 8px;
-		background: var(--fill);
+		background: rgb(255 255 255 / 0.04);
 	}
-	dd {
-		margin: 4px 0 0;
-		font-size: 0.9rem;
-		color: var(--mute);
+	.stats dt {
+		font-size: 0.76rem;
+		color: var(--term-mute);
 	}
-	dd b {
+	.stats dd {
+		margin: 2px 0 0;
+		font-size: 0.86rem;
+		color: var(--term-mute);
+	}
+	.stats b {
 		margin-right: 2px;
-		font-size: 2rem;
-		font-weight: 800;
-		letter-spacing: -0.04em;
-		color: var(--ink);
+		font-family: var(--mono);
+		font-size: 1.8rem;
+		font-weight: 700;
+		color: #fff;
 		font-variant-numeric: tabular-nums;
 	}
+	/* neofetch colour blocks */
+	.swatches {
+		display: flex;
+	}
+	.swatches i {
+		width: 26px;
+		height: 14px;
+	}
+	.swatches i:nth-child(1) { background: #2e3436; }
+	.swatches i:nth-child(2) { background: #cc0000; }
+	.swatches i:nth-child(3) { background: #4e9a06; }
+	.swatches i:nth-child(4) { background: #c4a000; }
+	.swatches i:nth-child(5) { background: #3465a4; }
+	.swatches i:nth-child(6) { background: #75507b; }
+	.swatches i:nth-child(7) { background: #06989a; }
+	.swatches i:nth-child(8) { background: #d3d7cf; }
 	.links {
 		display: flex;
 		flex-wrap: wrap;
 		gap: 8px;
-		margin-top: 4px;
+	}
+	.links .pill {
+		background: rgb(255 255 255 / 0.08);
+		color: var(--term-fg);
+		font-family: var(--mono);
+	}
+	.links .pill:hover {
+		background: var(--term-green);
+		color: var(--term-bg);
 	}
 	.marquee {
-		grid-column: 1 / -1;
 		overflow: hidden;
 		padding: 14px 0;
-		background: var(--term-bg);
+		border-top: 1px solid rgb(255 255 255 / 0.08);
+		background: rgb(0 0 0 / 0.25);
 		mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
 	}
 	.track {
@@ -147,7 +306,6 @@ const stats = [
 	.track span {
 		font-family: var(--mono);
 		font-size: 0.8rem;
-		color: var(--term-fg);
 		white-space: nowrap;
 	}
 	.track span::before {
@@ -165,17 +323,11 @@ const stats = [
 		}
 	}
 	@media (max-width: 860px) {
-		.hero {
+		.fetch {
 			grid-template-columns: 1fr;
 		}
-		.photo-wrap {
-			min-height: 380px;
-			padding: 16px 16px 0;
-		}
-		.photo-wrap :global(.photo) {
-			inset: 16px 16px 0;
-			width: calc(100% - 32px);
-			height: calc(100% - 16px);
+		.fetch :global(.pixel) {
+			width: 160px;
 		}
 		.stats {
 			grid-template-columns: repeat(2, minmax(0, 1fr));

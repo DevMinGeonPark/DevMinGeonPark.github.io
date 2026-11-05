@@ -10,8 +10,8 @@ const { rows, timeline = false } = Astro.props;
 ---
 
 <ol class:list={["rows", { timeline }]}>
-	{rows.map((r) => (
-		<li data-reveal>
+	{rows.map((r, i) => (
+		<li data-reveal style={`--d:${i * 70}ms`}>
 			<span class="when mono">{r.when}</span>
 			<div>
 				{r.href ? <a class="title" href={r.href}>{r.title} ↗</a> : <b class="title">{r.title}</b>}
@@ -77,6 +77,23 @@ const { rows, timeline = false } = Astro.props;
 		border-radius: 50%;
 		background: var(--card);
 		border: 2px solid var(--mute);
+	}
+	:global(.reveal-on) li {
+		transition-delay: var(--d);
+	}
+	/* Line draws down and dots pop in as each row reveals. */
+	:global(.reveal-on) .timeline li::before {
+		transform: scaleY(0);
+		transform-origin: top;
+		transition: transform 0.5s ease var(--d);
+	}
+	:global(.reveal-on) .timeline li::after {
+		transform: scale(0);
+		transition: transform 0.35s cubic-bezier(0.3, 1.6, 0.5, 1) calc(var(--d) + 0.15s);
+	}
+	:global(.reveal-on) .timeline li:global(.in)::before,
+	:global(.reveal-on) .timeline li:global(.in)::after {
+		transform: none;
 	}
 	.timeline li:first-child::after {
 		background: var(--brand);
