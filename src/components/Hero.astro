@@ -37,15 +37,38 @@ const strong = (s: string, phrase: string) => s.replace(phrase, `<b>${phrase}</b
 </section>
 
 <script>
+	import { bootSequence, place, placeAll, sleep } from "@/scripts/assemble";
 	import { mountTerminal } from "@/scripts/terminal";
 
+	const hero = document.querySelector<HTMLElement>(".hero");
 	const word = document.querySelector<HTMLElement>("[data-type-word]");
 	const term = document.querySelector<HTMLElement>("[data-terminal]");
 	const animate = !matchMedia("(prefers-reduced-motion: reduce)").matches;
 	const full = word?.textContent ?? "";
+	const seq = bootSequence();
 
 	if (word && animate) word.textContent = "";
-	if (term) mountTerminal(term, () => word && animate && typeWord(word, full));
+
+	if (term && seq && hero) {
+		// Boot sequence: the terminal shows alone, runs its intro, then the panel beside it opens.
+		addEventListener("boot:done", () => {
+			const h = hero.getBoundingClientRect(), t = term.getBoundingClientRect();
+			hero.style.clipPath = `inset(0 ${h.right - t.right}px ${h.bottom - t.bottom}px 0 round var(--r))`;
+			hero.classList.add("solo");
+			place(hero);
+			mountTerminal(term, async () => {
+				await sleep(250);
+				hero.classList.add("opening");
+				hero.style.clipPath = "inset(0 0 0 0 round var(--r))";
+				await sleep(450);
+				await placeAll([...hero.querySelectorAll<HTMLElement>(".body > *")], 90);
+				if (word && animate) await typeWord(word, full);
+				hero.classList.remove("solo", "opening");
+				hero.style.clipPath = "";
+				dispatchEvent(new Event("hero:done"));
+			});
+		}, { once: true });
+	} else if (term) mountTerminal(term, () => word && animate && typeWord(word, full));
 
 	async function typeWord(el: HTMLElement, text: string) {
 		el.classList.add("caret");
@@ -63,6 +86,10 @@ const strong = (s: string, phrase: string) => s.replace(phrase, `<b>${phrase}</b
 		grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
 		overflow: hidden;
 		margin-top: 20px;
+	}
+	/* Boot sequence: clip-path starts on the terminal, then wipes open to the full card. */
+	.hero.opening {
+		transition: clip-path 0.7s cubic-bezier(0.65, 0, 0.35, 1);
 	}
 	.body {
 		display: flex;

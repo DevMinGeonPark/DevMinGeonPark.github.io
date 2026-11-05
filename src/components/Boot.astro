@@ -1,0 +1,199 @@
+---
+// First-visit boot splash for the home page: ANSI-shadow "MINGEON" draws in row by row,
+// a short boot log runs, then the page assembles piece by piece.
+// Shown once per session; skipped for reduced motion and without JS (see BootGate).
+const LOGO = String.raw`███╗   ███╗██╗███╗   ██╗ ██████╗ ███████╗ ██████╗ ███╗   ██╗
+████╗ ████║██║████╗  ██║██╔════╝ ██╔════╝██╔═══██╗████╗  ██║
+██╔████╔██║██║██╔██╗ ██║██║  ███╗█████╗  ██║   ██║██╔██╗ ██║
+██║╚██╔╝██║██║██║╚██╗██║██║   ██║██╔══╝  ██║   ██║██║╚██╗██║
+██║ ╚═╝ ██║██║██║ ╚████║╚██████╔╝███████╗╚██████╔╝██║ ╚████║
+╚═╝     ╚═╝╚═╝╚═╝  ╚═══╝ ╚═════╝ ╚══════╝ ╚═════╝ ╚═╝  ╚═══╝`.split("\n");
+const LOG = [
+	"Mounted /home/mingeon.",
+	"Started claude-code.service.",
+	"Started amux.service.",
+	"Loaded posts.",
+	"Reached target 기록.",
+];
+---
+
+<div class="boot" id="boot" aria-hidden="true">
+	<div class="in">
+		<pre class="logo">{LOGO.map((row, i) => <span style={`--i:${i}`}>{row}</span>)}</pre>
+		<div class="sub">mingeon@ax-lab · AI 에이전트를 실무에 적용하고, 그 과정을 기록합니다.</div>
+		<ol class="log">
+			{LOG.map((l, i) => <li style={`--i:${i}`}><b>[  OK  ]</b> {l}</li>)}
+		</ol>
+		<div class="bar"><i></i></div>
+	</div>
+	<span class="skip">아무 키나 눌러 건너뛰기</span>
+</div>
+
+<script>
+	import { hide, place, placeAll, sleep } from "@/scripts/assemble";
+
+	const root = document.documentElement;
+	const boot = document.getElementById("boot");
+	const $$ = (sel: string) => [...document.querySelectorAll<HTMLElement>(sel)];
+
+	if (root.classList.contains("booting") && boot) {
+		let done = false;
+		const finish = async () => {
+			if (done) return;
+			done = true;
+			const header = $$("#site-header .logo, #site-header nav a, #site-header .hbtn");
+			const sections = $$("main > .sec");
+			hide([...header, ...$$(".hero, .hero .body > *"), ...$$("main > .sec .sec-h, main > .sec .post-card")]);
+			root.classList.add("assembling");
+			root.classList.remove("booting");
+			boot.classList.add("out");
+			setTimeout(() => boot.remove(), 600);
+
+			// 1. header, 2. terminal alone (Hero.astro takes over on boot:done)
+			const heroDone = new Promise<void>((r) => {
+				addEventListener("hero:done", () => r(), { once: true });
+				setTimeout(r, 12000); // never strand the page
+			});
+			await placeAll(header, 50, 120);
+			dispatchEvent(new Event("boot:done"));
+			await heroDone;
+
+			// 3. sections in order: heading, then cards one by one; below the fold waits for scroll
+			const io = new IntersectionObserver((entries) => {
+				let k = 0;
+				for (const e of entries) {
+					if (!e.isIntersecting) continue;
+					place(e.target as HTMLElement, k++ * 90);
+					io.unobserve(e.target);
+				}
+			}, { rootMargin: "0px 0px -6% 0px" });
+			for (const sec of sections) {
+				const items = [...sec.querySelectorAll<HTMLElement>(".sec-h, .post-card")];
+				const now = items.filter((el) => el.getBoundingClientRect().top < innerHeight);
+				for (const el of items) if (!now.includes(el)) io.observe(el);
+				if (now.length) await placeAll(now, 140);
+				await sleep(120);
+			}
+			root.classList.remove("assembling");
+		};
+		setTimeout(finish, 2300);
+		addEventListener("keydown", finish, { once: true });
+		boot.addEventListener("click", finish);
+	} else boot?.remove();
+</script>
+
+<style>
+	.boot {
+		display: none;
+		position: fixed;
+		inset: 0;
+		z-index: 100;
+		place-items: center;
+		padding: 16px;
+		background: var(--term-bg);
+		color: var(--term-fg);
+		font-family: var(--mono);
+		cursor: pointer;
+	}
+	:global(html.booting) .boot,
+	.boot.out {
+		display: grid;
+	}
+	:global(html.booting) {
+		overflow: hidden;
+	}
+	.boot.out {
+		animation: lift 0.5s cubic-bezier(0.7, 0, 0.3, 1) forwards;
+	}
+	@keyframes lift {
+		to {
+			opacity: 0;
+			transform: translateY(-3%);
+			visibility: hidden;
+		}
+	}
+	.in {
+		width: min(100%, 760px);
+	}
+	.logo {
+		margin: 0;
+		/* 60 columns must fit the viewport */
+		font-size: clamp(5.5px, 1.95vw, 13px);
+		/* Plex Mono lacks box-drawing glyphs; these fonts keep them on the grid. */
+		font-family: ui-monospace, "SF Mono", Menlo, Consolas, "DejaVu Sans Mono", monospace;
+		line-height: 1.05;
+		color: var(--term-key);
+	}
+	.logo span {
+		display: block;
+		clip-path: inset(0 100% 0 0);
+		animation: wipe 0.35s steps(30) forwards;
+		animation-delay: calc(var(--i) * 70ms);
+	}
+	@keyframes wipe {
+		to {
+			clip-path: inset(0 0 0 0);
+		}
+	}
+	.sub {
+		margin: 18px 0 22px;
+		font-size: 12px;
+		color: var(--term-mute);
+		opacity: 0;
+		animation: show 0.3s 0.55s forwards;
+	}
+	.log {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+		font-size: 12px;
+		line-height: 1.8;
+	}
+	.log li {
+		opacity: 0;
+		animation: show 0.01s forwards;
+		animation-delay: calc(0.8s + var(--i) * 160ms);
+	}
+	.log b {
+		font-weight: 400;
+		color: var(--term-green);
+		white-space: pre;
+	}
+	@keyframes show {
+		to {
+			opacity: 1;
+		}
+	}
+	.bar {
+		height: 2px;
+		margin-top: 18px;
+		background: rgb(255 255 255 / 0.08);
+	}
+	.bar i {
+		display: block;
+		height: 100%;
+		width: 0;
+		background: var(--term-green);
+		animation: fill 1.9s 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+	}
+	@keyframes fill {
+		to {
+			width: 100%;
+		}
+	}
+	.skip {
+		position: absolute;
+		bottom: max(20px, env(safe-area-inset-bottom, 0px));
+		left: 0;
+		right: 0;
+		text-align: center;
+		font-size: 11px;
+		color: var(--term-mute);
+	}
+
+	/* Assembly pieces (.pc / .pc-hide) live in base.css; here only the pre-boot hide. */
+	:global(html.booting #site-header),
+	:global(html.booting main > :not(#boot)) {
+		opacity: 0;
+	}
+</style>

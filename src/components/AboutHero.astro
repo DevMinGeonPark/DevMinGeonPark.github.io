@@ -61,6 +61,7 @@ const stats = [
 </section>
 
 <script>
+	import { all, place, placeAll, placeInView, startAssembly } from "@/scripts/assemble";
 	import { motionOk } from "@/scripts/reveal";
 	import { scramble, typeOut, wait } from "@/scripts/scramble";
 
@@ -84,7 +85,12 @@ const stats = [
 		const lines = hero.querySelectorAll<HTMLElement>("[data-boot]");
 		const cmd = hero.querySelector<HTMLElement>("[data-type]")!;
 		const fetch = hero.querySelector<HTMLElement>("[data-fetch]")!;
+		// First visit this session: neofetch output lands piece by piece, then the sections.
+		const pieces = all(".pixel, .host, h1, .lead, .rows > div, .stats > div, .swatches, .links", fetch);
+		const marquee = hero.querySelector<HTMLElement>(".marquee");
+		const sections = all("main > .sec, main > .outro");
 		hero.classList.add("booting");
+		const seq = await startAssembly([...pieces, ...(marquee ? [marquee] : []), ...sections]);
 		for (const l of lines) {
 			l.classList.add("on");
 			await wait(110);
@@ -92,8 +98,14 @@ const stats = [
 		await typeOut(cmd, 55);
 		await wait(160);
 		fetch.classList.add("on");
+		if (seq) await placeAll(pieces, 70);
 		scramble(hero.querySelector<HTMLElement>("[data-scramble]")!);
 		countUp();
+		if (seq) {
+			if (marquee) place(marquee);
+			await wait(250);
+			await placeInView(sections, 160);
+		}
 	}
 
 	if (motionOk()) boot();

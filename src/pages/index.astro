@@ -1,4 +1,5 @@
 ---
+import Boot from "@/components/Boot.astro";
 import Hero from "@/components/Hero.astro";
 import PostCard from "@/components/PostCard.astro";
 import Base from "@/layouts/Base.astro";
@@ -22,6 +23,19 @@ const jsonLd = {
 
 <Base>
 	<script slot="head" type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+	<!-- Boot splash gate: before first paint, once per session, motion allowed. -->
+	<script slot="head" is:inline>
+		try {
+			if (!sessionStorage.getItem("booted") && !matchMedia("(prefers-reduced-motion: reduce)").matches) {
+				sessionStorage.setItem("booted", "1");
+				document.documentElement.classList.add("booting");
+				// Safety net: never leave the page hidden if the boot script fails.
+				setTimeout(() => document.documentElement.classList.remove("booting"), 4000);
+			}
+		} catch {}
+	</script>
+
+	<Boot />
 
 	<Hero />
 

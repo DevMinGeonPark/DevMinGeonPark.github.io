@@ -5,7 +5,7 @@ import { getPosts, postUrl } from "@/lib/posts";
 const posts = await getPosts();
 ---
 
-<Base title="스페이스" description="카테고리별 구체로 모은 글 지도. 태그가 겹치는 글끼리 이어진다.">
+<Base assemble title="스페이스" description="카테고리별 구체로 모은 글 지도. 태그가 겹치는 글끼리 이어진다.">
 	<section>
 		<div class="space" data-space>
 			<canvas aria-hidden="true"></canvas>
@@ -32,9 +32,32 @@ const posts = await getPosts();
 </Base>
 
 <script>
+	import { all, hide, place, placeAll, sleep, startAssembly } from "@/scripts/assemble";
 	import { initSpace } from "@/scripts/space";
+
 	const root = document.querySelector<HTMLElement>("[data-space]");
-	if (root) initSpace(root);
+	if (root) run(root);
+
+	// First visit this session: field, HUD, then the spheres grow, then the controls land one by one.
+	async function run(root: HTMLElement) {
+		const q = (s: string) => root.querySelector<HTMLElement>(s)!;
+		const hud = [q("h1"), q("[data-readout]")];
+		const dock = [q(".search"), q("[data-chips]"), q(".hint")];
+		if (!(await startAssembly([root, ...hud, ...dock]))) return initSpace(root);
+		place(root);
+		await sleep(250);
+		await placeAll(hud, 90);
+		initSpace(root);
+		const chips = all("button", q("[data-chips]"));
+		hide(chips);
+		await sleep(900);
+		place(dock[0]);
+		await sleep(150);
+		place(dock[1]);
+		await placeAll(chips, 70, 80);
+		place(dock[2]);
+		document.documentElement.classList.remove("assembling");
+	}
 </script>
 
 <style>

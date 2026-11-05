@@ -137,3 +137,23 @@ a {
 	opacity: 1;
 	transform: none;
 }
+
+/* Page assembly (src/scripts/assemble.ts): pieces drop into place with a small overshoot. */
+html.pre #site-header,
+html.pre main {
+	opacity: 0;
+}
+.pc-hide {
+	opacity: 0;
+}
+.pc {
+	animation: place 0.65s cubic-bezier(0.2, 0.9, 0.3, 1.15) both;
+	animation-delay: var(--d, 0ms);
+}
+@keyframes place {
+	from {
+		opacity: 0;
+		transform: translateY(26px) scale(0.94);
+		filter: blur(6px);
+	}
+}

@@ -33,7 +33,7 @@ const jsonLd = {
 };
 ---
 
-<Base title="소개" description={`${SITE.author}(${SITE.authorEn}) — AI 엔지니어. ${SITE.description}`} image={og.src}>
+<Base assemble title="소개" description={`${SITE.author}(${SITE.authorEn}) — AI 엔지니어. ${SITE.description}`} image={og.src}>
 	<script slot="head" type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
 
 	<AboutHero />

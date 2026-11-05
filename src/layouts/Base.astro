@@ -11,9 +11,11 @@ interface Props {
 	description?: string;
 	image?: string;
 	type?: "website" | "article";
+	/** Play the piece-by-piece entry once per session (see src/scripts/assemble.ts). */
+	assemble?: boolean;
 }
 
-const { title, description = SITE.description, image, type = "website" } =
+const { title, description = SITE.description, image, type = "website", assemble = false } =
 	Astro.props;
 const fullTitle = title ? `${title} · ${SITE.title}` : `${SITE.title} — ${SITE.author}`;
 const canonical = new URL(Astro.url.pathname, Astro.site);
@@ -56,6 +58,19 @@ const ogImage = image ? new URL(image, Astro.site) : undefined;
 				if (t) document.documentElement.dataset.theme = t;
 			} catch {}
 		</script>
+		{assemble && (
+			<script is:inline>
+				// Hide before first paint; the page script assembles it. Safety net after 8s.
+				try {
+					const k = "seq:" + location.pathname;
+					if (!sessionStorage.getItem(k) && !matchMedia("(prefers-reduced-motion: reduce)").matches) {
+						sessionStorage.setItem(k, "1");
+						document.documentElement.classList.add("pre", "assembling");
+						setTimeout(() => document.documentElement.classList.remove("pre", "assembling"), 8000);
+					}
+				} catch {}
+			</script>
+		)}
 		<slot name="head" />
 	</head>
 	<body>
