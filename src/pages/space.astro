@@ -1,0 +1,320 @@
+---
+import Base from "@/layouts/Base.astro";
+import { getPosts, postUrl } from "@/lib/posts";
+
+const posts = await getPosts();
+---
+
+<Base title="스페이스" description="카테고리별 구체로 모은 글 지도. 태그가 겹치는 글끼리 이어진다.">
+	<section>
+		<div class="space" data-space>
+			<canvas aria-hidden="true"></canvas>
+			<header class="hud">
+				<h1><i>◎</i>SPACE</h1>
+				<span data-readout></span>
+			</header>
+			<div class="tip" data-tip hidden></div>
+			<aside class="panel" data-panel hidden aria-live="polite"></aside>
+			<div class="dock">
+				<form role="search" class="search">
+					<svg width="14" height="14" viewBox="0 0 16 16" aria-hidden="true"><circle cx="7" cy="7" r="5" fill="none" stroke="currentColor" stroke-width="1.6"></circle><path d="m11 11 3.5 3.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"></path></svg>
+					<input data-q type="search" placeholder="제목 · 설명 · 태그 검색   ( / )" autocomplete="off" aria-label="글 검색" />
+				</form>
+				<div class="chips" data-chips role="group" aria-label="카테고리"></div>
+			</div>
+			<p class="hint">드래그 회전 · 점 클릭 열기 · 카테고리로 좁히기 · Esc 해제</p>
+		</div>
+		<!-- Canvas is decorative for AT; same posts as plain links. -->
+		<ul class="sr-list">
+			{posts.map((p) => <li><a href={postUrl(p.slug)}>{p.data.title}</a></li>)}
+		</ul>
+	</section>
+</Base>
+
+<script>
+	import { initSpace } from "@/scripts/space";
+	const root = document.querySelector<HTMLElement>("[data-space]");
+	if (root) initSpace(root);
+</script>
+
+<style>
+	/* Blueprint layout from agent-system, painted with the blog's own tokens. */
+	/* Full-bleed: break out of main.container so the field spans the viewport. */
+	:global(body) {
+		overflow-x: clip;
+	}
+	.space {
+		position: relative;
+		width: 100vw;
+		margin-inline: calc(50% - 50vw);
+		height: max(520px, calc(100svh - 60px - env(safe-area-inset-top, 0px)));
+		/* Raised controls: one hairline ring + a short drop (stageshow drafting sheet). */
+		--raise: 0 0 0 0.5px color-mix(in srgb, var(--ink) 14%, transparent), 0 2px 6px -2px color-mix(in srgb, var(--ink) 10%, transparent);
+		--major: color-mix(in srgb, var(--ink) 8%, transparent);
+		--minor: color-mix(in srgb, var(--ink) 4%, transparent);
+		background:
+			linear-gradient(var(--major) 1px, transparent 1px),
+			linear-gradient(90deg, var(--major) 1px, transparent 1px),
+			linear-gradient(var(--minor) 1px, transparent 1px),
+			linear-gradient(90deg, var(--minor) 1px, transparent 1px),
+			var(--bg);
+		background-size: 80px 80px, 80px 80px, 16px 16px, 16px 16px;
+		background-position: center;
+		overflow: hidden;
+		font-family: var(--mono);
+		font-size: 13px;
+	}
+	canvas {
+		position: absolute;
+		inset: 0;
+		width: 100%;
+		height: 100%;
+		display: block;
+		cursor: grab;
+		touch-action: none;
+	}
+	.hud {
+		position: absolute;
+		top: 16px;
+		left: max(16px, calc(50% - var(--max) / 2 + 16px));
+		right: max(16px, calc(50% - var(--max) / 2 + 16px));
+		display: flex;
+		align-items: baseline;
+		gap: 16px;
+		pointer-events: none;
+	}
+	h1 {
+		margin: 0;
+		font-size: 13px;
+		letter-spacing: 0.18em;
+	}
+	h1 i {
+		font-style: normal;
+		margin-right: 8px;
+		color: var(--brand);
+	}
+	[data-readout] {
+		margin-left: auto;
+		color: var(--mute);
+		font-size: 11px;
+		white-space: pre;
+		overflow: hidden;
+		text-overflow: ellipsis;
+	}
+	.tip {
+		position: absolute;
+		top: 0;
+		left: 0;
+		z-index: 3;
+		pointer-events: none;
+		max-width: 270px;
+		padding: 6px 10px;
+		background: var(--card);
+		box-shadow: var(--raise);
+		font-family: var(--sans);
+		line-height: 1.45;
+	}
+	.tip :global(b) {
+		display: block;
+		font-size: 13px;
+	}
+	.tip :global(span) {
+		font-family: var(--mono);
+		font-size: 11px;
+		color: var(--mute);
+	}
+	.panel {
+		position: absolute;
+		top: 52px;
+		right: max(16px, calc(50% - var(--max) / 2 + 16px));
+		z-index: 4;
+		width: min(360px, calc(100% - 36px));
+		max-height: calc(100% - 200px);
+		overflow: auto;
+		padding: 16px 18px;
+		background: var(--card);
+		box-shadow: var(--raise), 0 18px 40px -20px color-mix(in srgb, var(--ink) 25%, transparent);
+		font-family: var(--sans);
+		animation: slidein 0.25s ease-out;
+	}
+	@keyframes slidein {
+		from {
+			opacity: 0;
+			transform: translateY(8px);
+		}
+	}
+	.panel :global(.src) {
+		font-family: var(--mono);
+		font-size: 10px;
+		letter-spacing: 0.08em;
+		color: var(--brand);
+	}
+	.panel :global(h2) {
+		margin: 4px 0 8px;
+		font-size: 16px;
+		line-height: 1.4;
+	}
+	.panel :global(p) {
+		margin: 0 0 10px;
+		font-size: 13px;
+		color: var(--mute);
+		line-height: 1.6;
+	}
+	.panel :global(.tags) {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 4px 8px;
+		font-family: var(--mono);
+		font-size: 11px;
+		color: var(--mute);
+	}
+	.panel :global(.go) {
+		display: inline-block;
+		margin-top: 12px;
+		padding: 6px 12px;
+		background: color-mix(in srgb, var(--brand) 12%, transparent);
+		color: var(--brand);
+		font-size: 13px;
+		font-weight: 600;
+	}
+	.panel :global(.go:hover) {
+		background: color-mix(in srgb, var(--brand) 20%, transparent);
+	}
+	.panel :global(.x) {
+		position: absolute;
+		top: 8px;
+		right: 10px;
+		background: none;
+		border: 0;
+		color: var(--mute);
+		font-size: 20px;
+		line-height: 1;
+		cursor: pointer;
+	}
+	.panel :global(.rel) {
+		margin-top: 14px;
+		padding-top: 10px;
+		border-top: 1px solid var(--rule);
+		display: grid;
+		gap: 4px;
+	}
+	.panel :global(.rel button) {
+		background: none;
+		border: 0;
+		padding: 2px 0;
+		color: var(--ink);
+		font: inherit;
+		font-size: 12px;
+		text-align: left;
+		cursor: pointer;
+	}
+	.panel :global(.rel button:hover) {
+		color: var(--brand);
+	}
+	.dock {
+		position: absolute;
+		left: 50%;
+		bottom: 34px;
+		transform: translateX(-50%);
+		width: min(640px, calc(100% - 32px));
+		z-index: 2;
+	}
+	.search {
+		position: relative;
+		display: flex;
+		align-items: center;
+		background: var(--card);
+		box-shadow: var(--raise);
+		color: var(--mute);
+	}
+	.search svg {
+		position: absolute;
+		left: 14px;
+		pointer-events: none;
+	}
+	.search:focus-within {
+		box-shadow: 0 0 0 1px var(--brand), 0 2px 6px -2px color-mix(in srgb, var(--ink) 10%, transparent);
+	}
+	input {
+		width: 100%;
+		height: 42px;
+		padding: 0 14px 0 38px;
+		background: transparent;
+		border: 0;
+		border-radius: 0;
+		color: var(--ink);
+		font: inherit;
+		font-family: var(--sans);
+		font-size: 14px;
+	}
+	input:focus {
+		outline: none;
+	}
+	/* One segmented control; the chosen segment gets a soft accent fill. */
+	.chips {
+		display: flex;
+		flex-wrap: wrap;
+		width: fit-content;
+		max-width: 100%;
+		margin: 10px auto 0;
+		padding: 3px;
+		gap: 2px;
+		background: var(--card);
+		box-shadow: var(--raise);
+	}
+	.chips :global(button) {
+		height: 28px;
+		padding: 0 12px;
+		background: transparent;
+		border: 0;
+		border-radius: 0;
+		color: var(--mute);
+		font: inherit;
+		font-family: var(--sans);
+		font-size: 12.5px;
+		font-weight: 500;
+		cursor: pointer;
+		transition: background-color 0.2s, color 0.2s;
+	}
+	.chips :global(button:hover) {
+		color: var(--ink);
+	}
+	.chips :global(button b) {
+		margin-left: 6px;
+		font-family: var(--mono);
+		font-size: 11px;
+		font-weight: 400;
+		opacity: 0.7;
+	}
+	.chips :global(button[aria-pressed="true"]) {
+		background: color-mix(in srgb, var(--brand) 12%, transparent);
+		color: var(--brand);
+	}
+	.hint {
+		position: absolute;
+		bottom: 8px;
+		left: 0;
+		right: 0;
+		margin: 0;
+		text-align: center;
+		font-size: 10px;
+		color: var(--mute);
+		pointer-events: none;
+	}
+	.sr-list {
+		position: absolute;
+		width: 1px;
+		height: 1px;
+		overflow: hidden;
+		clip-path: inset(50%);
+	}
+	@media (max-width: 640px) {
+		[data-readout] {
+			display: none;
+		}
+		.panel {
+			top: auto;
+			bottom: 130px;
+		}
+	}
+</style>

@@ -5,6 +5,7 @@ import { SITE } from "@/site";
 const NAV = [
 	{ href: "/", label: "글" },
 	{ href: "/about/", label: "소개" },
+	{ href: "/space/", label: "스페이스" },
 ];
 const path = Astro.url.pathname;
 const isCurrent = (href: string) =>
@@ -129,6 +130,9 @@ const isCurrent = (href: string) =>
 	@media (max-width: 640px) {
 		.bar {
 			gap: 16px;
+		}
+		nav {
+			gap: 14px;
 		}
 		kbd {
 			display: none;
