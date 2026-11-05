@@ -7,13 +7,19 @@ import {
 	heatmapHtml,
 	profileHtml,
 } from "@/scripts/terminal-commands";
+import { collapse } from "@/scripts/collapse";
+import { toggleCrt } from "@/scripts/crt";
+import { type App, APPS } from "@/scripts/terminal-apps";
 import { toggleTheme } from "@/scripts/theme";
 
 export function mountTerminal(root: HTMLElement, onIntroDone?: () => void) {
 	const out = root.querySelector<HTMLElement>("[data-out]");
 	const input = root.querySelector<HTMLInputElement>("input");
 	if (!out || !input) return;
-	const prompt = root.dataset.prompt ?? "";
+	const base = root.dataset.prompt ?? "";
+	// The prompt shows the current "directory" (category) after cd.
+	const promptHtml = () => base.replace("~ %", `~${ctx.cwd ? `/${ctx.cwd}` : ""} %`);
+	let app: App | null = null;
 
 	const ctx: Ctx = {
 		posts: readPosts(),
@@ -27,6 +33,51 @@ export function mountTerminal(root: HTMLElement, onIntroDone?: () => void) {
 			location.href = url;
 		},
 		toggleTheme,
+		collapse,
+		gitlog: JSON.parse(root.dataset.gitlog ?? "[]"),
+		cwd: "",
+		crt: toggleCrt,
+		launch: (name, arg) => {
+			const start = APPS[name];
+			if (!start) return undefined;
+			input.value = ""; // the launching command line isn't input for the app
+			// Overlay the visible part of the terminal, leaving the input line usable.
+			// With little output, a spacer pushes the input line to the bottom first.
+			const line = root.querySelector<HTMLElement>(".input-line")!;
+			const spacer = document.createElement("div");
+			root.scrollTop = root.scrollHeight;
+			const gap = root.clientHeight - (line.offsetTop + line.offsetHeight - root.scrollTop) - 26;
+			if (gap > 0) {
+				spacer.style.height = `${gap}px`;
+				out.append(spacer);
+			}
+			root.scrollTop = root.scrollHeight;
+			const screen = document.createElement("div");
+			screen.className = "screen";
+			screen.style.top = `${root.scrollTop}px`;
+			screen.style.height = `${line.offsetTop - root.scrollTop - 8}px`;
+			root.classList.add("in-app");
+			root.append(screen);
+			app = start(
+				{
+					screen,
+					input,
+					posts: ctx.posts,
+					exit: (msg) => {
+						app?.stop?.();
+						app = null;
+						screen.remove();
+						spacer.remove();
+						root.classList.remove("in-app");
+						input.value = "";
+						if (msg) print(msg);
+						input.focus({ preventScroll: true });
+					},
+				},
+				arg,
+			);
+			return undefined;
+		},
 	};
 
 	const print = (html: string) => {
@@ -37,7 +88,7 @@ export function mountTerminal(root: HTMLElement, onIntroDone?: () => void) {
 		root.scrollTop = root.scrollHeight;
 		return line;
 	};
-	const echo = (cmd: string) => print(`${prompt}${cmd.replace(/</g, "&lt;")}`);
+	const echo = (cmd: string) => print(`${promptHtml()}${cmd.replace(/</g, "&lt;")}`);
 
 	const history: string[] = [];
 	let cursor = 0;
@@ -52,9 +103,21 @@ export function mountTerminal(root: HTMLElement, onIntroDone?: () => void) {
 			? cmd(rest.join(" "), ctx)
 			: `zsh: command not found: ${name.replace(/</g, "&lt;")} <span class="m">(help를 입력해보세요)</span>`;
 		if (html) print(html);
+		const label = root.querySelector(".input-line .p");
+		if (label) label.outerHTML = promptHtml();
 	}
 
 	input.addEventListener("keydown", (e) => {
+		if (e.isComposing) return; // Korean IME: Enter commits the syllable, not the line
+		if (app) {
+			if (e.key === "Enter") {
+				e.preventDefault();
+				const v = input.value;
+				input.value = "";
+				app.enter?.(v);
+			} else if (app.key?.(e)) e.preventDefault();
+			return;
+		}
 		if (e.key === "Enter") {
 			e.preventDefault();
 			run(input.value);
@@ -95,7 +158,7 @@ export function mountTerminal(root: HTMLElement, onIntroDone?: () => void) {
 		}
 		const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
 		const type = async (cmd: string) => {
-			const line = print(prompt);
+			const line = print(base);
 			for (const ch of cmd) {
 				line.innerHTML += ch;
 				await sleep(38);

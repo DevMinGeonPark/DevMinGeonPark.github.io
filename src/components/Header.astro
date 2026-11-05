@@ -131,8 +131,15 @@ const isCurrent = (href: string) =>
 		.bar {
 			gap: 16px;
 		}
+		/* Bigger tap targets; underline stays under the text. */
 		nav {
-			gap: 14px;
+			gap: 6px;
+		}
+		nav a {
+			padding: 10px 5px;
+		}
+		nav a[aria-current]::after {
+			inset: auto 5px 6px;
 		}
 		kbd {
 			display: none;

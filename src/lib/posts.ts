@@ -34,6 +34,7 @@ export type PostSummary = {
 	tags: string[];
 	date: string;
 	pinned: boolean;
+	minutes: number;
 };
 
 export const toSummary = (p: Post): PostSummary => ({
@@ -45,6 +46,7 @@ export const toSummary = (p: Post): PostSummary => ({
 	tags: p.data.tags,
 	date: isoDate(p.data.published),
 	pinned: p.data.pinned !== undefined,
+	minutes: readingMinutes(p.body),
 });
 
 // ponytail: ~500 Korean chars/min heuristic, ignores code blocks vs prose.

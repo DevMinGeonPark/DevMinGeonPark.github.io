@@ -23,3 +23,15 @@ addEventListener("pageshow", () => {
 	root.classList.remove("leaving");
 	for (const el of document.querySelectorAll<HTMLElement>("[data-vt-cover]")) el.style.viewTransitionName = "";
 });
+
+// tmux-style tab title: detached while the tab is hidden, a short "attached" blink on return.
+const title = document.title;
+let blink: ReturnType<typeof setTimeout>;
+document.addEventListener("visibilitychange", () => {
+	clearTimeout(blink);
+	if (document.hidden) document.title = `[detached] ${title}`;
+	else {
+		document.title = `[attached] ${title}`;
+		blink = setTimeout(() => (document.title = title), 1500);
+	}
+});

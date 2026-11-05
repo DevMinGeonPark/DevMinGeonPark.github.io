@@ -1,5 +1,6 @@
 // Post "space": each category is a wireframe sphere, each post a node on its shell.
 // Structure from ~/agent-system/mockup "Blueprint" theme; colours come from the blog's tokens.
+import { roll } from "@/scripts/roll";
 import { escapeHtml, readPosts } from "@/scripts/posts-data";
 import type { PostSummary } from "@/lib/posts";
 
@@ -83,6 +84,7 @@ export function initSpace(root: HTMLElement) {
 	const active = new Set(clusters.map((c) => c.name));
 	let hits: Set<Node> | null = null, hover: Node | null = null, focus: Node | null = null;
 	const rot = { yaw: 0.5, pitch: -0.55, v: 0 };
+	let aim: number | null = null; // yaw to swing to (deep link into a post's zone)
 	let W = 0, H = 0, DPR = 1, SCALE = 1, t0 = 0, last = 0;
 	let drag: { x: number; y: number; moved: boolean } | null = null;
 	const impulses: { a: Node; b: Node; t: number }[] = [];
@@ -91,7 +93,7 @@ export function initSpace(root: HTMLElement) {
 		const r = cv.getBoundingClientRect();
 		DPR = devicePixelRatio || 1; W = r.width; H = r.height;
 		cv.width = W * DPR; cv.height = H * DPR;
-		SCALE = Math.min((W * 0.86) / (2 * EXT), (H - 150) / (2 * EXT * 0.9));
+		SCALE = Math.min((W * (W < 640 ? 0.96 : 0.86)) / (2 * EXT), (H - 150) / (2 * EXT * 0.9));
 	}
 	new ResizeObserver(resize).observe(cv);
 
@@ -101,7 +103,12 @@ export function initSpace(root: HTMLElement) {
 	function draw(t: number) {
 		const dt = Math.min(0.05, (t - last) / 1000 || 0); last = t;
 		const time = t / 1000, intro = (t - t0) / 1000, boot = ease(intro / 1.6);
-		if (!drag && !still) rot.yaw += dt * (hover ? 0 : 0.05) + rot.v;
+		if (drag) aim = null;
+		if (aim !== null) {
+			const d = aim - rot.yaw;
+			rot.yaw += d * Math.min(1, dt * 2.5);
+			if (Math.abs(d) < 0.003) aim = null;
+		} else if (!drag && !still) rot.yaw += dt * (hover ? 0 : 0.05) + rot.v;
 		rot.v *= 0.92;
 		const cy = Math.cos(rot.yaw), sy = Math.sin(rot.yaw), cp = Math.cos(rot.pitch), sp = Math.sin(rot.pitch);
 		const ox = W / 2, oy = H / 2 - 30;
@@ -348,7 +355,7 @@ export function initSpace(root: HTMLElement) {
 	const query = () => {
 		const s = q.value.trim().toLowerCase();
 		hits = s ? new Set(nodes.filter((n) => [n.title, n.description, ...n.tags].join(" ").toLowerCase().includes(s))) : null;
-		count.textContent = hits ? `${hits.size} / ${nodes.length}` : `${nodes.length} nodes`;
+		roll(count, hits ? `${hits.size} / ${nodes.length}` : `${nodes.length} nodes`);
 		count.classList.toggle("hit", !!hits?.size);
 		q.form?.style.setProperty("--p", hits ? String(hits.size / nodes.length) : "0");
 	};
@@ -361,5 +368,15 @@ export function initSpace(root: HTMLElement) {
 
 	renderChips();
 	resize();
+	// Portrait screens: look down on the ring so the zones spread vertically instead of piling up.
+	if (W < H) rot.pitch = -1.05;
+	// /space/?focus=<slug> (from a post page): swing that zone to the front, then lock on.
+	const want = nodes.find((n) => n.slug === new URLSearchParams(location.search).get("focus"));
+	if (want) {
+		const [x, , z] = want.c.p;
+		const a = Math.atan2(z, x) + Math.PI / 2;
+		aim = rot.yaw + ((((a - rot.yaw) % (2 * Math.PI)) + 3 * Math.PI) % (2 * Math.PI)) - Math.PI;
+		setTimeout(() => open(want), 1300);
+	}
 	requestAnimationFrame((t) => { t0 = t; last = t; draw(t); });
 }

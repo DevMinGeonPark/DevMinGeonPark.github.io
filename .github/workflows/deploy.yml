@@ -20,6 +20,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 30 # terminal `git log` shows recent site commits
 
       - name: Setup pnpm
         uses: pnpm/action-setup@v4

@@ -162,6 +162,11 @@ html.pre main {
 ::selection {
 	background: color-mix(in srgb, var(--brand) 22%, transparent);
 }
+/* Text a quote link points at (#:~:text=). */
+::target-text {
+	background: color-mix(in srgb, var(--brand) 25%, transparent);
+	color: inherit;
+}
 html {
 	scrollbar-color: color-mix(in srgb, var(--ink) 25%, transparent) transparent;
 	scrollbar-width: thin;
@@ -229,5 +234,151 @@ html.leaving::before {
 	}
 	to {
 		transform: scaleX(0.85);
+	}
+}
+
+/* Odometer digits (src/scripts/roll.ts). */
+.rc {
+	white-space: pre;
+}
+.rd {
+	display: inline-block;
+	height: 1em;
+	line-height: 1;
+	overflow: hidden;
+	vertical-align: -0.12em;
+}
+.rd > span {
+	display: block;
+	transition: transform 0.7s cubic-bezier(0.2, 0.9, 0.3, 1.1);
+}
+
+/* Vim keys (src/scripts/vimkeys.ts): landing flash + cheat sheet. */
+.vim-hit {
+	animation: vim-hit 0.9s ease-out;
+}
+@keyframes vim-hit {
+	from {
+		outline: 2px solid var(--brand);
+		outline-offset: 6px;
+	}
+	to {
+		outline: 2px solid transparent;
+		outline-offset: 10px;
+	}
+}
+.vimhelp {
+	position: fixed;
+	right: max(16px, env(safe-area-inset-right, 0px));
+	bottom: calc(80px + env(safe-area-inset-bottom, 0px));
+	z-index: 45;
+	min-width: 240px;
+	padding: 0 0 10px;
+	background: var(--term-bg);
+	color: var(--term-fg);
+	font-family: var(--mono);
+	font-size: 12px;
+	box-shadow: 0 20px 50px -20px rgb(0 0 0 / 0.6);
+	animation: place 0.4s cubic-bezier(0.2, 0.9, 0.3, 1.15);
+}
+.vimhelp p {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+	margin: 0;
+	padding: 4px 16px;
+}
+.vimhelp .t {
+	gap: 6px;
+	margin-bottom: 8px;
+	padding: 9px 12px;
+	border-bottom: 1px solid rgb(255 255 255 / 0.08);
+	font-size: 8px;
+	color: var(--term-mute);
+}
+.vimhelp .t b {
+	margin-left: 6px;
+	font-size: 11.5px;
+	font-weight: 500;
+}
+.vimhelp kbd {
+	min-width: 56px;
+	font: inherit;
+	color: var(--term-green);
+}
+
+/* CRT mode (src/scripts/crt.ts): green phosphor tokens, scanlines, vignette, flicker. */
+:root.crt.crt {
+	--bg: #020c05;
+	--card: #03140a;
+	--ink: #8dffb5;
+	--mute: #3f9c66;
+	--rule: #0c3a1f;
+	--strong-rule: #15603a;
+	--fill: #062012;
+	--brand: #3dff8a;
+	--shadow: 0 0 0 1px #0c3a1f;
+	--term-bg: #010804;
+	--term-fg: #8dffb5;
+	--term-mute: #3f9c66;
+	--term-key: #3dff8a;
+	--term-green: #3dff8a;
+	--term-yellow: #c8ff6a;
+	--heat-0: #052012;
+	--heat-1: #0b4a25;
+	--heat-2: #138a43;
+	--heat-3: #22c463;
+	--heat-4: #6dffa6;
+	color-scheme: dark;
+}
+.crt body {
+	text-shadow: 0 0 6px color-mix(in srgb, var(--ink) 40%, transparent);
+}
+.crt img,
+.crt video {
+	filter: grayscale(1) sepia(1) hue-rotate(75deg) saturate(3) brightness(0.8) !important;
+}
+.crt::after {
+	content: "";
+	position: fixed;
+	inset: 0;
+	z-index: 100;
+	pointer-events: none;
+	background:
+		repeating-linear-gradient(transparent 0 2px, rgb(0 0 0 / 0.25) 2px 3px),
+		radial-gradient(ellipse at center, transparent 55%, rgb(0 0 0 / 0.6));
+	animation: crt-flicker 5s steps(1) infinite;
+}
+@keyframes crt-flicker {
+	0%,
+	100% {
+		opacity: 1;
+	}
+	41% {
+		opacity: 0.85;
+	}
+	42% {
+		opacity: 1;
+	}
+	77% {
+		opacity: 0.93;
+	}
+}
+/* Power-on: a bright line that opens into the picture. */
+.crt-boot body {
+	animation: crt-on 0.6s cubic-bezier(0.2, 0.9, 0.3, 1);
+}
+@keyframes crt-on {
+	0% {
+		transform: scale(1, 0.004);
+		filter: brightness(5);
+	}
+	40% {
+		transform: scale(1, 0.004);
+		filter: brightness(3);
+	}
+	100% {
+		transform: none;
+		filter: none;
 	}
 }

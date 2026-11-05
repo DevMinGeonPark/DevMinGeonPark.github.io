@@ -21,6 +21,7 @@ const summaries = (await getPosts()).map(toSummary);
 
 <script>
 	import { escapeHtml, readPosts } from "@/scripts/posts-data";
+	import { roll } from "@/scripts/roll";
 
 	const overlay = document.getElementById("palette") as HTMLElement;
 	const input = document.getElementById("palette-q") as HTMLInputElement;
@@ -37,7 +38,7 @@ const summaries = (await getPosts()).map(toSummary);
 		);
 		selected = Math.min(selected, Math.max(0, shown.length - 1));
 		const total = readPosts().length;
-		count.textContent = q ? `${shown.length} / ${total}` : `${total} posts`;
+		roll(count, q ? `${shown.length} / ${total}` : `${total} posts`);
 		count.classList.toggle("hit", !!q && shown.length > 0);
 		box.style.setProperty("--p", q ? String(shown.length / total) : "0");
 		list.innerHTML = shown.length

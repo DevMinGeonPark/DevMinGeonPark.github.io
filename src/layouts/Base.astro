@@ -56,6 +56,7 @@ const ogImage = image ? new URL(image, Astro.site) : undefined;
 			try {
 				const t = localStorage.getItem("theme");
 				if (t) document.documentElement.dataset.theme = t;
+				if (sessionStorage.getItem("crt")) document.documentElement.classList.add("crt");
 			} catch {}
 		</script>
 		{assemble && (
@@ -82,6 +83,8 @@ const ogImage = image ? new URL(image, Astro.site) : undefined;
 		<CommandPalette />
 		<script>
 			import "@/scripts/nav";
+			import "@/scripts/vimkeys";
+			import "@/scripts/crt";
 		</script>
 	</body>
 </html>

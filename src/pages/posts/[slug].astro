@@ -74,42 +74,202 @@ const jsonLd = {
 			)}
 			<div class="prose"><Content /></div>
 			<p class="license label">
-				{SITE.author} · <a href={SITE.license.url}>{SITE.license.name}</a>
+				<span>{SITE.author} · <a href={SITE.license.url}>{SITE.license.name}</a></span>
+				<a class="to-space" href={`/space/?focus=${post.slug}`}>◎ 스페이스에서 보기</a>
 			</p>
 		</div>
 	</article>
 	<Toc headings={headings} />
 	</div>
 
+	<button class="quote" type="button" data-quote hidden>❝ 이 문장 링크 복사</button>
+	<p class="eol" role="status" data-eol data-slug={post.slug} data-min={readingMinutes(post.body)} hidden></p>
+
 	<PostDock prev={link(older)} next={link(newer)} position={`${index + 1} / ${total}`} />
 </Base>
 
+<script>
+	import { motionOk } from "@/scripts/reveal";
+	import { scramble } from "@/scripts/scramble";
+
+	// Title decodes in once per load, like a terminal resolving output.
+	const h1 = document.querySelector<HTMLElement>(".post h1");
+	if (h1 && motionOk()) scramble(h1, 1800);
+
+	// Select text in the article -> copy a link that opens the page scrolled to and highlighting it
+	// (URL text fragment: #:~:text=start,end).
+	const prose = document.querySelector<HTMLElement>(".prose");
+	const quote = document.querySelector<HTMLButtonElement>("[data-quote]")!;
+	const words = (t: string) => t.split(/\s+/).filter(Boolean);
+	const fragment = (t: string) => {
+		const w = words(t);
+		const enc = (x: string[]) => encodeURIComponent(x.join(" ")).replace(/-/g, "%2D");
+		return w.length > 12 ? `${enc(w.slice(0, 5))},${enc(w.slice(-5))}` : enc(w);
+	};
+	// Text fragments only match whole words, so widen the selection to word edges.
+	const snap = (range: Range) => {
+		const r = range.cloneRange();
+		const a = r.startContainer, b = r.endContainer;
+		if (a.nodeType === 3) {
+			let i = r.startOffset;
+			while (i > 0 && !/\s/.test(a.textContent![i - 1])) i--;
+			r.setStart(a, i);
+		}
+		if (b.nodeType === 3) {
+			let j = r.endOffset;
+			while (j < b.textContent!.length && !/\s/.test(b.textContent![j])) j++;
+			r.setEnd(b, j);
+		}
+		return r.toString().trim();
+	};
+	let picked = "";
+	document.addEventListener("selectionchange", () => {
+		const sel = getSelection();
+		const text = sel?.toString().trim() ?? "";
+		const inside = sel?.rangeCount && prose?.contains(sel.getRangeAt(0).commonAncestorContainer);
+		if (!inside || text.length < 4) {
+			quote.hidden = true;
+			return;
+		}
+		picked = snap(sel.getRangeAt(0));
+		const r = sel.getRangeAt(0).getBoundingClientRect();
+		quote.style.left = `${Math.min(Math.max(r.left + r.width / 2, 90), innerWidth - 90)}px`;
+		// Touch screens put their own copy menu above the selection, so go below it there.
+		const below = matchMedia("(pointer: coarse)").matches;
+		quote.classList.toggle("below", below);
+		quote.style.top = `${(below ? r.bottom + 14 : r.top - 44) + scrollY}px`;
+		quote.hidden = false;
+	});
+	quote.addEventListener("pointerdown", (e) => e.preventDefault()); // keep the selection
+	quote.addEventListener("click", async () => {
+		const url = `${location.origin}${location.pathname}#:~:text=${fragment(picked)}`;
+		try {
+			await navigator.clipboard.writeText(url);
+			quote.textContent = "✓ 복사됨";
+		} catch {
+			quote.textContent = "복사 실패";
+		}
+		setTimeout(() => {
+			quote.hidden = true;
+			quote.textContent = "❝ 이 문장 링크 복사";
+		}, 1200);
+	});
+
+	// Reaching the end of the article prints a boot-log style line once.
+	const eol = document.querySelector<HTMLElement>("[data-eol]")!;
+	const end = document.querySelector(".license");
+	if (end)
+		new IntersectionObserver(([e], io) => {
+			if (!e.isIntersecting) return;
+			io.disconnect();
+			eol.innerHTML = `<span class="ok">[  OK  ]</span> Reached end of ${eol.dataset.slug} · ${eol.dataset.min}분`;
+			eol.hidden = false;
+			setTimeout(() => eol.classList.add("bye"), 3200);
+		}).observe(end);
+</script>
+
 <style>
-	/* Article stays centered; the TOC sits in the right gutter on wide screens. */
+	/* Article fills the container; the TOC is a fixed-width rail on the right. */
 	.layout {
 		display: grid;
-		grid-template-columns: 1fr minmax(0, var(--measure)) 1fr;
-		margin: 20px 0 110px;
+		grid-template-columns: minmax(0, 1fr) 232px;
+		gap: 32px;
+		margin: 20px 0 28px;
 	}
 	.post {
-		grid-column: 2;
 		overflow: hidden;
 	}
-	.layout :global(.toc) {
-		grid-column: 3;
-		margin-left: 28px;
+	/* Phones: the article card goes edge to edge so the text column isn't squeezed by two gutters. */
+	@media (max-width: 640px) {
+		.post {
+			margin-inline: -16px;
+			border-radius: 0;
+			box-shadow: none;
+		}
+		.layout {
+			margin-top: 0;
+		}
 	}
-	@media (max-width: 1180px) {
+	@media (max-width: 1080px) {
 		.layout {
 			grid-template-columns: minmax(0, 1fr);
-			max-width: var(--measure);
-			margin-inline: auto;
-		}
-		.post {
-			grid-column: 1;
 		}
 		.layout :global(.toc) {
 			display: none;
+		}
+	}
+	/* Floating "copy quote link" button above a selection. */
+	.quote {
+		position: absolute;
+		z-index: 25;
+		transform: translateX(-50%);
+		padding: 7px 12px;
+		border: 0;
+		background: var(--ink);
+		color: var(--card);
+		font: inherit;
+		font-size: 12.5px;
+		font-weight: 600;
+		white-space: nowrap;
+		cursor: pointer;
+		box-shadow: 0 8px 20px -8px color-mix(in srgb, var(--ink) 50%, transparent);
+		animation: pop 0.2s cubic-bezier(0.2, 0.9, 0.3, 1.3);
+	}
+	.quote::after {
+		content: "";
+		position: absolute;
+		left: 50%;
+		bottom: -5px;
+		width: 10px;
+		height: 10px;
+		background: inherit;
+		transform: translateX(-50%) rotate(45deg);
+	}
+	.quote.below::after {
+		top: -5px;
+		bottom: auto;
+	}
+	@keyframes pop {
+		from {
+			opacity: 0;
+			transform: translate(-50%, 6px) scale(0.9);
+		}
+	}
+	/* End-of-article boot log line. */
+	.eol {
+		position: fixed;
+		left: max(16px, env(safe-area-inset-left, 0px));
+		bottom: calc(18px + env(safe-area-inset-bottom, 0px));
+		z-index: 21;
+		margin: 0;
+		padding: 9px 14px;
+		background: var(--term-bg);
+		color: var(--term-fg);
+		font-family: var(--mono);
+		font-size: 12px;
+		box-shadow: 0 12px 30px -12px rgb(0 0 0 / 0.5);
+		animation: eol-in 0.45s cubic-bezier(0.2, 0.9, 0.3, 1.15);
+		transition:
+			opacity 0.4s,
+			transform 0.4s;
+	}
+	.eol :global(.ok) {
+		color: var(--term-green);
+	}
+	.eol.bye {
+		opacity: 0;
+		transform: translateY(10px);
+	}
+	@keyframes eol-in {
+		from {
+			opacity: 0;
+			transform: translateX(-20px);
+		}
+	}
+	@media (max-width: 640px) {
+		.eol {
+			right: 16px;
+			bottom: calc(76px + env(safe-area-inset-bottom, 0px));
 		}
 	}
 	/* Reading progress, driven by scroll position alone (no JS). */
@@ -143,8 +303,12 @@ const jsonLd = {
 		object-fit: cover;
 		filter: var(--thumb);
 	}
+	/* Wide card, comfortable text column: prose caps at ~46 Korean chars per line. */
 	.body {
-		padding: 30px clamp(20px, 5vw, 48px) 36px;
+		padding: 36px clamp(20px, 6vw, 72px) 44px;
+	}
+	.body > :global(*) {
+		max-width: 780px;
 	}
 	h1 {
 		margin: 8px 0 14px;
@@ -178,12 +342,29 @@ const jsonLd = {
 		margin: 0;
 		font-size: 0.95rem;
 	}
+	.license .to-space {
+		padding: 6px 12px;
+		background: color-mix(in srgb, var(--brand) 10%, transparent);
+		color: var(--brand);
+		font-family: var(--mono);
+		font-size: 11.5px;
+		text-decoration: none;
+		transition: background-color 0.15s;
+	}
+	.license .to-space:hover {
+		background: color-mix(in srgb, var(--brand) 18%, transparent);
+	}
 	.summary a,
-	.license a {
+	.license a:not(.to-space) {
 		text-decoration: underline;
 		text-underline-offset: 3px;
 	}
 	.license {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		flex-wrap: wrap;
+		gap: 10px;
 		margin: 32px 0 0;
 		padding-top: 16px;
 		border-top: 1px solid var(--rule);

@@ -116,3 +116,36 @@
 	padding: 6px 12px;
 	text-align: left;
 }
+
+/* Figures develop as they scroll in: diagrams wipe in left to right, screenshots rise. Scroll-driven, no JS. */
+@supports (animation-timeline: view()) {
+	.prose img,
+	.prose video {
+		animation: develop linear both;
+		animation-timeline: view();
+		animation-range: entry 5% cover 35%;
+	}
+	.prose img[src*=".svg"] {
+		animation-name: wipe;
+	}
+}
+@keyframes develop {
+	from {
+		opacity: 0;
+		transform: translateY(24px) scale(0.98);
+	}
+}
+@keyframes wipe {
+	from {
+		clip-path: inset(0 100% 0 0);
+		opacity: 0.3;
+	}
+}
+/* Breathing room around code blocks (the paragraph after one used to sit flush against it). */
+.prose .expressive-code {
+	margin: 1.5em 0;
+}
+/* Identifiers in table cells stay on one line; the table scrolls sideways instead. */
+.prose td code {
+	white-space: nowrap;
+}

@@ -1,5 +1,11 @@
 // Terminal-ish text effects for the about page.
 const GLYPHS = "!<>-_\\/[]{}=+*^?#01";
+// Full-width stand-ins for CJK so a Korean line keeps its width (no reflow while it settles).
+const WIDE = "＃＊＋＝／＜＞［］｛｝？！０１";
+const glyph = (c: string) => {
+	const set = c.charCodeAt(0) > 0x2e80 ? WIDE : GLYPHS;
+	return set[(Math.random() * set.length) | 0];
+};
 
 // Random glyphs settle left to right into the real text.
 export function scramble(el: HTMLElement, ms = 700) {
@@ -9,7 +15,7 @@ export function scramble(el: HTMLElement, ms = 700) {
 		const t = Math.min(1, Math.max(0, now - start) / ms);
 		const done = Math.floor(t * text.length);
 		el.textContent = [...text]
-			.map((c, i) => (i < done || c === " " ? c : GLYPHS[(Math.random() * GLYPHS.length) | 0]))
+			.map((c, i) => (i < done || c === " " ? c : glyph(c)))
 			.join("");
 		if (t < 1) requestAnimationFrame(tick);
 	};
