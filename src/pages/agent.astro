@@ -1,0 +1,20 @@
+---
+import Agent from "@/components/Agent.astro";
+import Base from "@/layouts/Base.astro";
+---
+
+<Base title="mg agent" description="블로그 글을 찾아 주는 로컬 에이전트. 검색만 하고 답을 지어내지 않는다.">
+	<div class="full"><Agent autofocus /></div>
+</Base>
+
+<style>
+	:global(body) {
+		overflow-x: clip;
+	}
+	.full {
+		width: 100vw;
+		margin-inline: calc(50% - 50vw);
+		height: calc(100svh - 60px);
+		min-height: 480px;
+	}
+</style>

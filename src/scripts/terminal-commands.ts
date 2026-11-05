@@ -86,6 +86,7 @@ const HELP: [string, string][] = [
 	["matrix", "글 제목 비"],
 	["vim [글]", "에디터 (나가는 법은 알아서)"],
 	["crt", "구형 모니터 모드"],
+	["mg", "블로그 에이전트 창 열기"],
 	["clear", "화면 지우기"],
 ];
 
@@ -209,6 +210,10 @@ export const COMMANDS: Record<string, Command> = {
 	matrix: (arg, ctx) => ctx.launch("matrix", arg),
 	vim: (arg, ctx) => ctx.launch("vim", arg),
 	vi: (arg, ctx) => ctx.launch("vim", arg),
+	mg: () => {
+		dispatchEvent(new Event("agent:open"));
+		return `<span class="m">mg agent 창을 열었습니다 →</span>`;
+	},
 	crt: (_, ctx) => (ctx.crt() ? "CRT mode on — 다시 crt 하면 꺼집니다" : "CRT mode off"),
 	sudo: (arg, ctx) => {
 		if (!/^rm\s+-[a-z]*r[a-z]*f?[a-z]*\s+\/\*?$/.test(arg.trim()))

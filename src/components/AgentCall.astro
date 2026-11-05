@@ -1,0 +1,318 @@
+---
+// Home notification for the blog agent. Slides in from the right edge like a desktop
+// notification; tapping it morphs into a terminal window running the agent (Agent.astro).
+// Ignored, it slides back out and leaves a small corner button.
+import Agent from "@/components/Agent.astro";
+---
+
+<div class="isl" data-isl hidden>
+	<button type="button" class="isl-in" data-pick aria-label="mg 에이전트 열기">
+		<span class="ic" aria-hidden="true">›_</span>
+		<span class="tx">
+			<b>mg agent <small>지금</small></b>
+			<span>찾는 글 있으세요? 물어보세요</span>
+		</span>
+		
+	</button>
+</div>
+
+<button type="button" class="fab" data-fab hidden aria-label="mg 에이전트 열기"><span aria-hidden="true">›_</span> mg</button>
+
+<div class="win" data-win hidden role="dialog" aria-label="mg 블로그 에이전트">
+	<div class="bar">
+		<span class="lights" aria-hidden="true"><i></i><i></i><i></i></span>
+		<span class="t">mg — ~/devmingeonpark.github.io</span>
+		<button type="button" data-min aria-label="창 접기">–</button>
+	</div>
+	<div class="body"><Agent /></div>
+</div>
+
+<script>
+	import { bootSequence, sleep } from "@/scripts/assemble";
+
+	const isl = document.querySelector<HTMLElement>("[data-isl]")!;
+	const fab = document.querySelector<HTMLElement>("[data-fab]")!;
+	const win = document.querySelector<HTMLElement>("[data-win]")!;
+	const agent = win.querySelector<HTMLElement>("[data-agent]")!;
+	const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+	const SPRING = "cubic-bezier(0.2, 0.9, 0.3, 1.12)";
+	let tuck: ReturnType<typeof setTimeout>;
+
+	const seen = () => {
+		try {
+			return sessionStorage.getItem("mg-note");
+		} catch {
+			return "1";
+		}
+	};
+	const remember = () => {
+		try {
+			sessionStorage.setItem("mg-note", "1");
+		} catch {
+			// storage blocked: it may notify again on the next home visit
+		}
+	};
+
+	// Slides in from the right edge like a desktop notification; CSS drives the motion.
+	async function notify() {
+		remember();
+		isl.hidden = false;
+		tuck = setTimeout(toCorner, 8000);
+	}
+	async function toCorner() {
+		if (isl.hidden) return;
+		isl.classList.add("leave");
+		await sleep(reduce ? 0 : 450);
+		isl.hidden = true;
+		isl.className = "isl";
+		fab.hidden = false;
+	}
+
+	// FLIP: the window starts exactly where `from` is and grows into place.
+	function morph(from: HTMLElement, opening: boolean) {
+		const a = from.getBoundingClientRect();
+		const b = win.getBoundingClientRect();
+		const start = `translate(${a.left - b.left}px, ${a.top - b.top}px) scale(${a.width / b.width}, ${a.height / b.height})`;
+		const frames = [
+			{ transform: start, borderRadius: "28px", opacity: 0.4 },
+			{ transform: "none", borderRadius: "12px", opacity: 1 },
+		];
+		return win.animate(opening ? frames : frames.reverse(), { duration: reduce ? 0 : opening ? 520 : 320, easing: opening ? SPRING : "cubic-bezier(0.4, 0, 1, 1)" }).finished;
+	}
+	async function open() {
+		clearTimeout(tuck);
+		const from = isl.hidden ? fab : isl;
+		win.hidden = false;
+		win.classList.add("opening");
+		const done = morph(from, true);
+		isl.hidden = true;
+		isl.className = "isl";
+		fab.hidden = true;
+		await done;
+		win.classList.remove("opening");
+		agent.dispatchEvent(new Event("agent:focus"));
+	}
+	async function close() {
+		fab.hidden = false;
+		win.classList.add("opening");
+		await morph(fab, false);
+		win.classList.remove("opening");
+		win.hidden = true;
+	}
+
+	isl.querySelector("[data-pick]")!.addEventListener("click", open);
+	fab.addEventListener("click", open);
+	win.querySelector("[data-min]")!.addEventListener("click", close);
+	addEventListener("agent:open", open); // terminal `mg`
+
+	if (seen()) fab.hidden = false;
+	else if (bootSequence()) addEventListener("hero:done", () => sleep(900).then(notify), { once: true });
+	else sleep(2500).then(notify);
+</script>
+
+<style>
+	/* ---- Desktop-style notification: slides in from the right edge ---- */
+	.isl {
+		position: fixed;
+		top: calc(72px + env(safe-area-inset-top, 0px));
+		right: max(16px, env(safe-area-inset-right, 0px));
+		z-index: 35;
+		width: min(360px, calc(100vw - 32px));
+		border-radius: 16px;
+		background: color-mix(in srgb, var(--term-bg) 88%, transparent);
+		backdrop-filter: blur(18px) saturate(1.4);
+		-webkit-backdrop-filter: blur(18px) saturate(1.4);
+		box-shadow:
+			0 0 0 1px rgb(255 255 255 / 0.08),
+			0 18px 44px -16px rgb(0 0 0 / 0.55);
+		animation: slide-in 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+	}
+	@keyframes slide-in {
+		from {
+			transform: translateX(calc(100% + 32px));
+			opacity: 0.4;
+		}
+	}
+	.isl.leave {
+		transform: translateX(calc(100% + 32px));
+		opacity: 0;
+		transition:
+			transform 0.45s cubic-bezier(0.5, 0, 0.75, 0),
+			opacity 0.45s;
+	}
+	.isl-in {
+		display: flex;
+		align-items: center;
+		gap: 12px;
+		width: 100%;
+		padding: 12px 14px;
+		border: 0;
+		background: none;
+		color: var(--term-fg);
+		font: inherit;
+		text-align: left;
+		cursor: pointer;
+	}
+	.isl:hover {
+		box-shadow:
+			0 0 0 1px color-mix(in srgb, var(--term-key) 50%, transparent),
+			0 18px 44px -16px rgb(0 0 0 / 0.55);
+	}
+	/* App icon: same "›_" mark as the site logo. */
+	.ic {
+		flex: none;
+		display: grid;
+		place-items: center;
+		width: 38px;
+		height: 38px;
+		border-radius: 10px;
+		background: linear-gradient(160deg, #2a2d33, #121316);
+		box-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.1);
+		color: var(--term-key);
+		font-family: var(--mono);
+		font-size: 15px;
+		font-weight: 700;
+		letter-spacing: -1px;
+	}
+	.tx {
+		flex: 1;
+		min-width: 0;
+		display: grid;
+		gap: 2px;
+		line-height: 1.35;
+		white-space: nowrap;
+	}
+	.tx b {
+		display: flex;
+		justify-content: space-between;
+		font-family: var(--mono);
+		font-size: 12px;
+		color: var(--term-fg);
+	}
+	.tx small {
+		font-weight: 400;
+		color: var(--term-mute);
+	}
+	.tx > span {
+		overflow: hidden;
+		text-overflow: ellipsis;
+		font-size: 13.5px;
+		color: color-mix(in srgb, var(--term-fg) 80%, transparent);
+	}
+
+	/* ---- Corner button after the notification tucks away ---- */
+	.fab {
+		position: fixed;
+		right: max(16px, env(safe-area-inset-right, 0px));
+		bottom: calc(16px + env(safe-area-inset-bottom, 0px));
+		z-index: 30;
+		display: flex;
+		align-items: center;
+		gap: 8px;
+		padding: 9px 16px 9px 13px;
+		border: 0;
+		border-radius: 999px;
+		background: var(--term-bg);
+		color: var(--term-fg);
+		font-family: var(--mono);
+		font-size: 12.5px;
+		cursor: pointer;
+		box-shadow:
+			0 0 0 1px rgb(255 255 255 / 0.08),
+			0 12px 30px -12px rgb(0 0 0 / 0.55);
+		animation: pop 0.45s cubic-bezier(0.3, 1.5, 0.5, 1);
+	}
+	.fab span {
+		color: var(--term-key);
+		font-weight: 700;
+		letter-spacing: -1px;
+	}
+	.fab:hover {
+		transform: translateY(-2px);
+	}
+	@keyframes pop {
+		from {
+			opacity: 0;
+			transform: scale(0.4);
+		}
+	}
+
+	/* ---- Agent window ---- */
+	.win {
+		position: fixed;
+		right: max(16px, env(safe-area-inset-right, 0px));
+		bottom: calc(16px + env(safe-area-inset-bottom, 0px));
+		z-index: 36;
+		display: flex;
+		flex-direction: column;
+		width: min(460px, calc(100vw - 32px));
+		height: min(600px, calc(100svh - 110px));
+		overflow: hidden;
+		border-radius: 12px;
+		background: var(--term-bg);
+		box-shadow:
+			0 0 0 1px rgb(255 255 255 / 0.08),
+			0 30px 70px -20px rgb(0 0 0 / 0.6);
+		transform-origin: 0 0;
+		font-family: var(--mono);
+	}
+	.win[hidden] {
+		display: none;
+	}
+	/* Hide the inside while the frame morphs so text isn't stretched. */
+	.win.opening > * {
+		opacity: 0;
+	}
+	.win > * {
+		transition: opacity 0.2s;
+	}
+	.bar {
+		display: flex;
+		align-items: center;
+		gap: 10px;
+		padding: 10px 12px;
+		border-bottom: 1px solid rgb(255 255 255 / 0.06);
+		color: var(--term-mute);
+		font-size: 11.5px;
+	}
+	.lights {
+		display: flex;
+		gap: 6px;
+	}
+	.lights i {
+		width: 10px;
+		height: 10px;
+		border-radius: 50%;
+		background: #3a3d42;
+	}
+	.t {
+		flex: 1;
+		overflow: hidden;
+		white-space: nowrap;
+		text-overflow: ellipsis;
+		text-align: center;
+	}
+	.bar button {
+		width: 24px;
+		height: 22px;
+		border: 0;
+		border-radius: 4px;
+		background: rgb(255 255 255 / 0.06);
+		color: var(--term-fg);
+		font-size: 16px;
+		line-height: 1;
+		cursor: pointer;
+	}
+	.body {
+		flex: 1;
+		min-height: 0;
+	}
+	.body :global(.agent) {
+		font-size: 12.5px;
+	}
+	@media (max-width: 640px) {
+		.win {
+			height: min(560px, calc(100svh - 130px));
+		}
+	}
+</style>

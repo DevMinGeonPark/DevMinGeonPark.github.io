@@ -247,7 +247,7 @@ export function initSpace(root: HTMLElement) {
 			if (c.R < 4) continue;
 			const on = active.has(c.name) ? 1 : 0.3;
 			const ax = c.sx + 8, ay = c.sy - 8;
-			ctx.font = "700 12px 'IBM Plex Sans KR', sans-serif";
+			ctx.font = "700 12px 'Pretendard Variable', sans-serif";
 			const sub = `${String(c.nodes.length).padStart(3, "0")} NODES`;
 			const w = Math.max(ctx.measureText(c.name).width, sub.length * 5.6) + 10;
 			const ex = Math.min(ax + 14, W - w - 8);
@@ -259,7 +259,7 @@ export function initSpace(root: HTMLElement) {
 			ctx.beginPath(); ctx.moveTo(ax, ay); ctx.lineTo(ex, Math.max(ey, ay - 14)); ctx.lineTo(ex, ey); ctx.lineTo(ex + w, ey); ctx.stroke();
 			ctx.fillStyle = brand(1); ctx.fillRect(ex + w - 3, ey - 1.5, 3, 3);
 			ctx.fillStyle = ink(1); ctx.fillText(c.name, ex + 5, ey - 14);
-			ctx.fillStyle = ink(0.55); ctx.font = "9px 'IBM Plex Mono', ui-monospace, monospace"; ctx.fillText(sub, ex + 5, ey - 3.5);
+			ctx.fillStyle = ink(0.55); ctx.font = "9px 'JetBrains Mono', ui-monospace, monospace"; ctx.fillText(sub, ex + 5, ey - 3.5);
 			ctx.globalAlpha = 1;
 		}
 

@@ -1,0 +1,460 @@
+---
+// Blog agent TUI: keyword retrieval over posts, shown as an agent run (thinking, tool calls,
+// streamed answer). No LLM, no network: every line quotes or links a real post.
+// Used full-page on /agent/ and inside the home "incoming call" window (AgentCall.astro).
+import { getPosts } from "@/lib/posts";
+
+interface Props {
+	autofocus?: boolean;
+}
+const { autofocus = false } = Astro.props;
+const posts = await getPosts();
+const dirs = new Set(posts.map((p) => p.data.category)).size;
+const SUGGEST = ["RAG 관련 글", "에이전트 하네스", "홈서버 운영", "React Native"];
+---
+
+<section class="agent" data-agent data-autofocus={autofocus ? "" : undefined}>
+		<div class="wrap">
+			<div class="log" data-log aria-live="polite">
+				<div class="welcome">
+					<p class="ttl"><b>›_ mg</b> <span>blog agent · retrieval only</span></p>
+					<p><span class="m">cwd</span> ~/devmingeonpark.github.io</p>
+					<p><span class="m">index</span> {posts.length} posts · {dirs} dirs</p>
+					<p class="m">질문하면 글을 찾아 인용합니다. 답을 지어내지 않아요. <span class="k">/help</span></p>
+				</div>
+				<div class="suggest">
+					{SUGGEST.map((s) => <button type="button" data-ask={s}>{s}</button>)}
+				</div>
+			</div>
+			<form class="box" data-form>
+				<ul class="menu" data-menu hidden></ul>
+				<span class="caret" aria-hidden="true">›</span>
+				<input data-in type="text" autocomplete="off" spellcheck="false" placeholder="무엇을 찾을까요?  ( / 로 명령 )" aria-label="에이전트에게 질문" />
+			</form>
+			<p class="status"><span data-status>mg-local · retrieval only · 0 queries · 0 tokens · $0.00</span><span class="m">esc 중단 · ↑ 이전 질문</span></p>
+		</div>
+	</section>
+
+<script>
+	import { escapeHtml as esc, readPosts } from "@/scripts/posts-data";
+
+	for (const root of document.querySelectorAll<HTMLElement>("[data-agent]")) init(root);
+
+	function init(root: HTMLElement) {
+	const log = root.querySelector<HTMLElement>("[data-log]")!;
+	const form = root.querySelector<HTMLFormElement>("[data-form]")!;
+	const input = root.querySelector<HTMLInputElement>("[data-in]")!;
+	const menu = root.querySelector<HTMLElement>("[data-menu]")!;
+	const status = root.querySelector<HTMLElement>("[data-status]")!;
+	const posts = readPosts();
+	const CMDS: [string, string][] = [
+		["/help", "명령어 목록"],
+		["/posts", "전체 글 목록"],
+		["/open", "글 열기  /open <slug>"],
+		["/random", "아무 글 하나"],
+		["/clear", "대화 지우기"],
+	];
+
+	let busy = false;
+	let stop = false;
+	let queries = 0;
+	const history: string[] = [];
+	let hi = 0;
+
+	const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
+	const add = (cls: string, html = "") => {
+		const el = document.createElement("div");
+		el.className = cls;
+		el.innerHTML = html;
+		log.append(el);
+		log.scrollTop = log.scrollHeight;
+		return el;
+	};
+	// Stream text in like a model would, a few characters per frame.
+	async function stream(el: HTMLElement, html: string) {
+		const tmp = document.createElement("div");
+		tmp.innerHTML = html;
+		const text = tmp.textContent ?? "";
+		for (let i = 0; i <= text.length && !stop; i += 3) {
+			el.textContent = text.slice(0, i);
+			log.scrollTop = log.scrollHeight;
+			await sleep(12);
+		}
+		el.innerHTML = html;
+		log.scrollTop = log.scrollHeight;
+	}
+	async function think(label: string, ms: number) {
+		const frames = "⠋⠙⠹⠸⠼⠴⠦⠧⠇⠏";
+		const el = add("think");
+		const t0 = performance.now();
+		while (performance.now() - t0 < ms && !stop) {
+			const s = ((performance.now() - t0) / 1000).toFixed(1);
+			el.innerHTML = `<span class="spin">${frames[((performance.now() / 80) | 0) % frames.length]}</span> ${label}… <span class="m">(${s}s · esc to interrupt)</span>`;
+			await sleep(80);
+		}
+		el.remove();
+	}
+	const tool = async (call: string, result: string) => {
+		const el = add("tool", `<span class="dot">●</span> ${call}`);
+		await sleep(260);
+		el.innerHTML = `<span class="dot ok">●</span> ${call}<div class="res">⎿ ${result}</div>`;
+		log.scrollTop = log.scrollHeight;
+		await sleep(180);
+	};
+
+	// Plain keyword retrieval over title / tags / category / summary.
+	function search(q: string) {
+		const terms = q.toLowerCase().split(/[\s,.?!]+/).filter((t) => t.length > 1 && !["관련", "글", "있어", "알려줘", "뭐야"].includes(t));
+		const scored = posts
+			.map((p) => {
+				const hay = { t: p.title.toLowerCase(), g: p.tags.join(" ").toLowerCase(), c: p.category.toLowerCase(), d: p.description.toLowerCase(), s: p.slug };
+				const score = terms.reduce((n, t) => n + (hay.t.includes(t) ? 3 : 0) + (hay.g.includes(t) ? 3 : 0) + (hay.c.includes(t) ? 2 : 0) + (hay.s.includes(t) ? 2 : 0) + (hay.d.includes(t) ? 1 : 0), 0);
+				return { p, score };
+			})
+			.filter((x) => x.score > 0)
+			.sort((a, b) => b.score - a.score);
+		return { terms, hits: scored.map((x) => x.p) };
+	}
+	const row = (p: (typeof posts)[number], i: number) =>
+		`  ${i + 1}. <a href="${p.url}">${esc(p.title)}</a>  <span class="m">${esc(p.category)} · ${p.date} · ${p.minutes}분</span>`;
+
+	async function ask(q: string) {
+		const { terms, hits } = search(q);
+		await think("Thinking", 500 + Math.random() * 400);
+		if (stop) return;
+		await tool(`Grep(<span class="s">"${esc(terms.join("|") || q)}"</span>, posts/)`, hits.length ? `${hits.length} file${hits.length > 1 ? "s" : ""} matched` : "no matches");
+		if (stop) return;
+		if (!hits.length) {
+			await stream(add("say"), `관련 글을 찾지 못했어요. 다른 단어로 물어보거나 <span class="k">/posts</span> 로 전체 목록을 볼 수 있어요.`);
+			return;
+		}
+		const top = hits[0];
+		await tool(`Read(<span class="s">${top.slug}.md</span>)`, esc(top.description.length > 90 ? `${top.description.slice(0, 90)}…` : top.description));
+		if (stop) return;
+		await think("Writing", 300);
+		if (stop) return;
+		const list = hits.slice(0, 5).map(row).join("\n");
+		await stream(
+			add("say"),
+			`“${esc(q)}” 관련 글은 ${hits.length}편입니다.\n${list}\n\n가장 가까운 글은 <b>${esc(top.title)}</b>예요. 요약하면:\n<span class="quote">${esc(top.description)}</span>\n<span class="m">→ /open ${top.slug}</span>`,
+		);
+	}
+
+	async function command(line: string) {
+		const [cmd, ...rest] = line.split(/\s+/);
+		const arg = rest.join(" ");
+		if (cmd === "/clear") {
+			log.innerHTML = "";
+			return;
+		}
+		if (cmd === "/help") return void add("say", CMDS.map(([c, d]) => `<span class="k">${c.padEnd(8)}</span> ${d}`).join("\n") + `\n<span class="m">그 외 입력은 질문으로 처리합니다</span>`);
+		if (cmd === "/posts") return void add("say", posts.map(row).join("\n"));
+		if (cmd === "/random") {
+			const p = posts[(Math.random() * posts.length) | 0];
+			await tool(`Pick(<span class="s">posts/</span>)`, `${p.slug}.md`);
+			return void add("say", `${row(p, 0)}\n<span class="m">→ /open ${p.slug}</span>`);
+		}
+		if (cmd === "/open") {
+			const p = posts.find((x) => x.slug === arg) ?? posts.find((x) => x.slug.startsWith(arg));
+			if (!arg || !p) return void add("say err", `/open: 글을 찾을 수 없어요: ${esc(arg)}`);
+			await tool(`Open(<span class="s">${p.url}</span>)`, "navigating");
+			location.href = p.url;
+			return;
+		}
+		add("say err", `알 수 없는 명령: ${esc(cmd)}  <span class="m">/help</span>`);
+	}
+
+	async function submit(raw: string) {
+		const q = raw.trim();
+		if (!q || busy) return;
+		root.querySelector(".suggest")?.remove();
+		history.push(q);
+		hi = history.length;
+		add("me", `<span class="caret">›</span> ${esc(q)}`);
+		busy = true;
+		stop = false;
+		root.classList.add("busy");
+		if (q.startsWith("/")) await command(q);
+		else {
+			queries++;
+			await ask(q);
+		}
+		if (stop) add("tool", `<div class="res">⎿ <span class="err">Interrupted</span> · 다시 물어보세요</div>`);
+		status.textContent = `mg-local · retrieval only · ${queries} queries · 0 tokens · $0.00`;
+		busy = false;
+		root.classList.remove("busy");
+		input.focus();
+	}
+
+	// Slash-command menu while the line starts with "/".
+	let sel = 0;
+	function renderMenu() {
+		const v = input.value;
+		const list = v.startsWith("/") && !v.includes(" ") ? CMDS.filter(([c]) => c.startsWith(v)) : [];
+		menu.hidden = !list.length;
+		sel = Math.min(sel, Math.max(0, list.length - 1));
+		menu.innerHTML = list.map(([c, d], i) => `<li class="${i === sel ? "on" : ""}" data-cmd="${c}"><b>${c}</b><span>${d}</span></li>`).join("");
+		return list;
+	}
+	input.addEventListener("input", () => {
+		sel = 0;
+		renderMenu();
+	});
+	menu.addEventListener("mousedown", (e) => {
+		const c = (e.target as HTMLElement).closest<HTMLElement>("[data-cmd]")?.dataset.cmd;
+		if (!c) return;
+		e.preventDefault();
+		input.value = c === "/open" ? "/open " : c;
+		renderMenu();
+	});
+	input.addEventListener("keydown", (e) => {
+		if (e.isComposing) return;
+		const list = menu.hidden ? [] : renderMenu();
+		if (list.length && (e.key === "ArrowDown" || e.key === "ArrowUp")) {
+			e.preventDefault();
+			sel = (sel + (e.key === "ArrowDown" ? 1 : list.length - 1)) % list.length;
+			renderMenu();
+		} else if (list.length && e.key === "Tab") {
+			e.preventDefault();
+			input.value = list[sel][0] === "/open" ? "/open " : list[sel][0];
+			renderMenu();
+		} else if (!list.length && e.key === "ArrowUp" && history.length) {
+			e.preventDefault();
+			hi = Math.max(0, hi - 1);
+			input.value = history[hi];
+		} else if (e.key === "Escape") {
+			if (busy) stop = true;
+			menu.hidden = true;
+		}
+	});
+	form.addEventListener("submit", (e) => {
+		e.preventDefault();
+		const list = menu.hidden ? [] : renderMenu();
+		const v = list.length && input.value !== list[sel][0] && list[sel][0] !== "/open" ? list[sel][0] : input.value;
+		input.value = "";
+		menu.hidden = true;
+		submit(v);
+	});
+	root.addEventListener("click", (e) => {
+		const q = (e.target as HTMLElement).closest<HTMLElement>("[data-ask]")?.dataset.ask;
+		if (q) submit(q);
+	});
+	if (root.hasAttribute("data-autofocus")) input.focus({ preventScroll: true });
+	// Opened from elsewhere (home call window): focus the prompt.
+	root.addEventListener("agent:focus", () => input.focus({ preventScroll: true }));
+	}
+</script>
+
+<style>
+	/* Fills its container; dark in both themes like the home terminal. */
+	.agent {
+		height: 100%;
+		background: var(--term-bg);
+		color: var(--term-fg);
+		font-family: var(--mono);
+		font-size: 13px;
+		line-height: 1.7;
+	}
+	.wrap {
+		display: flex;
+		flex-direction: column;
+		height: 100%;
+		max-width: 880px;
+		margin: 0 auto;
+		padding: 20px 16px 12px;
+	}
+	.log {
+		flex: 1;
+		overflow-y: auto;
+		overscroll-behavior: contain;
+		padding-bottom: 12px;
+		scrollbar-width: thin;
+	}
+	.log > :global(*) {
+		margin: 0 0 12px;
+		white-space: pre-wrap;
+		animation: in 0.25s ease-out;
+	}
+	@keyframes in {
+		from {
+			opacity: 0;
+			transform: translateY(4px);
+		}
+	}
+	.welcome {
+		padding: 14px 18px;
+		border: 1px solid color-mix(in srgb, var(--term-key) 45%, transparent);
+		border-radius: 8px;
+		white-space: normal !important;
+	}
+	.welcome p {
+		margin: 0;
+	}
+	.ttl {
+		margin-bottom: 8px !important;
+	}
+	.ttl b {
+		color: var(--term-key);
+	}
+	.ttl span,
+	.m,
+	.log :global(.m) {
+		color: var(--term-mute);
+	}
+	.k,
+	.log :global(.k) {
+		color: var(--term-key);
+	}
+	.suggest {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 8px;
+		white-space: normal !important;
+	}
+	.suggest button {
+		padding: 5px 12px;
+		border: 1px solid rgb(255 255 255 / 0.12);
+		border-radius: 999px;
+		background: none;
+		color: var(--term-fg);
+		font: inherit;
+		font-size: 12px;
+		cursor: pointer;
+	}
+	.suggest button:hover {
+		border-color: var(--term-key);
+		color: var(--term-key);
+	}
+	.log :global(.me) {
+		padding: 6px 12px;
+		background: rgb(255 255 255 / 0.05);
+		border-left: 2px solid var(--term-key);
+	}
+	.log :global(.caret),
+	.caret {
+		color: var(--term-key);
+		font-weight: 700;
+	}
+	.log :global(.think) {
+		color: var(--term-yellow);
+	}
+	.log :global(.tool) {
+		margin-bottom: 8px;
+	}
+	.log :global(.dot) {
+		color: var(--term-mute);
+		animation: blink 0.6s steps(2) infinite;
+	}
+	.log :global(.dot.ok) {
+		color: var(--term-green);
+		animation: none;
+	}
+	@keyframes blink {
+		50% {
+			opacity: 0.2;
+		}
+	}
+	.log :global(.res) {
+		padding-left: 14px;
+		color: var(--term-mute);
+	}
+	.log :global(.s) {
+		color: var(--term-yellow);
+	}
+	.log :global(.say a) {
+		color: var(--term-fg);
+		text-decoration: underline;
+		text-decoration-color: rgb(255 255 255 / 0.25);
+		text-underline-offset: 3px;
+	}
+	.log :global(.say a:hover) {
+		color: var(--term-key);
+	}
+	.log :global(.quote) {
+		display: block;
+		margin: 4px 0;
+		padding-left: 12px;
+		border-left: 2px solid rgb(255 255 255 / 0.15);
+		color: var(--term-fg);
+		font-family: var(--sans);
+	}
+	.log :global(.err),
+	.log :global(.say.err) {
+		color: var(--term-yellow);
+	}
+	.box {
+		position: relative;
+		display: flex;
+		align-items: center;
+		gap: 10px;
+		padding: 10px 14px;
+		border: 1px solid rgb(255 255 255 / 0.16);
+		border-radius: 8px;
+		transition: border-color 0.2s;
+	}
+	.box:focus-within {
+		border-color: var(--term-key);
+	}
+	.busy .box {
+		border-color: var(--term-yellow);
+	}
+	input {
+		flex: 1;
+		min-width: 0;
+		border: 0;
+		outline: 0;
+		background: none;
+		color: var(--term-fg);
+		font: inherit;
+		font-size: 14px;
+		caret-color: var(--term-key);
+	}
+	input::placeholder {
+		color: #4a4f4b;
+	}
+	.menu {
+		position: absolute;
+		left: 0;
+		right: 0;
+		bottom: calc(100% + 6px);
+		margin: 0;
+		padding: 6px;
+		list-style: none;
+		background: #15161a;
+		border: 1px solid rgb(255 255 255 / 0.1);
+		border-radius: 8px;
+	}
+	.menu :global(li) {
+		display: flex;
+		gap: 16px;
+		padding: 4px 10px;
+		border-radius: 4px;
+		cursor: pointer;
+	}
+	.menu :global(li b) {
+		min-width: 70px;
+		color: var(--term-key);
+		font-weight: 500;
+	}
+	.menu :global(li span) {
+		color: var(--term-mute);
+	}
+	.menu :global(li.on) {
+		background: rgb(255 255 255 / 0.07);
+	}
+	.status {
+		display: flex;
+		justify-content: space-between;
+		gap: 12px;
+		margin: 8px 2px 0;
+		font-size: 11px;
+		color: var(--term-mute);
+		white-space: nowrap;
+		overflow: hidden;
+	}
+	@media (max-width: 640px) {
+		.status .m {
+			display: none;
+		}
+	}
+</style>
