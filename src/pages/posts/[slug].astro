@@ -53,6 +53,7 @@ const jsonLd = {
 	<script slot="head" type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
 	<link slot="head" rel="alternate" type="text/markdown" href={`/posts/${post.slug}.md`} />
 
+	<div class="progress" aria-hidden="true"></div>
 	<div class="layout">
 	<article class="card post">
 		{image && <Image class="cover" src={image} alt="" width={1520} loading="eager" />}
@@ -111,7 +112,30 @@ const jsonLd = {
 			display: none;
 		}
 	}
+	/* Reading progress, driven by scroll position alone (no JS). */
+	.progress {
+		position: fixed;
+		inset: 0 0 auto;
+		z-index: 16;
+		height: 2px;
+		background: var(--brand);
+		transform-origin: 0 50%;
+		transform: scaleX(0);
+		animation: read linear both;
+		animation-timeline: scroll(root);
+	}
+	@keyframes read {
+		to {
+			transform: scaleX(1);
+		}
+	}
+	@supports not (animation-timeline: scroll()) {
+		.progress {
+			display: none;
+		}
+	}
 	.post :global(.cover) {
+		view-transition-name: cover;
 		display: block;
 		width: 100%;
 		height: auto;

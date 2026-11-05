@@ -49,6 +49,19 @@
 .prose a:hover {
 	text-decoration-color: var(--ink);
 }
+.prose p,
+.prose li {
+	text-wrap: pretty;
+}
+/* Outbound links get a small arrow. */
+.prose a[href^="http"]:not(.anchor)::after {
+	content: "↗";
+	margin-left: 2px;
+	font-size: 0.75em;
+	color: var(--mute);
+	text-decoration: none;
+	display: inline-block;
+}
 .prose strong {
 	font-weight: 800;
 }

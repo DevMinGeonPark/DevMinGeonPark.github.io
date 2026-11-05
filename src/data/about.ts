@@ -44,7 +44,6 @@ export const AX = {
 export const CAREER: Row[] = [
 	{ when: "2025.09 – 2026.09", title: "폐수처리 분야 회사", detail: "유일한 개발자 · AI 전환 담당" },
 	{ when: "2025.04 – 2025.07", title: "KITECH 제조AI연구센터", detail: "반도체 CMP 결함 탐지 (YOLO, Grounding DINO)" },
-	{ when: "2024", title: "세종대학교 정보보호학과", detail: "석사과정 수학 · 로봇 소프트웨어 보안 (ROS IDL 퍼징)" },
 	{ when: "2023.09 – 2023.12", title: "모밋", detail: "Frontend Engineer" },
 	{ when: "2021 – 2024", title: "프리랜서", detail: "React Native·Next.js 앱과 웹 외주 개발" },
 	{ when: "2019 – 2020", title: "공군 체계관리병", detail: "인트라넷 개발, 리눅스 운영" },

@@ -17,8 +17,10 @@ const posts = await getPosts();
 			<aside class="panel" data-panel hidden aria-live="polite"></aside>
 			<div class="dock">
 				<form role="search" class="search">
-					<svg width="14" height="14" viewBox="0 0 16 16" aria-hidden="true"><circle cx="7" cy="7" r="5" fill="none" stroke="currentColor" stroke-width="1.6"></circle><path d="m11 11 3.5 3.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"></path></svg>
-					<input data-q type="search" placeholder="제목 · 설명 · 태그 검색   ( / )" autocomplete="off" aria-label="글 검색" />
+					<span class="ps" aria-hidden="true"><b>$</b> grep -i</span>
+					<input data-q type="search" placeholder="제목 · 설명 · 태그" autocomplete="off" spellcheck="false" aria-label="글 검색" />
+					<output data-count aria-live="polite">{posts.length} nodes</output>
+					<kbd aria-hidden="true"><span class="k-idle">/</span><span class="k-go">↵</span></kbd>
 				</form>
 				<div class="chips" data-chips role="group" aria-label="카테고리"></div>
 			</div>
@@ -242,36 +244,123 @@ const posts = await getPosts();
 		width: min(640px, calc(100% - 32px));
 		z-index: 2;
 	}
+	/* Command bar: shell prompt | query | match count | keycap. Corner ticks + match-ratio meter. */
 	.search {
+		--tick: color-mix(in srgb, var(--ink) 35%, transparent);
 		position: relative;
 		display: flex;
 		align-items: center;
+		height: 50px;
 		background: var(--card);
-		box-shadow: var(--raise);
+		box-shadow: var(--raise), 0 14px 30px -18px color-mix(in srgb, var(--ink) 30%, transparent);
 		color: var(--mute);
+		transition: box-shadow 0.2s;
 	}
-	.search svg {
+	/* Drafting registration marks on the four corners. */
+	.search::before {
+		content: "";
 		position: absolute;
-		left: 14px;
+		inset: -5px;
 		pointer-events: none;
+		--l: 9px;
+		background:
+			linear-gradient(var(--tick) 0 0) top left / var(--l) 1px,
+			linear-gradient(var(--tick) 0 0) top left / 1px var(--l),
+			linear-gradient(var(--tick) 0 0) top right / var(--l) 1px,
+			linear-gradient(var(--tick) 0 0) top right / 1px var(--l),
+			linear-gradient(var(--tick) 0 0) bottom left / var(--l) 1px,
+			linear-gradient(var(--tick) 0 0) bottom left / 1px var(--l),
+			linear-gradient(var(--tick) 0 0) bottom right / var(--l) 1px,
+			linear-gradient(var(--tick) 0 0) bottom right / 1px var(--l);
+		background-repeat: no-repeat;
+		transition: inset 0.25s cubic-bezier(0.2, 0.9, 0.3, 1.15);
+	}
+	/* Bottom meter: share of nodes the query matches. */
+	.search::after {
+		content: "";
+		position: absolute;
+		left: 0;
+		bottom: 0;
+		height: 2px;
+		width: calc(var(--p, 0) * 100%);
+		background: var(--brand);
+		transition: width 0.35s cubic-bezier(0.2, 0.9, 0.3, 1);
 	}
 	.search:focus-within {
-		box-shadow: 0 0 0 1px var(--brand), 0 2px 6px -2px color-mix(in srgb, var(--ink) 10%, transparent);
+		--tick: var(--brand);
+		box-shadow: 0 0 0 1px var(--brand), 0 14px 30px -18px color-mix(in srgb, var(--brand) 45%, transparent);
+	}
+	.search:focus-within::before {
+		inset: -7px;
+	}
+	.ps {
+		display: flex;
+		align-items: center;
+		align-self: stretch;
+		gap: 7px;
+		padding: 0 14px;
+		border-right: 1px solid var(--rule);
+		background: color-mix(in srgb, var(--ink) 3%, transparent);
+		font-size: 12px;
+		white-space: nowrap;
+		color: var(--mute);
+	}
+	.ps b {
+		color: var(--brand);
 	}
 	input {
-		width: 100%;
-		height: 42px;
-		padding: 0 14px 0 38px;
+		flex: 1;
+		min-width: 0;
+		height: 100%;
+		padding: 0 14px;
 		background: transparent;
 		border: 0;
 		border-radius: 0;
 		color: var(--ink);
+		caret-color: var(--brand);
 		font: inherit;
 		font-family: var(--sans);
-		font-size: 14px;
+		font-size: 14.5px;
+	}
+	input::-webkit-search-cancel-button {
+		display: none;
 	}
 	input:focus {
 		outline: none;
+	}
+	output {
+		padding-right: 10px;
+		font-size: 11px;
+		letter-spacing: 0.04em;
+		white-space: nowrap;
+		font-variant-numeric: tabular-nums;
+	}
+	output.hit {
+		color: var(--brand);
+	}
+	kbd {
+		display: grid;
+		place-items: center;
+		min-width: 24px;
+		height: 24px;
+		margin-right: 12px;
+		padding: 0 6px;
+		background: var(--bg);
+		box-shadow: var(--raise), inset 0 -1px 0 color-mix(in srgb, var(--ink) 12%, transparent);
+		font: inherit;
+		font-size: 11px;
+		color: var(--ink);
+	}
+	kbd > span {
+		grid-area: 1 / 1;
+		transition: opacity 0.15s;
+	}
+	.k-go,
+	.search:focus-within .k-idle {
+		opacity: 0;
+	}
+	.search:focus-within .k-go {
+		opacity: 1;
 	}
 	/* One segmented control; the chosen segment gets a soft accent fill. */
 	.chips {
@@ -332,7 +421,8 @@ const posts = await getPosts();
 		clip-path: inset(50%);
 	}
 	@media (max-width: 640px) {
-		[data-readout] {
+		[data-readout],
+		kbd {
 			display: none;
 		}
 		.panel {

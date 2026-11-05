@@ -7,12 +7,15 @@ const summaries = (await getPosts()).map(toSummary);
 <script type="application/json" id="posts-json" set:html={JSON.stringify(summaries).replaceAll("<", "\\u003c")} />
 
 <div id="palette" class="overlay" hidden>
-	<div class="card box" role="dialog" aria-modal="true" aria-label="글 검색">
+	<div class="box" role="dialog" aria-modal="true" aria-label="글 검색">
 		<label for="palette-q">
-			<svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><circle cx="7" cy="7" r="5" fill="none" stroke="currentColor" stroke-width="1.5"></circle><path d="m11 11 3.5 3.5" stroke="currentColor" stroke-width="1.5"></path></svg>
-			<input id="palette-q" type="text" placeholder="제목, 태그, 카테고리로 검색" autocomplete="off" />
+			<span class="ps" aria-hidden="true"><b>$</b> grep -i</span>
+			<input id="palette-q" type="text" placeholder="제목 · 태그 · 카테고리" autocomplete="off" spellcheck="false" />
+			<output id="palette-count" aria-live="polite"></output>
+			<kbd aria-hidden="true">esc</kbd>
 		</label>
 		<ul id="palette-list"></ul>
+		<p class="foot" aria-hidden="true"><span><kbd>↑</kbd><kbd>↓</kbd> 이동</span><span><kbd>↵</kbd> 열기</span><span><kbd>⌘</kbd><kbd>K</kbd> 토글</span></p>
 	</div>
 </div>
 
@@ -22,6 +25,8 @@ const summaries = (await getPosts()).map(toSummary);
 	const overlay = document.getElementById("palette") as HTMLElement;
 	const input = document.getElementById("palette-q") as HTMLInputElement;
 	const list = document.getElementById("palette-list") as HTMLUListElement;
+	const count = document.getElementById("palette-count") as HTMLOutputElement;
+	const box = overlay.firstElementChild as HTMLElement;
 	let selected = 0;
 	let shown = readPosts();
 
@@ -31,14 +36,26 @@ const summaries = (await getPosts()).map(toSummary);
 			`${p.title} ${p.category} ${p.tags.join(" ")} ${p.description}`.toLowerCase().includes(q),
 		);
 		selected = Math.min(selected, Math.max(0, shown.length - 1));
+		const total = readPosts().length;
+		count.textContent = q ? `${shown.length} / ${total}` : `${total} posts`;
+		count.classList.toggle("hit", !!q && shown.length > 0);
+		box.style.setProperty("--p", q ? String(shown.length / total) : "0");
 		list.innerHTML = shown.length
 			? shown
-					.map((p, i) => `<li><a href="${p.url}" class="${i === selected ? "sel" : ""}">${escapeHtml(p.title)}</a></li>`)
+					.map(
+						(p, i) =>
+							`<li style="--i:${Math.min(i, 10)}"><a href="${p.url}" class="${i === selected ? "sel" : ""}"><span class="t">${escapeHtml(p.title)}</span><span class="meta">${escapeHtml(p.category)} · ${p.date.slice(0, 7)}</span></a></li>`,
+					)
 					.join("")
-			: `<li class="label empty">결과 없음</li>`;
+			: `<li class="empty">grep: 일치하는 글 없음</li>`;
+		list.querySelector(".sel")?.scrollIntoView({ block: "nearest" });
 	}
+	let opening: ReturnType<typeof setTimeout>;
 	const open = () => {
 		overlay.hidden = false;
+		overlay.classList.add("opening");
+		clearTimeout(opening);
+		opening = setTimeout(() => overlay.classList.remove("opening"), 900);
 		input.value = "";
 		selected = 0;
 		render();
@@ -73,37 +90,201 @@ const summaries = (await getPosts()).map(toSummary);
 </script>
 
 <style>
+	/* Same command-bar language as the space search: prompt | query | count | keycap. */
 	.overlay {
 		position: fixed;
 		inset: 0;
 		z-index: 40;
 		display: grid;
-		place-items: start center;
+		grid-template-columns: minmax(0, 600px);
+		justify-content: center;
+		align-items: start;
 		padding: max(14vh, env(safe-area-inset-top, 0px)) 16px 16px;
-		background: rgb(0 0 0 / 0.3);
-		backdrop-filter: blur(6px);
-		-webkit-backdrop-filter: blur(6px);
+		background: color-mix(in srgb, var(--bg) 55%, transparent);
+		backdrop-filter: blur(8px);
+		-webkit-backdrop-filter: blur(8px);
+	}
+	/* Open: backdrop fades, window unfolds from a centre line (CRT-style), ticks snap in, rows drop one by one. */
+	.opening {
+		animation: fade 0.2s ease-out;
+	}
+	.opening .box {
+		animation: unfold 0.5s cubic-bezier(0.65, 0, 0.35, 1);
+	}
+	.opening .box::before {
+		animation: ticks 0.35s 0.4s cubic-bezier(0.2, 0.9, 0.3, 1.3) both;
+	}
+	.opening label > * {
+		animation: rise 0.35s cubic-bezier(0.2, 0.9, 0.3, 1.15) both;
+		animation-delay: 0.38s;
+	}
+	.opening label > input {
+		animation-delay: 0.44s;
+	}
+	.opening label > output,
+	.opening label > kbd {
+		animation-delay: 0.5s;
+	}
+	.opening label::after {
+		animation: scan 0.5s 0.35s ease-out;
+	}
+	.opening ul :global(li),
+	.opening .foot {
+		animation: rise 0.4s cubic-bezier(0.2, 0.9, 0.3, 1.15) both;
+		animation-delay: calc(0.48s + var(--i, 11) * 30ms);
+	}
+	@keyframes fade {
+		from {
+			opacity: 0;
+		}
+	}
+	@keyframes unfold {
+		0% {
+			clip-path: inset(calc(50% - 1px) 50% calc(50% - 1px) 50%);
+		}
+		45% {
+			clip-path: inset(calc(50% - 1px) -12px calc(50% - 1px) -12px);
+		}
+		100% {
+			clip-path: inset(-12px);
+		}
+	}
+	@keyframes ticks {
+		from {
+			inset: -28px;
+			opacity: 0;
+		}
+	}
+	@keyframes rise {
+		from {
+			opacity: 0;
+			transform: translateY(8px);
+			filter: blur(3px);
+		}
+	}
+	/* One brand sweep across the input edge as it powers on. */
+	@keyframes scan {
+		from {
+			width: 0;
+		}
+		60% {
+			width: 100%;
+			opacity: 1;
+		}
+		to {
+			width: 100%;
+			opacity: 0;
+		}
+	}
+	@media (prefers-reduced-motion: reduce) {
+		.opening,
+		.opening * ,
+		.opening .box::before,
+		.opening label::after {
+			animation: none !important;
+		}
 	}
 	.box {
-		width: min(540px, 100%);
-		overflow: hidden;
+		--tick: var(--brand);
+		position: relative;
+		background: var(--card);
+		box-shadow:
+			0 0 0 0.5px color-mix(in srgb, var(--ink) 18%, transparent),
+			0 24px 60px -24px color-mix(in srgb, var(--ink) 40%, transparent);
+		font-family: var(--sans);
+	}
+	/* Drafting registration marks. */
+	.box::before {
+		content: "";
+		position: absolute;
+		inset: -7px;
+		pointer-events: none;
+		--l: 10px;
+		background:
+			linear-gradient(var(--tick) 0 0) top left / var(--l) 1px,
+			linear-gradient(var(--tick) 0 0) top left / 1px var(--l),
+			linear-gradient(var(--tick) 0 0) top right / var(--l) 1px,
+			linear-gradient(var(--tick) 0 0) top right / 1px var(--l),
+			linear-gradient(var(--tick) 0 0) bottom left / var(--l) 1px,
+			linear-gradient(var(--tick) 0 0) bottom left / 1px var(--l),
+			linear-gradient(var(--tick) 0 0) bottom right / var(--l) 1px,
+			linear-gradient(var(--tick) 0 0) bottom right / 1px var(--l);
+		background-repeat: no-repeat;
 	}
 	label {
+		position: relative;
 		display: flex;
 		align-items: center;
-		gap: 10px;
-		height: 52px;
-		padding: 0 18px;
+		height: 54px;
 		border-bottom: 1px solid var(--rule);
+	}
+	/* Match-ratio meter on the input's bottom edge. */
+	label::after {
+		content: "";
+		position: absolute;
+		left: 0;
+		bottom: -1px;
+		height: 2px;
+		width: calc(var(--p, 0) * 100%);
+		background: var(--brand);
+		transition: width 0.35s cubic-bezier(0.2, 0.9, 0.3, 1);
+	}
+	.ps {
+		display: flex;
+		align-items: center;
+		align-self: stretch;
+		gap: 7px;
+		padding: 0 16px;
+		border-right: 1px solid var(--rule);
+		background: color-mix(in srgb, var(--ink) 3%, transparent);
+		font-family: var(--mono);
+		font-size: 12px;
+		white-space: nowrap;
+		color: var(--mute);
+	}
+	.ps b {
+		color: var(--brand);
 	}
 	input {
 		flex: 1;
 		min-width: 0;
+		height: 100%;
+		padding: 0 14px;
 		border: 0;
 		outline: 0;
 		background: none;
 		color: var(--ink);
+		caret-color: var(--brand);
 		font: inherit;
+		font-size: 15px;
+	}
+	output {
+		padding-right: 10px;
+		font-family: var(--mono);
+		font-size: 11px;
+		color: var(--mute);
+		white-space: nowrap;
+		font-variant-numeric: tabular-nums;
+	}
+	output.hit {
+		color: var(--brand);
+	}
+	kbd {
+		display: inline-grid;
+		place-items: center;
+		min-width: 22px;
+		height: 22px;
+		padding: 0 6px;
+		background: var(--bg);
+		box-shadow:
+			0 0 0 0.5px color-mix(in srgb, var(--ink) 18%, transparent),
+			inset 0 -1px 0 color-mix(in srgb, var(--ink) 12%, transparent);
+		font-family: var(--mono);
+		font-size: 10.5px;
+		color: var(--ink);
+	}
+	label > kbd {
+		margin-right: 14px;
 	}
 	ul {
 		list-style: none;
@@ -113,19 +294,84 @@ const summaries = (await getPosts()).map(toSummary);
 		overflow: auto;
 	}
 	ul :global(a) {
-		display: block;
-		padding: 9px 12px;
-		border-radius: 6px;
+		position: relative;
+		display: flex;
+		align-items: baseline;
+		gap: 12px;
+		padding: 10px 14px;
 		font-size: 0.92rem;
+	}
+	ul :global(.t) {
+		flex: 1;
+		min-width: 0;
 		white-space: nowrap;
 		overflow: hidden;
 		text-overflow: ellipsis;
 	}
-	ul :global(a.sel),
+	ul :global(.meta) {
+		font-family: var(--mono);
+		font-size: 11px;
+		color: var(--mute);
+		white-space: nowrap;
+	}
 	ul :global(a:hover) {
 		background: var(--fill);
 	}
+	ul :global(a.sel) {
+		background: color-mix(in srgb, var(--brand) 10%, transparent);
+		color: var(--brand);
+	}
+	ul :global(a.sel)::before {
+		content: "";
+		position: absolute;
+		left: 0;
+		top: 6px;
+		bottom: 6px;
+		width: 2px;
+		background: var(--brand);
+	}
+	ul :global(a.sel .meta)::after {
+		content: "  ↵";
+		color: var(--brand);
+	}
 	ul :global(.empty) {
-		padding: 12px;
+		padding: 14px;
+		font-family: var(--mono);
+		font-size: 12px;
+		color: var(--mute);
+	}
+	.foot {
+		display: flex;
+		gap: 16px;
+		margin: 0;
+		padding: 9px 14px;
+		border-top: 1px solid var(--rule);
+		background: color-mix(in srgb, var(--ink) 2%, transparent);
+		font-size: 11.5px;
+		color: var(--mute);
+	}
+	.foot span {
+		display: flex;
+		align-items: center;
+		gap: 3px;
+	}
+	.foot kbd {
+		min-width: 18px;
+		height: 18px;
+		padding: 0 4px;
+		font-size: 10px;
+	}
+	@media (max-width: 640px) {
+		.foot,
+		label > kbd {
+			display: none;
+		}
+		ul :global(a) {
+			flex-direction: column;
+			gap: 2px;
+		}
+		ul :global(.t) {
+			width: 100%;
+		}
 	}
 </style>

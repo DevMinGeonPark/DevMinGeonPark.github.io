@@ -157,3 +157,77 @@ html.pre main {
 		filter: blur(6px);
 	}
 }
+
+/* ---- Small details ---- */
+::selection {
+	background: color-mix(in srgb, var(--brand) 22%, transparent);
+}
+html {
+	scrollbar-color: color-mix(in srgb, var(--ink) 25%, transparent) transparent;
+	scrollbar-width: thin;
+}
+
+/* Page-to-page: native cross-document view transition. The header stays put,
+   the old page lifts away, the new one settles in; a clicked card cover morphs
+   into the post cover (src/scripts/nav.ts). Unsupported browsers just navigate. */
+@view-transition {
+	navigation: auto;
+}
+#site-header {
+	view-transition-name: site-header;
+}
+::view-transition-old(root) {
+	animation: vt-out 0.18s cubic-bezier(0.4, 0, 1, 1) both;
+}
+::view-transition-new(root) {
+	animation: vt-in 0.42s 0.14s cubic-bezier(0.2, 0.9, 0.3, 1.1) both;
+}
+::view-transition-group(cover) {
+	animation-duration: 0.45s;
+	animation-timing-function: cubic-bezier(0.65, 0, 0.35, 1);
+}
+@keyframes vt-out {
+	to {
+		opacity: 0;
+		transform: translateY(-8px);
+		filter: blur(3px);
+	}
+}
+@keyframes vt-in {
+	from {
+		opacity: 0;
+		transform: translateY(14px);
+		filter: blur(3px);
+	}
+}
+/* Theme flip (src/scripts/theme.ts) is a circle clip on the new snapshot; no crossfade. */
+.theme-vt::view-transition-old(root),
+.theme-vt::view-transition-new(root) {
+	animation: none;
+	mix-blend-mode: normal;
+}
+.theme-vt #site-header {
+	view-transition-name: none;
+}
+
+/* Loading line while the next page is fetched. */
+html.leaving::before {
+	content: "";
+	position: fixed;
+	top: 0;
+	left: 0;
+	z-index: 60;
+	height: 2px;
+	width: 100%;
+	background: var(--brand);
+	transform-origin: 0 50%;
+	animation: leaving 1.2s cubic-bezier(0.1, 0.7, 0.2, 1) both;
+}
+@keyframes leaving {
+	from {
+		transform: scaleX(0);
+	}
+	to {
+		transform: scaleX(0.85);
+	}
+}

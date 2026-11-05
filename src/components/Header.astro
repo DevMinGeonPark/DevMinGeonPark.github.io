@@ -41,7 +41,7 @@ const isCurrent = (href: string) =>
 	addEventListener("scroll", onScroll, { passive: true });
 	onScroll();
 	for (const b of document.querySelectorAll("[data-toggle-theme]")) {
-		b.addEventListener("click", toggleTheme);
+		b.addEventListener("click", (e) => toggleTheme(e as MouseEvent));
 	}
 </script>
 

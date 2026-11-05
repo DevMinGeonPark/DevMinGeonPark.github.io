@@ -344,13 +344,18 @@ export function initSpace(root: HTMLElement) {
 		else active.add(cat);
 		renderChips();
 	});
-	q.addEventListener("input", () => {
+	const count = $("[data-count]");
+	const query = () => {
 		const s = q.value.trim().toLowerCase();
 		hits = s ? new Set(nodes.filter((n) => [n.title, n.description, ...n.tags].join(" ").toLowerCase().includes(s))) : null;
-	});
+		count.textContent = hits ? `${hits.size} / ${nodes.length}` : `${nodes.length} nodes`;
+		count.classList.toggle("hit", !!hits?.size);
+		q.form?.style.setProperty("--p", hits ? String(hits.size / nodes.length) : "0");
+	};
+	q.addEventListener("input", query);
 	q.form?.addEventListener("submit", (e) => { e.preventDefault(); if (hits?.size) open([...hits][0]); });
 	addEventListener("keydown", (e) => {
-		if (e.key === "Escape") { open(null); q.value = ""; hits = null; }
+		if (e.key === "Escape") { open(null); q.value = ""; query(); }
 		if (e.key === "/" && !(document.activeElement instanceof HTMLInputElement)) { e.preventDefault(); q.focus(); }
 	});
 

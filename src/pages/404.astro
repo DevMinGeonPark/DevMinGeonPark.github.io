@@ -4,11 +4,32 @@ import Base from "@/layouts/Base.astro";
 
 <Base title="404">
 	<section class="card nf">
-		<p class="mono">zsh: no such file or directory</p>
+		<p class="mono">$ cd <span data-path>/missing</span></p>
+		<p class="mono err">zsh: no such file or directory</p>
 		<h1>404</h1>
-		<a class="label" href="/">← 홈으로</a>
+		<p class="mean" data-mean hidden>혹시 이 글? <a data-mean-link href="/"></a></p>
+		<a class="label" href="/">← 홈으로</a> <span class="label">· ⌘K로 검색</span>
 	</section>
 </Base>
+
+<script>
+	import { readPosts } from "@/scripts/posts-data";
+
+	// Echo the path that failed and suggest the post whose slug shares the most words with it.
+	const path = decodeURIComponent(location.pathname);
+	document.querySelector("[data-path]")!.textContent = path;
+	const words = path.toLowerCase().split(/[^a-z0-9가-힣]+/).filter((w) => w.length > 1 && w !== "posts");
+	const score = (slug: string) => words.filter((w) => slug.includes(w)).length;
+	const best = readPosts()
+		.map((p) => ({ p, s: score(p.slug) }))
+		.sort((a, b) => b.s - a.s)[0];
+	if (best?.s) {
+		const a = document.querySelector<HTMLAnchorElement>("[data-mean-link]")!;
+		a.href = best.p.url;
+		a.textContent = best.p.title;
+		document.querySelector<HTMLElement>("[data-mean]")!.hidden = false;
+	}
+</script>
 
 <style>
 	.nf {
@@ -16,10 +37,24 @@ import Base from "@/layouts/Base.astro";
 		margin: 20px auto 0;
 		padding: 48px 40px;
 	}
+	.nf .mono {
+		margin: 0;
+	}
+	.err {
+		color: var(--brand);
+	}
 	h1 {
 		margin: 8px 0 16px;
 		font-size: 3.4rem;
 		font-weight: 800;
 		letter-spacing: -0.04em;
+	}
+	.mean {
+		margin: 0 0 18px;
+	}
+	.mean a {
+		color: var(--brand);
+		text-decoration: underline;
+		text-underline-offset: 3px;
 	}
 </style>

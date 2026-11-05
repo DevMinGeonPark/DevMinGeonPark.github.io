@@ -29,6 +29,12 @@ const { title, description, category, published, image } = post.data;
 	.post-card:hover {
 		transform: translateY(-2px);
 	}
+	.post-card img {
+		transition: transform 0.5s cubic-bezier(0.2, 0.7, 0.2, 1);
+	}
+	.post-card:hover img {
+		transform: scale(1.035);
+	}
 	img,
 	.ph {
 		display: block;
