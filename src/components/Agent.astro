@@ -452,9 +452,20 @@ const SUGGEST = ["RAG 관련 글", "에이전트 하네스", "홈서버 운영",
 		white-space: nowrap;
 		overflow: hidden;
 	}
+	.status > :first-child {
+		min-width: 0;
+		overflow: hidden;
+		text-overflow: ellipsis;
+	}
 	@media (max-width: 640px) {
 		.status .m {
 			display: none;
+		}
+		.wrap {
+			padding-inline: 12px;
+		}
+		.suggest button {
+			padding: 6px 12px;
 		}
 	}
 </style>

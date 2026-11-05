@@ -145,4 +145,16 @@ const isCurrent = (href: string) =>
 			display: none;
 		}
 	}
+	/* Narrow bar phones and folded covers (≤ 400px): the GitHub link stays on the about page. */
+	@media (max-width: 400px) {
+		.bar {
+			gap: 10px;
+		}
+		nav {
+			gap: 2px;
+		}
+		.actions a.hbtn {
+			display: none;
+		}
+	}
 </style>
