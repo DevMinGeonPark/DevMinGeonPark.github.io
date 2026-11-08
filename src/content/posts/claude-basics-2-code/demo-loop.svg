@@ -1,0 +1,33 @@
+<svg viewBox="0 0 1000 490" xmlns="http://www.w3.org/2000/svg" font-family="Pretendard, Apple SD Gothic Neo, sans-serif">
+<defs><marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="4.5" markerHeight="4.5" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#111111"/></marker></defs>
+<rect width="1000" height="490" rx="16" fill="#ffffff"/>
+<text x="500.0" y="52" text-anchor="middle" fill="#111111" font-size="24" font-weight="700">강의 시연: 한 줄 요청에서 보고서까지</text>
+<rect x="60" y="90" width="880" height="56" rx="10" fill="#f4f4f4"/><text x="84" y="125" text-anchor="start" fill="#111111" font-size="17" font-weight="400" font-family="JetBrains Mono, SFMono-Regular, Menlo, monospace">&gt; 브래킷 데이터 CSV를 읽고 surrogate model을 학습해줘</text>
+
+<rect x="60" y="200" width="130" height="96" rx="12" fill="#fff" stroke="#111111" stroke-width="2.5"/>
+<text x="125.0" y="242.0" text-anchor="middle" fill="#111111" font-size="20" font-weight="700" font-family="JetBrains Mono, SFMono-Regular, Menlo, monospace">Read</text>
+<text x="125.0" y="272.0" text-anchor="middle" fill="#555555" font-size="15">CSV 읽기</text>
+<rect x="210" y="200" width="130" height="96" rx="12" fill="#fff" stroke="#111111" stroke-width="2.5"/>
+<text x="275.0" y="242.0" text-anchor="middle" fill="#111111" font-size="20" font-weight="700" font-family="JetBrains Mono, SFMono-Regular, Menlo, monospace">Write</text>
+<text x="275.0" y="272.0" text-anchor="middle" fill="#555555" font-size="15">학습 코드 작성</text>
+<path d="M192 248 H208" fill="none" stroke="#111111" stroke-width="2.2" marker-end="url(#a)"/>
+<rect x="360" y="200" width="130" height="96" rx="12" fill="#fff" stroke="#111111" stroke-width="2.5"/>
+<text x="425.0" y="242.0" text-anchor="middle" fill="#111111" font-size="20" font-weight="700" font-family="JetBrains Mono, SFMono-Regular, Menlo, monospace">Run</text>
+<text x="425.0" y="272.0" text-anchor="middle" fill="#555555" font-size="15">실행</text>
+<path d="M342 248 H358" fill="none" stroke="#111111" stroke-width="2.2" marker-end="url(#a)"/>
+<rect x="510" y="200" width="130" height="96" rx="12" fill="#fff" stroke="#999999" stroke-width="2.5" stroke-dasharray="8 6"/>
+<text x="575.0" y="242.0" text-anchor="middle" fill="#555555" font-size="20" font-weight="700">에러</text>
+<text x="575.0" y="272.0" text-anchor="middle" fill="#555555" font-size="15">scikit-learn 없음</text>
+<path d="M492 248 H508" fill="none" stroke="#111111" stroke-width="2.2" marker-end="url(#a)"/>
+<rect x="660" y="200" width="130" height="96" rx="12" fill="#fff" stroke="#111111" stroke-width="2.5"/>
+<text x="725.0" y="242.0" text-anchor="middle" fill="#111111" font-size="20" font-weight="700" font-family="JetBrains Mono, SFMono-Regular, Menlo, monospace">Run</text>
+<text x="725.0" y="272.0" text-anchor="middle" fill="#555555" font-size="15">설치 후 재실행</text>
+<path d="M642 248 H658" fill="none" stroke="#111111" stroke-width="2.2" marker-end="url(#a)"/>
+<rect x="810" y="200" width="130" height="96" rx="12" fill="#111111" stroke="#111111" stroke-width="2.5"/>
+<text x="875.0" y="242.0" text-anchor="middle" fill="#fff" font-size="20" font-weight="700">결과</text>
+<text x="875.0" y="272.0" text-anchor="middle" fill="#cfcfcf" font-size="15">R² 0.94 · 보고서 저장</text>
+<path d="M792 248 H808" fill="none" stroke="#111111" stroke-width="2.2" marker-end="url(#a)"/>
+<path d="M515 300 C 515 380, 645 380, 645 300" fill="none" stroke="#111111" stroke-width="2.2" stroke-dasharray="7 6" marker-end="url(#a)"/>
+<text x="580" y="400" text-anchor="middle" fill="#111111" font-size="16" font-weight="700">Iterate — 실행 결과를 보고 알아서 다시 고침</text>
+<text x="500" y="450" text-anchor="middle" fill="#999999" font-size="15" font-weight="400">채팅창이었다면 에러 메시지를 복사해서 다시 물어봐야 했던 부분</text>
+</svg>

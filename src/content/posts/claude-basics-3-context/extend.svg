@@ -1,0 +1,37 @@
+<svg viewBox="0 0 1000 570" xmlns="http://www.w3.org/2000/svg" font-family="Pretendard, Apple SD Gothic Neo, sans-serif">
+<defs><marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="4.5" markerHeight="4.5" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#111111"/></marker></defs>
+<rect width="1000" height="570" rx="16" fill="#ffffff"/>
+<text x="500.0" y="52" text-anchor="middle" fill="#111111" font-size="24" font-weight="700">도구 늘리기: MCP · Skills · 서브에이전트</text>
+<rect x="380" y="230" width="240" height="110" rx="12" fill="#111111" stroke="#111111" stroke-width="2.5"/>
+<text x="500.0" y="280.4" text-anchor="middle" fill="#fff" font-size="24" font-weight="700">Claude Code</text>
+<text x="500.0" y="310.4" text-anchor="middle" fill="#cfcfcf" font-size="15">파일 · 터미널</text>
+<text x="160" y="110" text-anchor="middle" fill="#111111" font-size="20" font-weight="700">MCP</text>
+<text x="160" y="134" text-anchor="middle" fill="#555555" font-size="14" font-weight="400">외부 서비스를 도구처럼</text>
+<rect x="60" y="160" width="200" height="64" rx="12" fill="#fff" stroke="#111111" stroke-width="2.5"/>
+<text x="160.0" y="198.3" text-anchor="middle" fill="#111111" font-size="18" font-weight="700">Slack</text>
+<path d="M264 192 L376 245" fill="none" stroke="#111111" stroke-width="2.2" marker-start="url(#a)" marker-end="url(#a)"/>
+<rect x="60" y="250" width="200" height="64" rx="12" fill="#fff" stroke="#111111" stroke-width="2.5"/>
+<text x="160.0" y="288.3" text-anchor="middle" fill="#111111" font-size="18" font-weight="700">Google Drive</text>
+<path d="M264 282 L376 265" fill="none" stroke="#111111" stroke-width="2.2" marker-start="url(#a)" marker-end="url(#a)"/>
+<rect x="60" y="340" width="200" height="64" rx="12" fill="#fff" stroke="#111111" stroke-width="2.5"/>
+<text x="160.0" y="378.3" text-anchor="middle" fill="#111111" font-size="18" font-weight="700">사내 DB</text>
+<path d="M264 372 L376 285" fill="none" stroke="#111111" stroke-width="2.2" marker-start="url(#a)" marker-end="url(#a)"/>
+<text x="820" y="110" text-anchor="middle" fill="#111111" font-size="20" font-weight="700">Skills</text>
+<text x="820" y="134" text-anchor="middle" fill="#555555" font-size="14" font-weight="400">필요할 때만 본문을 읽음</text>
+<rect x="720" y="160" width="200" height="64" rx="12" fill="#fff" stroke="#111111" stroke-width="2.5"/>
+<text x="820.0" y="197.25" text-anchor="middle" fill="#111111" font-size="15" font-weight="700" font-family="JetBrains Mono, SFMono-Regular, Menlo, monospace">deploy/SKILL.md</text>
+<rect x="720" y="240" width="200" height="64" rx="12" fill="#fff" stroke="#999999" stroke-width="2.5" stroke-dasharray="8 6"/>
+<text x="820.0" y="277.25" text-anchor="middle" fill="#555555" font-size="15" font-weight="700" font-family="JetBrains Mono, SFMono-Regular, Menlo, monospace">audit/SKILL.md</text>
+<path d="M716 192 L624 260" fill="none" stroke="#111111" stroke-width="2.2" marker-end="url(#a)"/>
+<path d="M716 272 L624 285" fill="none" stroke="#111111" stroke-width="2.2" stroke-dasharray="7 6" marker-end="url(#a)"/>
+<text x="500" y="535" text-anchor="middle" fill="#111111" font-size="17" font-weight="700">서브에이전트 — 따로 일하고 요약만 돌려줌</text>
+<rect x="250" y="440" width="150" height="60" rx="12" fill="#fff" stroke="#111111" stroke-width="2.5"/>
+<text x="325.0" y="475.95" text-anchor="middle" fill="#111111" font-size="17" font-weight="700">조사 1</text>
+<path d="M325 436 L470 344" fill="none" stroke="#111111" stroke-width="2.2" marker-end="url(#a)"/>
+<rect x="430" y="440" width="150" height="60" rx="12" fill="#fff" stroke="#111111" stroke-width="2.5"/>
+<text x="505.0" y="475.95" text-anchor="middle" fill="#111111" font-size="17" font-weight="700">조사 2</text>
+<path d="M505 436 L500 344" fill="none" stroke="#111111" stroke-width="2.2" marker-end="url(#a)"/>
+<rect x="610" y="440" width="150" height="60" rx="12" fill="#fff" stroke="#111111" stroke-width="2.5"/>
+<text x="685.0" y="475.95" text-anchor="middle" fill="#111111" font-size="17" font-weight="700">조사 3</text>
+<path d="M685 436 L530 344" fill="none" stroke="#111111" stroke-width="2.2" marker-end="url(#a)"/>
+</svg>

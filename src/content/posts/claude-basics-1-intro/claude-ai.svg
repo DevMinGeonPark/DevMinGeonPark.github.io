@@ -1,0 +1,37 @@
+<svg viewBox="0 0 1000 580" xmlns="http://www.w3.org/2000/svg" font-family="Pretendard, Apple SD Gothic Neo, sans-serif">
+<defs><marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="4.5" markerHeight="4.5" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#111111"/></marker></defs>
+<rect width="1000" height="580" rx="16" fill="#ffffff"/>
+<text x="500.0" y="52" text-anchor="middle" fill="#111111" font-size="24" font-weight="700">claude.ai에서 먼저 써볼 기능</text>
+<rect x="40" y="90" width="920" height="430" rx="14" fill="#fff" stroke="#111111" stroke-width="2.5"/>
+<path d="M40 128 H960" stroke="#e3e3e3" stroke-width="2"/>
+<circle cx="66" cy="109" r="6" fill="#e3e3e3"/><circle cx="86" cy="109" r="6" fill="#e3e3e3"/><circle cx="106" cy="109" r="6" fill="#e3e3e3"/>
+<rect x="58" y="146" width="210" height="356" rx="10" fill="#f4f4f4"/>
+<text x="76" y="178" text-anchor="start" fill="#111111" font-size="17" font-weight="700">프로젝트</text>
+<rect x="74" y="196" width="178" height="64" rx="12" fill="#fff" stroke="#111111" stroke-width="2.5"/>
+<text x="163.0" y="220.6" text-anchor="middle" fill="#111111" font-size="16" font-weight="700">지침</text>
+<text x="163.0" y="250.6" text-anchor="middle" fill="#555555" font-size="15">보고서는 개조식으로</text>
+<rect x="74" y="274" width="178" height="64" rx="12" fill="#fff" stroke="#111111" stroke-width="2.5"/>
+<text x="163.0" y="298.6" text-anchor="middle" fill="#111111" font-size="16" font-weight="700">참고 파일</text>
+<text x="163.0" y="328.6" text-anchor="middle" fill="#555555" font-size="15">회사 보고서 양식</text>
+<text x="76" y="372" text-anchor="start" fill="#555555" font-size="15" font-weight="400">대화 1</text>
+<text x="76" y="400" text-anchor="start" fill="#555555" font-size="15" font-weight="400">대화 2</text>
+<text x="76" y="428" text-anchor="start" fill="#555555" font-size="15" font-weight="400">대화 3</text>
+<text x="163" y="478" text-anchor="middle" fill="#999999" font-size="13" font-weight="400">모든 대화가 기본으로 참고</text>
+<rect x="300" y="160" width="290" height="44" rx="10" fill="#f4f4f4"/><text x="316" y="188" text-anchor="start" fill="#111111" font-size="15" font-weight="400">이 CSV로 그래프 그려줘</text>
+
+<rect x="300" y="216" width="150" height="40" rx="8" fill="#fff" stroke="#111111" stroke-width="2"/><text x="318" y="242" text-anchor="start" fill="#111111" font-size="14" font-weight="400" font-family="JetBrains Mono, SFMono-Regular, Menlo, monospace">data.csv</text>
+
+<rect x="460" y="216" width="130" height="40" rx="8" fill="#fff" stroke="#111111" stroke-width="2"/><text x="478" y="242" text-anchor="start" fill="#111111" font-size="14" font-weight="400" font-family="JetBrains Mono, SFMono-Regular, Menlo, monospace">report.pdf</text>
+
+<rect x="300" y="290" width="260" height="10" rx="5" fill="#e3e3e3"/><rect x="300" y="316" width="230" height="10" rx="5" fill="#e3e3e3"/><rect x="300" y="342" width="250" height="10" rx="5" fill="#e3e3e3"/><rect x="300" y="368" width="180" height="10" rx="5" fill="#e3e3e3"/>
+<rect x="300" y="452" width="290" height="44" rx="10" fill="#fff" stroke="#999999" stroke-width="2"/><text x="316" y="480" text-anchor="start" fill="#999999" font-size="15" font-weight="400">+ 파일 끌어다 놓기</text>
+
+<rect x="614" y="146" width="328" height="356" rx="10" fill="#fff" stroke="#111111" stroke-width="2.5"/>
+<text x="634" y="178" text-anchor="start" fill="#111111" font-size="17" font-weight="700">Artifact</text>
+<path d="M650 440 V230 M650 440 H910" stroke="#555555" stroke-width="2"/>
+<rect x="672" y="380" width="30" height="60" fill="#e3e3e3"/><rect x="720" y="330" width="30" height="110" fill="#e3e3e3"/><rect x="768" y="360" width="30" height="80" fill="#e3e3e3"/><rect x="816" y="270" width="30" height="170" fill="#111111"/><rect x="864" y="310" width="30" height="130" fill="#e3e3e3"/>
+<text x="778" y="480" text-anchor="middle" fill="#999999" font-size="13" font-weight="400">대화 옆 별도 창 · 공유 링크</text>
+<text x="163" y="555" text-anchor="middle" fill="#111111" font-size="17" font-weight="700">① 프로젝트</text>
+<text x="445" y="555" text-anchor="middle" fill="#111111" font-size="17" font-weight="700">② 파일 올리기</text>
+<text x="778" y="555" text-anchor="middle" fill="#111111" font-size="17" font-weight="700">③ Artifact</text>
+</svg>

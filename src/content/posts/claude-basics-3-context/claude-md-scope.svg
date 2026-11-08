@@ -1,0 +1,18 @@
+<svg viewBox="0 0 1000 520" xmlns="http://www.w3.org/2000/svg" font-family="Pretendard, Apple SD Gothic Neo, sans-serif">
+<defs><marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="4.5" markerHeight="4.5" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#111111"/></marker></defs>
+<rect width="1000" height="520" rx="16" fill="#ffffff"/>
+<text x="500.0" y="52" text-anchor="middle" fill="#111111" font-size="24" font-weight="700">CLAUDE.md는 두는 위치가 적용 범위</text>
+<rect x="60" y="90" width="880" height="400" rx="14" fill="#fff" stroke="#111111" stroke-width="2.5"/>
+<text x="90" y="132" text-anchor="start" fill="#111111" font-size="20" font-weight="700" font-family="JetBrains Mono, SFMono-Regular, Menlo, monospace">~/.claude/CLAUDE.md</text>
+<text x="90" y="160" text-anchor="start" fill="#555555" font-size="15" font-weight="400">내 컴퓨터의 모든 프로젝트</text>
+<text x="90" y="196" text-anchor="start" fill="#999999" font-size="14" font-weight="400">예: 헤드리스 Mac mini라 브라우저 금지 · 대답은 한국어</text>
+<rect x="100" y="240" width="380" height="140" rx="12" fill="#fff" stroke="#111111" stroke-width="2.5"/>
+<text x="290.0" y="290.65" text-anchor="middle" fill="#111111" font-size="19" font-weight="700" font-family="JetBrains Mono, SFMono-Regular, Menlo, monospace">blog/CLAUDE.md</text>
+<text x="290.0" y="320.65" text-anchor="middle" fill="#555555" font-size="15">빌드 명령 · 디자인 규칙</text>
+<text x="290.0" y="344.65" text-anchor="middle" fill="#555555" font-size="15">git에 올리면 팀원과 공유</text>
+<rect x="520" y="240" width="380" height="140" rx="12" fill="#fff" stroke="#111111" stroke-width="2.5"/>
+<text x="710.0" y="290.65" text-anchor="middle" fill="#111111" font-size="19" font-weight="700" font-family="JetBrains Mono, SFMono-Regular, Menlo, monospace">project-b/CLAUDE.md</text>
+<text x="710.0" y="320.65" text-anchor="middle" fill="#555555" font-size="15">그 프로젝트만</text>
+<text x="710.0" y="344.65" text-anchor="middle" fill="#555555" font-size="15">git에 올리면 팀원과 공유</text>
+<text x="500" y="450" text-anchor="middle" fill="#999999" font-size="15" font-weight="400">처음 만들 때는 /init · 같은 설명을 두 번 하면 한 줄 추가</text>
+</svg>

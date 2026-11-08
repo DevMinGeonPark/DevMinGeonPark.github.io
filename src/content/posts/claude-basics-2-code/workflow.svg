@@ -1,0 +1,29 @@
+<svg viewBox="0 0 1000 450" xmlns="http://www.w3.org/2000/svg" font-family="Pretendard, Apple SD Gothic Neo, sans-serif">
+<defs><marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="4.5" markerHeight="4.5" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#111111"/></marker></defs>
+<rect width="1000" height="450" rx="16" fill="#ffffff"/>
+<text x="500.0" y="52" text-anchor="middle" fill="#111111" font-size="24" font-weight="700">처음 쓸 때의 흐름</text>
+<rect x="40" y="150" width="160" height="100" rx="12" fill="#fff" stroke="#111111" stroke-width="2.5"/>
+<text x="120.0" y="194.35" text-anchor="middle" fill="#111111" font-size="21" font-weight="700">요청</text>
+<text x="120.0" y="224.35" text-anchor="middle" fill="#555555" font-size="15">작업 설명</text>
+<rect x="230" y="150" width="160" height="100" rx="12" fill="#fff" stroke="#111111" stroke-width="2.5"/>
+<text x="310.0" y="194.35" text-anchor="middle" fill="#111111" font-size="21" font-weight="700">계획 모드</text>
+<text x="310.0" y="224.35" text-anchor="middle" fill="#555555" font-size="15">읽기만 하고 계획</text>
+<path d="M204 200 H226" fill="none" stroke="#111111" stroke-width="2.2" marker-end="url(#a)"/>
+<rect x="420" y="150" width="160" height="100" rx="12" fill="#fff" stroke="#111111" stroke-width="2.5"/>
+<text x="500.0" y="194.35" text-anchor="middle" fill="#111111" font-size="21" font-weight="700">계획 확인</text>
+<text x="500.0" y="224.35" text-anchor="middle" fill="#555555" font-size="15">방향 고치기</text>
+<path d="M394 200 H416" fill="none" stroke="#111111" stroke-width="2.2" marker-end="url(#a)"/>
+<rect x="610" y="150" width="160" height="100" rx="12" fill="#111111" stroke="#111111" stroke-width="2.5"/>
+<text x="690.0" y="194.35" text-anchor="middle" fill="#fff" font-size="21" font-weight="700">실행</text>
+<text x="690.0" y="224.35" text-anchor="middle" fill="#cfcfcf" font-size="15">파일 수정 · 명령</text>
+<path d="M584 200 H606" fill="none" stroke="#111111" stroke-width="2.2" marker-end="url(#a)"/>
+<rect x="800" y="150" width="160" height="100" rx="12" fill="#fff" stroke="#111111" stroke-width="2.5"/>
+<text x="880.0" y="194.35" text-anchor="middle" fill="#111111" font-size="21" font-weight="700">점검</text>
+<text x="880.0" y="224.35" text-anchor="middle" fill="#555555" font-size="15">실행 · diff 훑기</text>
+<path d="M774 200 H796" fill="none" stroke="#111111" stroke-width="2.2" marker-end="url(#a)"/>
+<rect x="610" y="290" width="160" height="70" rx="10" fill="#fff" stroke="#111111" stroke-width="2" stroke-dasharray="6 5"/>
+<text x="690" y="320" text-anchor="middle" fill="#111111" font-size="14" font-weight="400">바꾸기 전마다</text>
+<text x="690" y="344" text-anchor="middle" fill="#111111" font-size="14" font-weight="400">허락을 구함</text>
+<path d="M690 286 V256" fill="none" stroke="#111111" stroke-width="2.2" marker-end="url(#a)"/>
+<text x="500" y="410" text-anchor="middle" fill="#111111" font-size="17" font-weight="700">맡기고, 점검하고, 이해를 wiki에 남기기</text>
+</svg>

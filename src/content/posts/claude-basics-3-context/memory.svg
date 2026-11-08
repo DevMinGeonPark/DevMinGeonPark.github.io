@@ -1,0 +1,32 @@
+<svg viewBox="0 0 1000 520" xmlns="http://www.w3.org/2000/svg" font-family="Pretendard, Apple SD Gothic Neo, sans-serif">
+<defs><marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="4.5" markerHeight="4.5" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#111111"/></marker></defs>
+<rect width="1000" height="520" rx="16" fill="#ffffff"/>
+<text x="500.0" y="52" text-anchor="middle" fill="#111111" font-size="24" font-weight="700">기억이 없는 세션에 맥락 주기</text>
+<rect x="90" y="110" width="220" height="70" rx="12" fill="#fff" stroke="#999999" stroke-width="2.5" stroke-dasharray="8 6"/>
+<text x="200.0" y="139.0" text-anchor="middle" fill="#555555" font-size="20" font-weight="700">세션 1</text>
+<text x="200.0" y="169.0" text-anchor="middle" fill="#555555" font-size="15">처음 온 신입처럼 시작</text>
+<rect x="390" y="110" width="220" height="70" rx="12" fill="#fff" stroke="#999999" stroke-width="2.5" stroke-dasharray="8 6"/>
+<text x="500.0" y="139.0" text-anchor="middle" fill="#555555" font-size="20" font-weight="700">세션 2</text>
+<text x="500.0" y="169.0" text-anchor="middle" fill="#555555" font-size="15">처음 온 신입처럼 시작</text>
+<rect x="690" y="110" width="220" height="70" rx="12" fill="#fff" stroke="#999999" stroke-width="2.5" stroke-dasharray="8 6"/>
+<text x="800.0" y="139.0" text-anchor="middle" fill="#555555" font-size="20" font-weight="700">세션 3</text>
+<text x="800.0" y="169.0" text-anchor="middle" fill="#555555" font-size="15">처음 온 신입처럼 시작</text>
+<text x="90" y="100" text-anchor="start" fill="#999999" font-size="14" font-weight="700">CLAUDE.md 없을 때</text>
+<text x="90" y="262" text-anchor="start" fill="#111111" font-size="14" font-weight="700">CLAUDE.md 있을 때</text>
+<text x="500" y="220" text-anchor="middle" fill="#999999" font-size="15" font-weight="400">세션이 끝나면 대화에서 들은 것은 사라집니다</text>
+<rect x="330" y="400" width="340" height="86" rx="12" fill="#111111" stroke="#111111" stroke-width="2.5"/>
+<text x="500.0" y="438.4" text-anchor="middle" fill="#fff" font-size="24" font-weight="700" font-family="JetBrains Mono, SFMono-Regular, Menlo, monospace">CLAUDE.md</text>
+<text x="500.0" y="468.4" text-anchor="middle" fill="#cfcfcf" font-size="15">시작할 때마다 읽는 파일</text>
+<rect x="90" y="275" width="220" height="70" rx="12" fill="#fff" stroke="#111111" stroke-width="2.5"/>
+<text x="200.0" y="304.0" text-anchor="middle" fill="#111111" font-size="20" font-weight="700">세션 1</text>
+<text x="200.0" y="334.0" text-anchor="middle" fill="#555555" font-size="15">알고 시작</text>
+<path d="M420 396 L200 344" fill="none" stroke="#111111" stroke-width="2.2" marker-end="url(#a)"/>
+<rect x="390" y="275" width="220" height="70" rx="12" fill="#fff" stroke="#111111" stroke-width="2.5"/>
+<text x="500.0" y="304.0" text-anchor="middle" fill="#111111" font-size="20" font-weight="700">세션 2</text>
+<text x="500.0" y="334.0" text-anchor="middle" fill="#555555" font-size="15">알고 시작</text>
+<path d="M500 396 L500 344" fill="none" stroke="#111111" stroke-width="2.2" marker-end="url(#a)"/>
+<rect x="690" y="275" width="220" height="70" rx="12" fill="#fff" stroke="#111111" stroke-width="2.5"/>
+<text x="800.0" y="304.0" text-anchor="middle" fill="#111111" font-size="20" font-weight="700">세션 3</text>
+<text x="800.0" y="334.0" text-anchor="middle" fill="#555555" font-size="15">알고 시작</text>
+<path d="M580 396 L800 344" fill="none" stroke="#111111" stroke-width="2.2" marker-end="url(#a)"/>
+</svg>

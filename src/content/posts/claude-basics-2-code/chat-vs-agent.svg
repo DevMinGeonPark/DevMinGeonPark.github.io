@@ -1,0 +1,42 @@
+<svg viewBox="0 0 1000 500" xmlns="http://www.w3.org/2000/svg" font-family="Pretendard, Apple SD Gothic Neo, sans-serif">
+<defs><marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="4.5" markerHeight="4.5" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#111111"/></marker></defs>
+<rect width="1000" height="500" rx="16" fill="#ffffff"/>
+<text x="500.0" y="52" text-anchor="middle" fill="#111111" font-size="24" font-weight="700">대화 도구와 작업 도구</text>
+<text x="250" y="100" text-anchor="middle" fill="#999999" font-size="18" font-weight="700">예전 — 대화 도구</text>
+<rect x="70" y="140" width="150" height="80" rx="12" fill="#fff" stroke="#111111" stroke-width="2.5"/>
+<text x="145.0" y="187.7" text-anchor="middle" fill="#111111" font-size="22" font-weight="700">나</text>
+<rect x="290" y="140" width="150" height="80" rx="12" fill="#fff" stroke="#999999" stroke-width="2.5" stroke-dasharray="8 6"/>
+<text x="365.0" y="187.7" text-anchor="middle" fill="#555555" font-size="22" font-weight="700">LLM</text>
+<path d="M225 168 H285" fill="none" stroke="#111111" stroke-width="2.2" marker-end="url(#a)"/>
+<path d="M285 194 H225" fill="none" stroke="#111111" stroke-width="2.2" marker-end="url(#a)"/>
+<text x="255" y="158" text-anchor="middle" fill="#555555" font-size="13" font-weight="400">질문</text>
+<text x="255" y="214" text-anchor="middle" fill="#555555" font-size="13" font-weight="400">답</text>
+<rect x="70" y="290" width="370" height="150" rx="12" fill="#fff" stroke="#999999" stroke-width="2.5" stroke-dasharray="8 6"/>
+<text x="255.0" y="372.0" text-anchor="middle" fill="#555555" font-size="20" font-weight="700"></text>
+<text x="95" y="335" text-anchor="start" fill="#555555" font-size="16" font-weight="400">✕  내 파일을 볼 수 없어 추측해서 답함</text>
+<text x="95" y="371" text-anchor="start" fill="#555555" font-size="16" font-weight="400">✕  코드를 실행해 보지 않음</text>
+<text x="95" y="407" text-anchor="start" fill="#555555" font-size="16" font-weight="400">✕  에러는 내가 복사해서 다시 붙여넣기</text>
+<path d="M500 90 V500" stroke="#e3e3e3" stroke-width="2"/>
+<text x="750" y="100" text-anchor="middle" fill="#111111" font-size="18" font-weight="700">지금 — 작업 도구 (에이전트)</text>
+<rect x="560" y="140" width="150" height="80" rx="12" fill="#fff" stroke="#111111" stroke-width="2.5"/>
+<text x="635.0" y="187.7" text-anchor="middle" fill="#111111" font-size="22" font-weight="700">나</text>
+<rect x="790" y="140" width="150" height="80" rx="12" fill="#111111" stroke="#111111" stroke-width="2.5"/>
+<text x="865.0" y="187.7" text-anchor="middle" fill="#fff" font-size="22" font-weight="700">LLM</text>
+<path d="M715 168 H785" fill="none" stroke="#111111" stroke-width="2.2" marker-end="url(#a)"/>
+<path d="M785 194 H715" fill="none" stroke="#111111" stroke-width="2.2" marker-end="url(#a)"/>
+<text x="750" y="158" text-anchor="middle" fill="#555555" font-size="13" font-weight="400">일을 맡김</text>
+<text x="750" y="214" text-anchor="middle" fill="#555555" font-size="13" font-weight="400">결과</text>
+<rect x="560" y="330" width="120" height="74" rx="12" fill="#fff" stroke="#111111" stroke-width="2.5"/>
+<text x="620.0" y="359.95" text-anchor="middle" fill="#111111" font-size="17" font-weight="700">파일 읽기</text>
+<text x="620.0" y="389.95" text-anchor="middle" fill="#555555" font-size="15">Read</text>
+<path d="M865 222 L620 326" fill="none" stroke="#111111" stroke-width="2.2" marker-end="url(#a)"/>
+<rect x="690" y="330" width="120" height="74" rx="12" fill="#fff" stroke="#111111" stroke-width="2.5"/>
+<text x="750.0" y="359.95" text-anchor="middle" fill="#111111" font-size="17" font-weight="700">파일 쓰기</text>
+<text x="750.0" y="389.95" text-anchor="middle" fill="#555555" font-size="15">Write</text>
+<path d="M865 222 L750 326" fill="none" stroke="#111111" stroke-width="2.2" marker-end="url(#a)"/>
+<rect x="820" y="330" width="120" height="74" rx="12" fill="#fff" stroke="#111111" stroke-width="2.5"/>
+<text x="880.0" y="359.95" text-anchor="middle" fill="#111111" font-size="17" font-weight="700">명령 실행</text>
+<text x="880.0" y="389.95" text-anchor="middle" fill="#555555" font-size="15">Run</text>
+<path d="M865 222 L880 326" fill="none" stroke="#111111" stroke-width="2.2" marker-end="url(#a)"/>
+<text x="750" y="450" text-anchor="middle" fill="#555555" font-size="15" font-weight="400">필요할 때 도구를 골라 쓰고, 틀리면 다시 고침</text>
+</svg>

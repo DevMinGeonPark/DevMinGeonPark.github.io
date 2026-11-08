@@ -1,0 +1,24 @@
+<svg viewBox="0 0 1000 500" xmlns="http://www.w3.org/2000/svg" font-family="Pretendard, Apple SD Gothic Neo, sans-serif">
+<defs><marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="4.5" markerHeight="4.5" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#111111"/></marker></defs>
+<rect width="1000" height="500" rx="16" fill="#ffffff"/>
+<text x="500.0" y="52" text-anchor="middle" fill="#111111" font-size="24" font-weight="700">Claude Code를 실행하는 곳</text>
+<rect x="380" y="210" width="240" height="120" rx="12" fill="#111111" stroke="#111111" stroke-width="2.5"/>
+<text x="500.0" y="265.4" text-anchor="middle" fill="#fff" font-size="24" font-weight="700">Claude Code</text>
+<text x="500.0" y="295.4" text-anchor="middle" fill="#cfcfcf" font-size="15">내 폴더 안에서 동작</text>
+<rect x="70" y="110" width="240" height="90" rx="12" fill="#fff" stroke="#111111" stroke-width="2.5"/>
+<text x="190.0" y="149.0" text-anchor="middle" fill="#111111" font-size="20" font-weight="700">CLI</text>
+<text x="190.0" y="179.0" text-anchor="middle" fill="#555555" font-size="15">claude</text>
+<path d="M310 155 L375 245" fill="none" stroke="#111111" stroke-width="2.2" marker-end="url(#a)"/>
+<rect x="690" y="110" width="240" height="90" rx="12" fill="#fff" stroke="#111111" stroke-width="2.5"/>
+<text x="810.0" y="149.0" text-anchor="middle" fill="#111111" font-size="20" font-weight="700">IDE 확장</text>
+<text x="810.0" y="179.0" text-anchor="middle" fill="#555555" font-size="15">VS Code · JetBrains</text>
+<path d="M690 155 L625 245" fill="none" stroke="#111111" stroke-width="2.2" marker-end="url(#a)"/>
+<rect x="70" y="330" width="240" height="90" rx="12" fill="#fff" stroke="#111111" stroke-width="2.5"/>
+<text x="190.0" y="382.0" text-anchor="middle" fill="#111111" font-size="20" font-weight="700">데스크톱 앱</text>
+<path d="M310 375 L375 295" fill="none" stroke="#111111" stroke-width="2.2" marker-end="url(#a)"/>
+<rect x="690" y="330" width="240" height="90" rx="12" fill="#fff" stroke="#111111" stroke-width="2.5"/>
+<text x="810.0" y="369.0" text-anchor="middle" fill="#111111" font-size="20" font-weight="700">웹</text>
+<text x="810.0" y="399.0" text-anchor="middle" fill="#555555" font-size="15">claude.ai/code</text>
+<path d="M690 375 L625 295" fill="none" stroke="#111111" stroke-width="2.2" marker-end="url(#a)"/>
+<text x="500" y="470" text-anchor="middle" fill="#999999" font-size="15" font-weight="400">같은 흐름, 같은 산출물 · 사내 시스템 자동화는 내 컴퓨터의 CLI</text>
+</svg>

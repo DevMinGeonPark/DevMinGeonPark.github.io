@@ -1,0 +1,22 @@
+<svg viewBox="0 0 1000 455" xmlns="http://www.w3.org/2000/svg" font-family="Pretendard, Apple SD Gothic Neo, sans-serif">
+<defs><marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="4.5" markerHeight="4.5" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#111111"/></marker></defs>
+<rect width="1000" height="455" rx="16" fill="#ffffff"/>
+<text x="500.0" y="52" text-anchor="middle" fill="#111111" font-size="24" font-weight="700">쓰는 곳 세 군데와 과금</text>
+<rect x="60" y="110" width="270" height="170" rx="12" fill="#fff" stroke="#111111" stroke-width="2.5"/>
+<text x="195.0" y="178.1" text-anchor="middle" fill="#111111" font-size="26" font-weight="700">claude.ai</text>
+<text x="195.0" y="208.1" text-anchor="middle" fill="#555555" font-size="15">웹 · 데스크톱 · 모바일 앱</text>
+<text x="195.0" y="232.1" text-anchor="middle" fill="#555555" font-size="15">채팅 화면 — 누구나</text>
+<rect x="365" y="110" width="270" height="170" rx="12" fill="#fff" stroke="#111111" stroke-width="2.5"/>
+<text x="500.0" y="178.1" text-anchor="middle" fill="#111111" font-size="26" font-weight="700">Claude Code</text>
+<text x="500.0" y="208.1" text-anchor="middle" fill="#555555" font-size="15">터미널 · IDE · 데스크톱 · 웹</text>
+<text x="500.0" y="232.1" text-anchor="middle" fill="#555555" font-size="15">폴더 안에서 일하는 에이전트</text>
+<rect x="670" y="110" width="270" height="170" rx="12" fill="#111111" stroke="#111111" stroke-width="2.5"/>
+<text x="805.0" y="178.1" text-anchor="middle" fill="#fff" font-size="26" font-weight="700">Claude API</text>
+<text x="805.0" y="208.1" text-anchor="middle" fill="#cfcfcf" font-size="15">내 프로그램에서 코드로 호출</text>
+<text x="805.0" y="232.1" text-anchor="middle" fill="#cfcfcf" font-size="15">서비스를 만드는 개발자</text>
+<rect x="50" y="310" width="595" height="70" rx="12" fill="#f4f4f4"/>
+<text x="347" y="353" text-anchor="middle" fill="#111111" font-size="19" font-weight="700">월 구독 요금제</text>
+<rect x="660" y="310" width="290" height="70" rx="12" fill="none" stroke="#111111" stroke-width="2.5" stroke-dasharray="8 6"/>
+<text x="805" y="353" text-anchor="middle" fill="#111111" font-size="19" font-weight="700">쓴 만큼 따로 — 종량제</text>
+<text x="500" y="420" text-anchor="middle" fill="#999999" font-size="15" font-weight="400">구독을 해도 API는 따로 과금됩니다</text>
+</svg>
